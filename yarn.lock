@@ -489,6 +489,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tiptap/extension-color@npm:^2.1.12":
+  version: 2.1.12
+  resolution: "@tiptap/extension-color@npm:2.1.12"
+  peerDependencies:
+    "@tiptap/core": ^2.0.0
+    "@tiptap/extension-text-style": ^2.0.0
+  checksum: df56b80edf6d9130fea7d3a49e32ce9a427e1f7a79917b3ec64677cf7c13e0afe10705977ba3ce86ed397e5c496a68fc6ee72ddc0be7799529271f5596949826
+  languageName: node
+  linkType: hard
+
 "@tiptap/extension-document@npm:^2.1.12":
   version: 2.1.12
   resolution: "@tiptap/extension-document@npm:2.1.12"
@@ -610,6 +620,15 @@ __metadata:
   peerDependencies:
     "@tiptap/core": ^2.0.0
   checksum: 72171e9a07250ad07c8e074e07965e7f945333ee286cbf813edc60580b531e363a05b7bb2d694de90f6ec4449a5b4efa326a65e117ce3ea95cd2241d178d11f4
+  languageName: node
+  linkType: hard
+
+"@tiptap/extension-text-style@npm:^2.1.12":
+  version: 2.1.12
+  resolution: "@tiptap/extension-text-style@npm:2.1.12"
+  peerDependencies:
+    "@tiptap/core": ^2.0.0
+  checksum: 666cef85842267a9e0d2143808d5fdb4f28b0a40f9983cf9560da1dd079f3baabfcdef9f880b61b89a881a108a289a0bdd4ce783970de93eb0791341511313f1
   languageName: node
   linkType: hard
 
@@ -1225,7 +1244,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chokidar@npm:^3.5.3":
+"chokidar@npm:>=3.0.0 <4.0.0, chokidar@npm:^3.5.3":
   version: 3.5.3
   resolution: "chokidar@npm:3.5.3"
   dependencies:
@@ -2410,6 +2429,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"immutable@npm:^4.0.0":
+  version: 4.3.4
+  resolution: "immutable@npm:4.3.4"
+  checksum: de3edd964c394bab83432429d3fb0b4816b42f56050f2ca913ba520bd3068ec3e504230d0800332d3abc478616e8f55d3787424a90d0952e6aba864524f1afc3
+  languageName: node
+  linkType: hard
+
 "import-fresh@npm:^3.2.1":
   version: 3.3.0
   resolution: "import-fresh@npm:3.3.0"
@@ -3301,6 +3327,8 @@ __metadata:
     "@radix-ui/react-icons": ^1.3.0
     "@radix-ui/react-label": ^2.0.2
     "@radix-ui/react-slot": ^1.0.2
+    "@tiptap/extension-color": ^2.1.12
+    "@tiptap/extension-text-style": ^2.1.12
     "@tiptap/pm": ^2.1.12
     "@tiptap/react": ^2.1.12
     "@tiptap/starter-kit": ^2.1.12
@@ -3314,6 +3342,7 @@ __metadata:
     react: ^18
     react-dom: ^18
     react-hook-form: ^7.47.0
+    sass: ^1.69.4
     tailwind-merge: ^1.14.0
     tailwindcss: ^3
     tailwindcss-animate: ^1.0.7
@@ -4144,6 +4173,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"sass@npm:^1.69.4":
+  version: 1.69.4
+  resolution: "sass@npm:1.69.4"
+  dependencies:
+    chokidar: ">=3.0.0 <4.0.0"
+    immutable: ^4.0.0
+    source-map-js: ">=0.6.2 <2.0.0"
+  bin:
+    sass: sass.js
+  checksum: ed5558445b59dfa711e094f804e4a360544dd916c069ee211e1c687446146721d91d4304f33fe5df3966a10de96eba43369beb2e14f0881c285424e5e44cf360
+  languageName: node
+  linkType: hard
+
 "scheduler@npm:^0.23.0":
   version: 0.23.0
   resolution: "scheduler@npm:0.23.0"
@@ -4267,7 +4309,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"source-map-js@npm:^1.0.2":
+"source-map-js@npm:>=0.6.2 <2.0.0, source-map-js@npm:^1.0.2":
   version: 1.0.2
   resolution: "source-map-js@npm:1.0.2"
   checksum: c049a7fc4deb9a7e9b481ae3d424cc793cb4845daa690bc5a05d428bf41bf231ced49b4cf0c9e77f9d42fdb3d20d6187619fc586605f5eabe995a316da8d377c
