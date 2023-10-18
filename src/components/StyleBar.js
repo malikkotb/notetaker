@@ -1,60 +1,14 @@
-import React, { useState } from "react";
+// import { useState } from "react";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 
 function StyleBar() {
-  const [isBold, setIsBold] = useState(false);
-  const [isItalic, setIsItalic] = useState(false);
-  const [isUnderline, setIsUnderline] = useState(false);
-  const [alignment, setAlignment] = useState("left");
-  const [isOrderedList, setIsOrderedList] = useState(false);
-  const [isUnorderedList, setIsUnorderedList] = useState(false);
-  const [isHighlighted, setIsHighlighted] = useState(false);
-  const [isLink, setIsLink] = useState(false);
-
-  function handleToggleBold() {
-    setIsBold(!isBold);
-
-    const textarea = document.getElementById("myTextarea");
-    const selectedText = textarea.value.substring(
-      textarea.selectionStart,
-      textarea.selectionEnd
-    );
-
-    // Add your desired functionality here
-    // For example, you can display an alert with the selected text
-    alert(`Selected Text: ${selectedText}`);
-
-    // Restore the selection by setting the selection range again
-    textarea.focus();
-    textarea.setSelectionRange(textarea.selectionStart, textarea.selectionEnd);
+  function formatText(format) {
+    document.execCommand(format, false, null);
   }
 
-  function handleToggleItalic() {
-    setIsItalic(!isItalic);
-  }
+  function makeUnorderedList() {
+    document.execCommand("insertUnorderedList", false, null);
 
-  function handleToggleUnderline() {
-    setIsUnderline(!isUnderline);
-  }
-
-  function handleAlignmentChange(alignment) {
-    setAlignment(alignment);
-  }
-
-  function handleToggleOrderedList() {
-    setIsOrderedList(!isOrderedList);
-  }
-
-  function handleToggleUnorderedList() {
-    setIsUnorderedList(!isUnorderedList);
-  }
-
-  function handleToggleHighlighted() {
-    setIsHighlighted(!isHighlighted);
-  }
-
-  function handleToggleLink() {
-    setIsLink(!isLink);
   }
 
   function insertImage() {
@@ -71,74 +25,82 @@ function StyleBar() {
 
   return (
     <>
-
       <div className="flex h-8">
         <button
           className={`px-2.5 py-0.5 transition-colors text-black hover:text-blue-500`}
-          onClick={handleToggleBold}
+          onClick={() => formatText("bold")}
         >
           <i className="fa-solid fa-bold"></i>
         </button>
 
         <button
           className={`px-2.5 py-0.5 transition-colors text-black hover:text-blue-500`}
-          onClick={handleToggleItalic}
+          onClick={() => formatText("italic")}
         >
           <i className="fa-solid fa-italic"></i>
         </button>
 
         <button
           className={`px-2.5 py-0.5 transition-colors text-black hover:text-blue-500`}
-          onClick={handleToggleUnderline}
+          onClick={() => formatText("underline")}
         >
           <i className="fa-solid fa-underline"></i>
         </button>
 
         <button
+          className={`px-2.5 py-0.5 transition-colors text-black hover:text-blue-500`}
+          onClick={() => formatText("strikeThrough")}
+        >
+          <i className="fa-solid fa-strikethrough"></i>
+        </button>
+
+        {/* TODO: subscript, superscript */}
+
+        <button
           className={`px-4 py-0.5 transition-colors text-black hover:text-blue-500`}
-          onClick={handleToggleHighlighted}
+          onClick={() => formatText("")}
         >
           <i className="fa-solid fa-highlighter"></i>
         </button>
 
         <button
           className={`px-2.5 py-0.5 transition-colors text-black hover:text-blue-500`}
-          onClick={handleToggleUnorderedList}
+          onClick={makeUnorderedList}
         >
           <i className="fa-solid fa-list-ul"></i>
         </button>
 
         <button
           className={`px-2 py-0.5 transition-colors text-black hover:text-blue-500`}
-          onClick={handleToggleOrderedList}
+          onClick={() => formatText("insertOrderedList")}
         >
           <i className="fa-solid fa-list-ol"></i>
         </button>
 
         <button
           className={`px-2.5 py-0.5 transition-colors text-black hover:text-blue-500`}
-          onClick={() => handleAlignmentChange("left")}
+          onClick={() => formatText("justifyLeft")}
         >
           <i className="fa-solid fa-align-left"></i>
         </button>
 
         <button
           className={`px-2.5 py-0.5 transition-colors text-black hover:text-blue-500`}
-          onClick={() => handleAlignmentChange("center")}
+          onClick={() => formatText("justifyCenter")}
         >
           <i className="fa-solid fa-align-center"></i>
         </button>
 
         <button
           className={`px-2.5 py-0.5 transition-colors text-black hover:text-blue-500`}
-          onClick={() => handleAlignmentChange("right")}
+          onClick={() => formatText("justifyRight")}
         >
           <i className="fa-solid fa-align-right"></i>
         </button>
 
         <button
           className={`pl-4 pr-2 py-0.5 transition-colors text-black hover:text-blue-500`}
-          onClick={handleToggleLink}
+          onClick={() => formatText("")}
         >
           <i className="fas fa-link fa-flip-horizontal"></i>
         </button>
@@ -162,7 +124,7 @@ function StyleBar() {
           className={`px-2.5 py-0.5`}
           onClick={() => window.my_modal_5.showModal()}
         >
-          <i className="fa-solid fa-trash text-red-700"></i>
+          <i className="fa-solid fa-trash text-red-700 hover:text-red-900"></i>
         </button>
         <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle">
           <form method="dialog" className="modal-box">
@@ -176,7 +138,7 @@ function StyleBar() {
             <div className="modal-action">
               {/* if there is a button in form, it will close the modal */}
               <button
-                className="btn cursor-pointer bg-red-700 text-white hover:bg-red-900"
+                className="btn  cursor-pointer bg-red-700 text-white hover:bg-red-900"
                 onClick={deleteNote}
               >
                 Delete
@@ -191,37 +153,3 @@ function StyleBar() {
 }
 
 export default StyleBar;
-
-/* <div className="align-center dropdown dropdown-right dropdown-start">
-          <label
-            tabIndex={0}
-            className="btn btn-sm outline-none border-white hover:bg-white hover:border-white bg-white hover:text-blue-300"
-          >
-            <i className={`fa-solid fa-align-${alignment}`}></i>
-          </label>
-          <ul
-            tabIndex={0}
-            className="px-1 dropdown-content z-[1] menu shadow bg-base-100 rounded-box w-9"
-          >
-            <li>
-              <a className="p-2" onClick={() => handleAlignmentChange("left")}>
-                <i className="fa-solid fa-align-left"></i>
-              </a>
-            </li>
-            <li>
-              <a
-                className="p-2"
-                onClick={() => handleAlignmentChange("center")}
-              >
-                <div className="text-center">
-                  <i className="text-center fa-solid fa-align-center"></i>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a className="p-2" onClick={() => handleAlignmentChange("right")}>
-                <i className="fa-solid fa-align-right"></i>
-              </a>
-            </li>
-          </ul>
-        </div> */
