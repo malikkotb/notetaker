@@ -9,6 +9,8 @@ import StarterKit from "@tiptap/starter-kit";
 import { Button } from "@/components/ui/button";
 import { FaListOl, FaListUl, FaUndo, FaRedo, FaCode } from "react-icons/fa";
 import { BsEraser } from "react-icons/bs";
+import useMyStore from "../app/(store)/store";
+import { useEffect, useState } from "react";
 
 const extensions = [
   Color.configure({ types: [TextStyle.name, ListItem.name] }),
@@ -139,12 +141,19 @@ const content = `
 </p>
 `;
 
-export default () => {
+export default ({activeNote}) => {
+
+  useEffect(() => {
+    console.log(activeNote);
+  }, [activeNote])
+
+  const [contentIn, setContentIn] = useState("hi")
+
   return (
     <EditorProvider
       slotBefore={<MenuBar />}
       extensions={extensions}
-      content={content}
+      content={contentIn}
     ></EditorProvider>
   );
 };
