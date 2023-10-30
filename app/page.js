@@ -31,7 +31,7 @@ export default function Home() {
     },
     {
       title: "Title 3",
-      content: '<h2>Content for the third example object goes here. Feel free to add more details.</h2>'
+      content: 'Content for the third example object goes here. Feel free to add more details.'
     },
     {
       title: "Custom ",

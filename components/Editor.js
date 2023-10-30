@@ -7,7 +7,7 @@ export default function Editor({ toggleSidebar }) {
   const {activeNote} = useMyStore();
 
   return (
-    <div className={`bg-white p-4`}>
+    <div className={`bg-white p-4 w-full`}>
       <div className="flex justify-between">
         <div className="flex gap-2">
           <button className="cursor-pointer" onClick={toggleSidebar}>
