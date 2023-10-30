@@ -34,7 +34,7 @@ const MenuBar = () => {
 
   return (
     <div className="p-4">
-      <div className="flex gap-2">
+      <div className="flex flex-wrap gap-2">
         <Button
           variant="outline"
           onClick={() => editor.chain().focus().toggleBold().run()}
