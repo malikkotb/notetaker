@@ -17,7 +17,7 @@ export default function Sidebar({ sidebarVisible, notes }) {
 
   return (
     <div
-      className={`w-72 ${
+      className={`w-72 dark:bg-neutral-900 ${
         sidebarVisible ? "flex" : "hidden"
       } p-4 h-screen flex-col justify-between border-r shadow-inner`}
     >
@@ -38,9 +38,9 @@ export default function Sidebar({ sidebarVisible, notes }) {
         {notes.map((obj, index) => (
           <Button
             onClick={() => handleClickNote(obj, index)}
-            className={`${activeItem === index ? "bg-gray-200" : ""} w-full justify-start font-normal`}
-            key={index}
+            className={` w-full justify-start font-normal`}
             variant="ghost"
+            key={index}
           >
             {obj.title}
           </Button>
