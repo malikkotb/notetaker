@@ -28,7 +28,7 @@ export default function Home() {
 
   return (
     <div className="flex m-0">
-      <Sidebar notes={notes} sidebarVisible={sidebarVisible} />
+      <Sidebar sidebarVisible={sidebarVisible} />
       <Editor toggleSidebar={toggleSidebar} />
     </div>
   );

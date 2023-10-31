@@ -15,13 +15,13 @@ export default function Editor({ toggleSidebar }) {
           <button className="cursor-pointer" onClick={toggleSidebar}>
             <Menu />
           </button>
-          <div>{activeNote.title}</div>
+          {activeNote && <div>{activeNote.title}</div>}
         </div>
         <div className="">
           <ModeToggle />
         </div>
       </div>
-      <Tiptap activeNote={activeNote} />
+      {activeNote ? <Tiptap /> : <h2 className="items-center mt-32 text-2xl text-center">Select a note or create a new one</h2>}
     </div>
   );
 }

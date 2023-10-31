@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { FaListOl, FaListUl, FaUndo, FaRedo, FaCode } from "react-icons/fa";
 import { BsEraser } from "react-icons/bs";
 import useMyStore from "../app/(store)/store";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 const extensions = [
   Color.configure({ types: [TextStyle.name, ListItem.name] }),
@@ -27,11 +27,13 @@ const extensions = [
   }),
 ];
 
-const MenuBar = ({ activeNote}) => {
+const MenuBar = () => {
+  const { activeNote } = useMyStore();
   const { editor } = useCurrentEditor();
 
   useEffect(() => {
-    editor.commands.setContent(`<p>${activeNote.content}</p>`);
+    editor.commands.setContent(`
+    <p>${activeNote.content}</p>`);
     console.log("editor-HTML: ", editor.getHTML());
   }, [activeNote]);
 
@@ -125,12 +127,40 @@ const MenuBar = ({ activeNote}) => {
 
 const content = ``;
 
-export default ({ activeNote }) => {
-  
+export default () => {
+  const { activeNote, updateActiveNote } = useMyStore();
+
+  const handleInputChange = (event) => {
+    const newTitle = event.target.value;
+    updateActiveNote({ title: newTitle });
+
+    // TODO: updateNotes as well of course
+    
+  };
+
+
+  //TODO: save written content of editor to the notes in the store
+  // maybe: somehting to do with contenteditable or useEffect
+  // where you store the information every 5 seconds
+  // check out what travis media said
+  // i think it was sth. like persist data every 5 seconds
+  // do this in useEffect
+
 
   return (
     <EditorProvider
-      slotBefore={<MenuBar activeNote={activeNote} />}
+      slotBefore={
+        <div>
+          <MenuBar activeNote={activeNote} />
+          <input
+            type="text"
+            value={activeNote.title}
+            onChange={handleInputChange}
+            className="text-4xl outline-none font-bold w-full"
+            placeholder="Untitled"
+          />
+        </div>
+      }
       extensions={extensions}
       content={content}
     ></EditorProvider>
