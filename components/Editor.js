@@ -2,7 +2,6 @@ import { Menu } from "lucide-react";
 import Tiptap from "./Tiptap";
 import useMyStore from "@/app/(store)/store";
 import { ModeToggle } from "./ModeToggle";
-import { CreateAccount } from "./CreateAccount";
 
 export default function Editor({ toggleSidebar }) {
 
@@ -15,7 +14,7 @@ export default function Editor({ toggleSidebar }) {
           <button className="cursor-pointer" onClick={toggleSidebar}>
             <Menu />
           </button>
-          {activeNote && <div>{activeNote.title}</div>}
+          {activeNote && <div>{activeNote.title === "" ? "Untitled" : activeNote.title}</div>}
         </div>
         <div className="">
           <ModeToggle />

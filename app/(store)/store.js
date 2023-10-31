@@ -1,9 +1,7 @@
 import { create } from "zustand";
 
 const useMyStore = create((set) => ({
-  // global state variables
   activeNote: null,
-  // gameOver: false,
 
   // TODO: get notes from database
   notes: [
@@ -32,14 +30,23 @@ const useMyStore = create((set) => ({
         "This object contains some example content. You can use it in your JavaScript program.",
     },
   ],
-  // updateNotes: (note) => set({}),// add a new note with example title and content)
-  updateNotes: (item) => set((state) => ({ notes: [...state.notes, item] })),
+  addNewNote: (item) => set((state) => ({ notes: [...state.notes, item] })),
 
+  updateNoteTitle: (noteIndex, newTitle) => {
+    set((state) => {
+      const updatedNotes = [...state.notes];
+      updatedNotes[noteIndex] = {
+        ...updatedNotes[noteIndex],
+        title: newTitle,
+      };
+      return { notes: updatedNotes };
+    });
+  },
 
   //TODO: add a function that updates the content AND THE TITLE and saves it in DB
 
+  updateActiveNoteTitle: (newTitle) => set((state) => ({ activeNote: { ...state.activeNote, title: newTitle } })),
   updateActiveNote: (newActiveNote) => set({ activeNote: newActiveNote }),
-  // updateGameOver: () => set((state) => ({ gameOver: !state.gameOver })),
 }));
 
 export default useMyStore;

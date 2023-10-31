@@ -128,14 +128,13 @@ const MenuBar = () => {
 const content = ``;
 
 export default () => {
-  const { activeNote, updateActiveNote } = useMyStore();
+  const { activeNote, updateActiveNote, updateNoteTitle } = useMyStore();
 
   const handleInputChange = (event) => {
     const newTitle = event.target.value;
-    updateActiveNote({ title: newTitle });
+    updateActiveNote({ ...activeNote, title: newTitle }); // update activeNote
+    updateNoteTitle(activeNote.index, newTitle); 
 
-    // TODO: updateNotes as well of course
-    
   };
 
 

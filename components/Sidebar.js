@@ -5,7 +5,7 @@ import useMyStore from "../app/(store)/store";
 import { Button } from "../components/ui/button";
 
 export default function Sidebar({ sidebarVisible }) {
-  const { updateActiveNote, notes, updateNotes, activeNote } = useMyStore();
+  const { updateActiveNote, notes, addNewNote, activeNote } = useMyStore();
   const [activeItem, setActiveItem] = useState(null);
 
   // TODO: add new note to database in store.js
@@ -13,12 +13,12 @@ export default function Sidebar({ sidebarVisible }) {
     console.log("add a new note");
 
     // update global notes
-    updateNotes({ title: "", content: "h" });
+    addNewNote({ title: "", content: "" });
 
     //TODO: sync state of title and sidebar-active note
 
     // change activeNote to this newly added Note
-    updateActiveNote({ title: "", content: "h", index: notes.length });
+    updateActiveNote({ title: "", content: "", index: notes.length });
   };
 
   const handleClickNote = (note, index) => {
@@ -55,7 +55,11 @@ export default function Sidebar({ sidebarVisible }) {
               variant="ghost"
               key={index}
             >
-              {note.title || (activeNote.title === "" ? "Untitled" : activeNote.title)}
+              {note.title === "" ? "Untitled" : note.title} 
+              {/* || (activeNote.index === index ? activeNote.title : "Untitled")} */}
+            {/* {console.log(note.title)} */}
+              {/* {note.title || (activeNote && activeNote.index === index ? activeNote.title : "Untitled")} */}
+              {/* {note.title || (activeNote.title === "" ? "Untitled" : activeNote.title)} */}
             </Button>
           </>
         ))}
