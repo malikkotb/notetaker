@@ -32,6 +32,7 @@ const MenuBar = ({ activeNote}) => {
 
   useEffect(() => {
     editor.commands.setContent(`<p>${activeNote.content}</p>`);
+    console.log("editor-HTML: ", editor.getHTML());
   }, [activeNote]);
 
   if (!editor) {
