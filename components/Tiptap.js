@@ -145,6 +145,8 @@ export default () => {
   // i think it was sth. like persist data every 5 seconds
   // do this in useEffect
 
+  //TODO: on enter event, that when you click enter you naviagte to 
+  // to the editor (getelementbyid or similar)
 
   return (
     <EditorProvider
