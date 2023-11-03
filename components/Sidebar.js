@@ -55,11 +55,7 @@ export default function Sidebar({ sidebarVisible }) {
               variant="ghost"
               key={index}
             >
-              {note.title === "" ? "Untitled" : note.title} 
-              {/* || (activeNote.index === index ? activeNote.title : "Untitled")} */}
-            {/* {console.log(note.title)} */}
-              {/* {note.title || (activeNote && activeNote.index === index ? activeNote.title : "Untitled")} */}
-              {/* {note.title || (activeNote.title === "" ? "Untitled" : activeNote.title)} */}
+              {note.title === "" ? "Untitled" : note.title}
             </Button>
           </>
         ))}
