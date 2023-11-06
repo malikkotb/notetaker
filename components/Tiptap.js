@@ -140,7 +140,6 @@ export default () => {
 
   //TODO: save written content of editor to the notes in the store
   // maybe: somehting to do with contenteditable or useEffect
-  // where you store the information every 5 seconds
   // check out what travis media said
   // i think it was sth. like persist data every 5 seconds
   // do this in useEffect
