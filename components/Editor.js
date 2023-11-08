@@ -3,6 +3,7 @@ import Tiptap from "./Tiptap";
 import useMyStore from "@/app/(store)/store";
 import { ModeToggle } from "./ModeToggle";
 
+
 export default function Editor({ toggleSidebar }) {
 
   const {activeNote} = useMyStore();

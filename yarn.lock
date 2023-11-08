@@ -3944,6 +3944,7 @@ __metadata:
     lucide-react: ^0.290.0
     next: 13.5.5
     next-themes: ^0.2.1
+    pocketbase: ^0.19.0
     postcss: ^8
     react: ^18
     react-dom: ^18
@@ -4219,6 +4220,13 @@ __metadata:
   version: 4.0.6
   resolution: "pirates@npm:4.0.6"
   checksum: 46a65fefaf19c6f57460388a5af9ab81e3d7fd0e7bc44ca59d753cb5c4d0df97c6c6e583674869762101836d68675f027d60f841c105d72734df9dfca97cbcc6
+  languageName: node
+  linkType: hard
+
+"pocketbase@npm:^0.19.0":
+  version: 0.19.0
+  resolution: "pocketbase@npm:0.19.0"
+  checksum: 6f95787cabd1cdb87165b404c1a35d14a42054718cc45d438bf685bfde8519c333df6bee5e9a5692c5e523a6d6ad6ff03c08642f63c5440fe6db8063c753c86f
   languageName: node
   linkType: hard
 
