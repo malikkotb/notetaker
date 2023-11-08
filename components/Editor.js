@@ -7,6 +7,13 @@ export default function Editor({ toggleSidebar }) {
 
   const {activeNote} = useMyStore();
 
+  // async function getNotes() {
+  //   const pb = new PocketBase("http://127.0.0.1:8090");
+  //   const data = await pb.collection("notes").getList(1, 50);
+  //   return data;
+  // }
+
+
   return (
     <div className={` p-4 w-full`}>
       <div className="flex items-center justify-between">

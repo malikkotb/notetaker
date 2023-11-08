@@ -15,8 +15,6 @@ export default function Sidebar({ sidebarVisible }) {
     // update global notes
     addNewNote({ title: "", content: "" });
 
-    //TODO: sync state of title and sidebar-active note
-
     // change activeNote to this newly added Note
     updateActiveNote({ title: "", content: "", index: notes.length });
   };
