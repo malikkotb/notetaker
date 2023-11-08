@@ -29,24 +29,24 @@ export default function Sidebar({ sidebarVisible }) {
   };
 
   return (
-    <div
-      className={`w-72 dark:bg-neutral-900 ${
-        sidebarVisible ? "flex" : "hidden"
-      } p-4 h-screen flex-col justify-between border-r shadow-inner`}
-    >
-      <div className="flex flex-col">
-        <div className="mb-3 p-2 flex justify-between">
-          <div className="">Notetaker</div>
-          <div onClick={addNote} className="cursor-pointer">
-            <Plus />
+    <>
+      <div
+        className={`w-72 dark:bg-neutral-900 ${
+          sidebarVisible ? "flex" : "hidden"
+        } p-4 h-screen flex-col justify-between border-r shadow-inner`}
+      >
+        <div className="flex flex-col">
+          <div className="mb-3 p-2 flex justify-between">
+            <div className="">Notetaker</div>
+            <div onClick={addNote} className="cursor-pointer">
+              <Plus />
+            </div>
           </div>
-        </div>
-        <h3 className="mb-2 px-4 text-lg font-semibold tracking-tight">
-          Notes
-        </h3>
-        {/* style each title of a note */}
-        {notes.map((note, index) => (
-          <>
+          <h3 className="mb-2 px-4 text-lg font-semibold tracking-tight">
+            Notes
+          </h3>
+          {/* style each title of a note */}
+          {notes.map((note, index) => (
             <Button
               onClick={() => handleClickNote(note, index)}
               className={`w-full justify-start font-normal`}
@@ -55,10 +55,10 @@ export default function Sidebar({ sidebarVisible }) {
             >
               {note.title === "" ? "Untitled" : note.title}
             </Button>
-          </>
-        ))}
+          ))}
+        </div>
+        <div>Username</div>
       </div>
-      <div>Username</div>
-    </div>
+    </>
   );
 }

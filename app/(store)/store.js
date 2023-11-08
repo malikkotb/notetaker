@@ -1,9 +1,26 @@
 import { create } from "zustand";
-
+import PocketBase from "pocketbase"
 const useMyStore = create((set) => ({
   activeNote: null,
 
   // TODO: get notes from database
+
+  // Client-Side Data Fetching using Pocketbase:
+  // notes: [], // inital notes
+
+  fetchNotes: async () => {
+    const pb = new PocketBase("http://127.0.0.1:8090");
+    // const authData = await pb.admins.authWithPassword('email@icloud.com', 'password);
+   
+    const data = await pb.collection("notes").getList(1, 50);
+    console.log(data);
+    // set({ notes: data });
+  },
+
+  //TODO: addNote write function in pocketbase 
+  // addNote: (newNote) => set((state) => ({ notes: [...state.notes, newNote] })),
+
+
   notes: [
     {
       title: "Example Title",

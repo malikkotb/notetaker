@@ -5,15 +5,7 @@ import { ModeToggle } from "./ModeToggle";
 
 
 export default function Editor({ toggleSidebar }) {
-
-  const {activeNote} = useMyStore();
-
-  // async function getNotes() {
-  //   const pb = new PocketBase("http://127.0.0.1:8090");
-  //   const data = await pb.collection("notes").getList(1, 50);
-  //   return data;
-  // }
-
+  const { activeNote} = useMyStore();
 
   return (
     <div className={` p-4 w-full`}>
@@ -22,13 +14,21 @@ export default function Editor({ toggleSidebar }) {
           <button className="cursor-pointer" onClick={toggleSidebar}>
             <Menu />
           </button>
-          {activeNote && <div>{activeNote.title === "" ? "Untitled" : activeNote.title}</div>}
+          {activeNote && (
+            <div>{activeNote.title === "" ? "Untitled" : activeNote.title}</div>
+          )}
         </div>
         <div className="">
           <ModeToggle />
         </div>
       </div>
-      {activeNote ? <Tiptap /> : <h2 className="items-center mt-32 text-2xl text-center">Select a note or create a new one</h2>}
+      {activeNote ? (
+        <Tiptap />
+      ) : (
+        <h2 className="items-center mt-32 text-2xl text-center">
+          Select a note or create a new one
+        </h2>
+      )}
     </div>
   );
 }

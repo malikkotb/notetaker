@@ -5,8 +5,8 @@ import { ChevronLast, ChevronFirst } from "lucide-react";
 import { useEffect, useState } from "react";
 import useMyStore from "./(store)/store";
 export default function Home() {
-  const [sidebarVisible, setSidebarVisible] = useState(false); // TODO: change to false to begin with
-  const { notes } = useMyStore();
+  const [sidebarVisible, setSidebarVisible] = useState(false);
+  const {fetchNotes} = useMyStore();
   useEffect(() => {
     const handleResize = () => {
       setSidebarVisible(window.innerWidth >= 768);
@@ -20,6 +20,10 @@ export default function Home() {
     };
   }, []);
 
+  // useEffect(() => {
+  //   fetchNotes();
+  // }, []);
+
   function toggleSidebar() {
     // left sidebar menu
     console.log("open sidebar");
@@ -28,6 +32,7 @@ export default function Home() {
 
   return (
     <div className="flex m-0">
+      <button onClick={fetchNotes}>Get Notes</button>
       <Sidebar sidebarVisible={sidebarVisible} />
       <Editor toggleSidebar={toggleSidebar} />
     </div>
