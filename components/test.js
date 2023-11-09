@@ -12,20 +12,7 @@ import { BsEraser } from "react-icons/bs";
 import useMyStore from "../app/(store)/store";
 import { useEffect, useState, useRef } from "react";
 
-const extensions = [
-  Color.configure({ types: [TextStyle.name, ListItem.name] }),
-  TextStyle.configure({ types: [ListItem.name] }),
-  StarterKit.configure({
-    bulletList: {
-      keepMarks: true,
-      keepAttributes: false, // TODO : Making this as `false` becase marks are not preserved when I try to preserve attrs, awaiting a bit of help
-    },
-    orderedList: {
-      keepMarks: true,
-      keepAttributes: false, // TODO : Making this as `false` becase marks are not preserved when I try to preserve attrs, awaiting a bit of help
-    },
-  }),
-];
+
 
 const MenuBar = () => {
   const { activeNote } = useMyStore();
@@ -150,7 +137,14 @@ export default () => {
   };
 
 
+  //TODO: save written content of editor to the notes in the store
+  // maybe: somehting to do with contenteditable or useEffect
+  // check out what travis media said
+  // i think it was sth. like persist data every 5 seconds
+  // do this in useEffect
 
+  //TODO: on enter event, that when you click enter you naviagte to 
+  // to the editor (getelementbyid or similar)
 
   return (
     <EditorProvider

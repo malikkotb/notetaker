@@ -1,4 +1,13 @@
 /* Basic editor styles */
+
+.tiptap .is-empty::before {
+  content: attr(data-placeholder);
+  float: left;
+  color: #ced4da;
+  pointer-events: none;
+  height: 0;
+}
+
 .tiptap {
 
   >*+* {
@@ -18,7 +27,12 @@
     list-style:decimal;
   }
 
-  h1,
+  h1 {
+    font-size: xx-large;
+    font-weight: bold;
+    padding-bottom: 0%;
+  }
+
   h2,
   h3,
   h4,

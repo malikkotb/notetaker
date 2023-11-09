@@ -5,14 +5,15 @@ import "./styles.scss";
 import TextAlign from '@tiptap/extension-text-align'
 import { EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
-import { Color } from "@tiptap/extension-color";
-import ListItem from "@tiptap/extension-list-item";
-import TextStyle from "@tiptap/extension-text-style";
 import { Button } from "@/components/ui/button";
 import { FaListOl, FaListUl, FaUndo, FaRedo, FaCode } from "react-icons/fa";
 import { BsEraser } from "react-icons/bs";
 import useMyStore from "../app/(store)/store";
-import { useEffect, useState, useRef } from "react";
+import { useEffect } from "react";
+import Placeholder from '@tiptap/extension-placeholder'
+import Document from '@tiptap/extension-document'
+import Paragraph from '@tiptap/extension-paragraph'
+import Text from '@tiptap/extension-text'
 
 const MenuBar = ({ editor }) => {
   if (!editor) {
@@ -21,15 +22,11 @@ const MenuBar = ({ editor }) => {
 
   const { activeNote } = useMyStore();
 
-
   useEffect(() => {
     editor.commands.setContent(`
     <p>${activeNote.content}</p>`);
     console.log("editor-HTML: ", editor.getHTML());
   }, [activeNote]);
-
-    //TODO: on enter event, that when you click enter you naviagte to 
-    // to the editor (getelementbyid or similar)
 
   useEffect(() => {
     // Function run every 5 seconds
@@ -40,6 +37,15 @@ const MenuBar = ({ editor }) => {
     // Clear the interval when the component unmounts
     return () => clearInterval(intervalId);
   }, []);
+
+  useEffect(() => {
+    // Find the first h1 element
+    const firstH1 = document.querySelector('h1');
+    if (firstH1) {
+      // firstH1.set
+    }
+  }, []); // Empty dependency array ensures the effect runs only once on mount
+
 
   return (
     <div className="p-4">
@@ -94,7 +100,13 @@ const MenuBar = ({ editor }) => {
         >
           <FaListOl />
         </Button>
-
+        <Button
+          variant="outline"
+          onClick={() => editor.chain().focus().toggleCodeBlock().run()}
+          className={editor.isActive('codeBlock') ? 'is-active' : ''}
+        >
+          code block
+      </Button>
         <Button
           variant="outline"
           onClick={() => editor.chain().focus().undo().run()}
@@ -113,6 +125,10 @@ const MenuBar = ({ editor }) => {
     </div>  )
 }
 
+const CustomDocument = Document.extend({
+  content: 'heading block*',
+})
+
 export default () => {
   const editor = useEditor({
     editorProps: {
@@ -121,11 +137,20 @@ export default () => {
       },
     },
     extensions: [
-      StarterKit,
-      TextAlign.configure({
-        types: ['heading', 'paragraph'],
+      CustomDocument,
+      StarterKit.configure({
+        document: false,
       }),
-      Highlight,
+      Placeholder.configure({
+        placeholder: ({ node }) => {
+          if (node.type.name === 'heading') {
+            return 'What’s the title?'
+          }
+
+          return 'Anything else ?'
+        },
+      }),
+      Text,
     ],
     content: ``,
   })
@@ -133,7 +158,7 @@ export default () => {
   return (
     <div>
       <MenuBar editor={editor} />
-      <EditorContent editor={editor} />
+      <EditorContent className="px-4" editor={editor} />
     </div>
   )
 }

@@ -23,7 +23,7 @@ const useMyStore = create((set) => ({
   notes: [
     {
       title: "Example Title",
-      content: "This is the content of the first example object.",
+      content: "",
     },
     {
       title: "Sample Title",
