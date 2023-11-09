@@ -1,26 +1,47 @@
-"use client"
+"use client";
+
 import "./styles.scss";
-
-
-import TextAlign from '@tiptap/extension-text-align'
-import { EditorContent, useEditor } from '@tiptap/react'
-import StarterKit from '@tiptap/starter-kit'
 import { Color } from "@tiptap/extension-color";
 import ListItem from "@tiptap/extension-list-item";
 import TextStyle from "@tiptap/extension-text-style";
+import { EditorProvider, useCurrentEditor } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
 import { Button } from "@/components/ui/button";
 import { FaListOl, FaListUl, FaUndo, FaRedo, FaCode } from "react-icons/fa";
 import { BsEraser } from "react-icons/bs";
 import useMyStore from "../app/(store)/store";
 import { useEffect, useState, useRef } from "react";
 
-const MenuBar = ({ editor }) => {
-  if (!editor) {
-    return null
-  }
+const extensions = [
+  Color.configure({ types: [TextStyle.name, ListItem.name] }),
+  TextStyle.configure({ types: [ListItem.name] }),
+  StarterKit.configure({
+    bulletList: {
+      keepMarks: true,
+      keepAttributes: false, // TODO : Making this as `false` becase marks are not preserved when I try to preserve attrs, awaiting a bit of help
+    },
+    orderedList: {
+      keepMarks: true,
+      keepAttributes: false, // TODO : Making this as `false` becase marks are not preserved when I try to preserve attrs, awaiting a bit of help
+    },
+  }),
+];
 
+const MenuBar = () => {
   const { activeNote } = useMyStore();
+  const { editor } = useCurrentEditor();
 
+  // const editor = useEditor({
+  //   extensions: [
+  //     StarterKit.configure({
+  //       history: false,
+  //     }),
+  //     Highlight,
+  //     TaskList,
+  //     TaskItem,
+
+  //   ],
+  // })
 
   useEffect(() => {
     editor.commands.setContent(`
@@ -28,18 +49,9 @@ const MenuBar = ({ editor }) => {
     console.log("editor-HTML: ", editor.getHTML());
   }, [activeNote]);
 
-    //TODO: on enter event, that when you click enter you naviagte to 
-    // to the editor (getelementbyid or similar)
-
-  useEffect(() => {
-    // Function run every 5 seconds
-    const intervalId = setInterval(() => {
-      console.log(editor.getHTML());
-    }, 5000);
-
-    // Clear the interval when the component unmounts
-    return () => clearInterval(intervalId);
-  }, []);
+  if (!editor) {
+    return null;
+  }
 
   return (
     <div className="p-4">
@@ -109,31 +121,53 @@ const MenuBar = ({ editor }) => {
         >
           <FaRedo />
         </Button>
+        <Button
+          variant="outline"
+          onClick={() => editor.chain().focus().setColor("#958DF1").run()}
+          className={
+            editor.isActive("textStyle", { color: "#958DF1" })
+              ? "is-active"
+              : ""
+          }
+        >
+          purple
+        </Button>
       </div>
-    </div>  )
-}
+    </div>
+  );
+};
+
+const content = ``;
 
 export default () => {
-  const editor = useEditor({
-    editorProps: {
-      attributes: {
-        class: 'prose prose-sm sm:prose lg:prose-lg xl:prose-2xl mx-auto focus:outline-none',
-      },
-    },
-    extensions: [
-      StarterKit,
-      TextAlign.configure({
-        types: ['heading', 'paragraph'],
-      }),
-      Highlight,
-    ],
-    content: ``,
-  })
+  const { activeNote, updateActiveNote, updateNoteTitle } = useMyStore();
+
+  const handleInputChange = (event) => {
+    const newTitle = event.target.value;
+    updateActiveNote({ ...activeNote, title: newTitle }); // update activeNote
+    updateNoteTitle(activeNote.index, newTitle); 
+
+  };
+
+
+
 
   return (
-    <div>
-      <MenuBar editor={editor} />
-      <EditorContent editor={editor} />
-    </div>
-  )
-}
+    <EditorProvider
+      slotBefore={
+        <div>
+          <MenuBar activeNote={activeNote} />
+          <input
+            type="text"
+            value={activeNote.title}
+            onChange={handleInputChange}
+            className="text-4xl outline-none font-bold w-full"
+            placeholder="Untitled"
+          />
+        </div>
+      }
+      extensions={extensions}
+      content={content}
+    ></EditorProvider>
+  );
+};

@@ -10,8 +10,7 @@ const useMyStore = create((set) => ({
 
   fetchNotes: async () => {
     const pb = new PocketBase("http://127.0.0.1:8090");
-    // const authData = await pb.admins.authWithPassword('email@icloud.com', 'password);
-   
+    // const authData = await pb.admins.authWithPassword('malikkotb@icloud.com', 'dejgy7-natFyc-juxjon');
     const data = await pb.collection("notes").getList(1, 50);
     console.log(data);
     // set({ notes: data });

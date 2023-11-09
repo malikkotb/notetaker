@@ -20,19 +20,16 @@ export default function Home() {
     };
   }, []);
 
-  // useEffect(() => {
-  //   fetchNotes();
-  // }, []);
+  useEffect(() => {
+    fetchNotes(); // fetchNotes on Mount 
+  }, []);
 
   function toggleSidebar() {
-    // left sidebar menu
-    console.log("open sidebar");
     setSidebarVisible(!sidebarVisible);
   }
 
   return (
     <div className="flex m-0">
-      <button onClick={fetchNotes}>Get Notes</button>
       <Sidebar sidebarVisible={sidebarVisible} />
       <Editor toggleSidebar={toggleSidebar} />
     </div>
