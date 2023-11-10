@@ -29,6 +29,19 @@ const MenuBar = ({ editor }) => {
     <h1>${activeNote.title}</h1>${content}`);
   }, [activeNote]);
 
+
+    // //TODO: funciton to save content
+  // useEffect(() => {
+  //   // Function run every 5 seconds
+  //   const intervalId = setInterval(() => {
+  //     console.log(editor.getHTML());
+  //   }, 5000);
+
+  //   // Clear the interval when the component unmounts
+  //   return () => clearInterval(intervalId);
+  // }, []);
+  
+
   return (
     <div className="p-4">
       <div className="flex flex-wrap gap-2">

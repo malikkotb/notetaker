@@ -5,7 +5,7 @@ import { ChevronLast, ChevronFirst } from "lucide-react";
 import { useEffect, useState } from "react";
 import useMyStore from "./(store)/store";
 export default function Home() {
-  const [sidebarVisible, setSidebarVisible] = useState(false);
+  const [sidebarVisible, setSidebarVisible] = useState(true);
   const {fetchNotes} = useMyStore();
   useEffect(() => {
     const handleResize = () => {

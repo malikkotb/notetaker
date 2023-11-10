@@ -3,48 +3,43 @@ import PocketBase from "pocketbase";
 const useMyStore = create((set) => ({
   activeNote: null,
 
-  // TODO: get notes from database
-
   // Client-Side Data Fetching using Pocketbase:
-  // notes: [], // inital notes
+  notes: [], // inital notes
 
+  // this is called once on Mount
   fetchNotes: async () => {
     const pb = new PocketBase("http://127.0.0.1:8090");
     // const authData = await pb.admins.authWithPassword('malikkotb@icloud.com', 'dejgy7-natFyc-juxjon');
-    const data = await pb.collection("notes").getList(1, 50);
-    console.log(data);
-    // set({ notes: data });
+    const data = (await pb.collection("notes").getList(1, 50)).items;
+    const notesFromDb = [];
+    for (const element of data) {
+      const obj = {
+        title: element.title,
+        content: element.content,
+      };
+      notesFromDb.push(obj);
+    }
+
+    console.log(notesFromDb);
+
+    set({ notes: data });
   },
 
   //TODO: addNote write function in pocketbase
   // addNote: (newNote) => set((state) => ({ notes: [...state.notes, newNote] })),
 
-  notes: [
-    {
-      title: "Example Title",
-      content: "",
-    },
-    {
-      title: "Sample Title",
-      content:
-        "Here is the content for the second example object. You can customize it as needed.",
-    },
-    {
-      title: "noteey",
-      content:
-        "Content for the third example object goes here. Feel free to add more details.",
-    },
-    {
-      title: "Custom note",
-      content:
-        "This is the content for the custom object title. You can modify it to suit your requirements.",
-    },
-    {
-      title: "JavaScript Object",
-      content:
-        "This object contains some example content. You can use it in your JavaScript program.",
-    },
-  ],
+  // notes: [
+  //   {
+  //     title: "Example Title",
+  //     content: "",
+  //   },
+  //   {
+  //     title: "noteey",
+  //     content:
+  //       "Content for the third example object goes here. Feel free to add more details.",
+  //   },
+  // ],
+
   addNewNote: (item) => set((state) => ({ notes: [...state.notes, item] })),
 
   updateNoteTitle: (noteIndex, newTitle) => {
@@ -68,17 +63,6 @@ const useMyStore = create((set) => ({
       return { notes: updatedNotes };
     });
   },
-
-  // //TODO: funciton to save content
-  // useEffect(() => {
-  //   // Function run every 5 seconds
-  //   const intervalId = setInterval(() => {
-  //     console.log(editor.getHTML());
-  //   }, 5000);
-
-  //   // Clear the interval when the component unmounts
-  //   return () => clearInterval(intervalId);
-  // }, []);
 
   //TODO: add a function that updates the content and title of note and saves it in DB every 5 seconds
 

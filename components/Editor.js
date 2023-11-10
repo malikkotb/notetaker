@@ -2,7 +2,6 @@ import { Menu } from "lucide-react";
 import Tiptap from "./Tiptap";
 import useMyStore from "@/app/(store)/store";
 import { ModeToggle } from "./ModeToggle";
-import { useEffect } from "react";
 
 
 export default function Editor({ toggleSidebar }) {
