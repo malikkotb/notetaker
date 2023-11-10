@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import PocketBase from "pocketbase"
+import PocketBase from "pocketbase";
 const useMyStore = create((set) => ({
   activeNote: null,
 
@@ -16,9 +16,8 @@ const useMyStore = create((set) => ({
     // set({ notes: data });
   },
 
-  //TODO: addNote write function in pocketbase 
+  //TODO: addNote write function in pocketbase
   // addNote: (newNote) => set((state) => ({ notes: [...state.notes, newNote] })),
-
 
   notes: [
     {
@@ -70,9 +69,21 @@ const useMyStore = create((set) => ({
     });
   },
 
+  // //TODO: funciton to save content
+  // useEffect(() => {
+  //   // Function run every 5 seconds
+  //   const intervalId = setInterval(() => {
+  //     console.log(editor.getHTML());
+  //   }, 5000);
+
+  //   // Clear the interval when the component unmounts
+  //   return () => clearInterval(intervalId);
+  // }, []);
+
   //TODO: add a function that updates the content and title of note and saves it in DB every 5 seconds
 
-  updateActiveNoteTitle: (newTitle) => set((state) => ({ activeNote: { ...state.activeNote, title: newTitle } })),
+  updateActiveNoteTitle: (newTitle) =>
+    set((state) => ({ activeNote: { ...state.activeNote, title: newTitle } })),
   updateActiveNote: (newActiveNote) => set({ activeNote: newActiveNote }),
 }));
 

@@ -19,23 +19,15 @@ const MenuBar = ({ editor }) => {
   const { activeNote } = useMyStore();
 
   useEffect(() => {
+    let content;
+    if (activeNote.content === "") {
+      content = "<p></p>"
+    } else {
+      content = activeNote.content;
+    }
     editor.commands.setContent(`
-    <h1>${activeNote.title}</h1>
-    <p>${activeNote.content}</p>`);
-
-    console.log("editor-HTML: ", editor.getHTML());
+    <h1>${activeNote.title}</h1>${content}`);
   }, [activeNote]);
-
-  //TODO: funciton to save content
-  useEffect(() => {
-    // Function run every 5 seconds
-    const intervalId = setInterval(() => {
-      console.log(editor.getHTML());
-    }, 5000);
-
-    // Clear the interval when the component unmounts
-    return () => clearInterval(intervalId);
-  }, []);
 
   return (
     <div className="p-4">
@@ -122,19 +114,19 @@ const CustomDocument = Document.extend({
 
 export default () => {
   const [headingValue, setHeadingValue] = useState("");
-  const [contentValue, setContentValue] = useState("");
   // TODO: maybe change this to having only one attribute and not separate ones for note and title
-  const { activeNote, updateNoteTitle, updateNoteContent } = useMyStore();
+  const { activeNote, updateNoteTitle, updateNoteContent } =
+    useMyStore();
 
   // update note title
   useEffect(() => {
     updateNoteTitle(activeNote.index, headingValue);
   }, [headingValue]);
 
+
   useEffect(() => {
     // Set initial content of the h1 tag
     setHeadingValue(activeNote.title);
-    setContentValue(activeNote.content);
   }, [activeNote]);
 
   const editor = useEditor({
@@ -159,10 +151,6 @@ export default () => {
         },
       }),
     ],
-    //   content: `
-    //   <h1>
-    //   ${activeNote.title}
-    // </h1>`,
     content: ``,
     onUpdate({ editor }) {
       // Access the HTML content of the h1 tag
@@ -176,6 +164,7 @@ export default () => {
       const match = htmlContent.match(/<\/h1>(.*)/s);
       // Save content after </h1> to content of note
       const contentAfterH1 = match ? match[1] : "";
+      // console.log(contentAfterH1);
       updateNoteContent(activeNote.index, contentAfterH1);
     },
   });
