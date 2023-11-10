@@ -10,7 +10,6 @@ const useMyStore = create((set) => ({
 
   fetchNotes: async () => {
     const pb = new PocketBase("http://127.0.0.1:8090");
-    // const authData = await pb.admins.authWithPassword('malikkotb@icloud.com', 'dejgy7-natFyc-juxjon');
     const data = await pb.collection("notes").getList(1, 50);
     console.log(data);
     // set({ notes: data });
@@ -31,7 +30,7 @@ const useMyStore = create((set) => ({
         "Here is the content for the second example object. You can customize it as needed.",
     },
     {
-      title: "Title",
+      title: "noteey",
       content:
         "Content for the third example object goes here. Feel free to add more details.",
     },
@@ -59,7 +58,7 @@ const useMyStore = create((set) => ({
     });
   },
 
-  //TODO: add a function that updates the content AND THE TITLE and saves it in DB
+  //TODO: add a function that updates the content AND TITLE and saves it in DB
 
   updateActiveNoteTitle: (newTitle) => set((state) => ({ activeNote: { ...state.activeNote, title: newTitle } })),
   updateActiveNote: (newActiveNote) => set({ activeNote: newActiveNote }),

@@ -136,7 +136,7 @@ export default () => {
 
   };
 
-
+  
   //TODO: save written content of editor to the notes in the store
   // maybe: somehting to do with contenteditable or useEffect
   // check out what travis media said

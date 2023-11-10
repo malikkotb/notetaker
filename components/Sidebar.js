@@ -45,7 +45,6 @@ export default function Sidebar({ sidebarVisible }) {
           <h3 className="mb-2 px-4 text-lg font-semibold tracking-tight">
             Notes
           </h3>
-          {/* style each title of a note */}
           {notes.map((note, index) => (
             <Button
               onClick={() => handleClickNote(note, index)}

@@ -1,33 +1,32 @@
-"use client"
+"use client";
 import "./styles.scss";
 
-
-import TextAlign from '@tiptap/extension-text-align'
-import { EditorContent, useEditor } from '@tiptap/react'
-import StarterKit from '@tiptap/starter-kit'
+import { EditorContent, useEditor } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
 import { Button } from "@/components/ui/button";
 import { FaListOl, FaListUl, FaUndo, FaRedo, FaCode } from "react-icons/fa";
 import { BsEraser } from "react-icons/bs";
 import useMyStore from "../app/(store)/store";
-import { useEffect } from "react";
-import Placeholder from '@tiptap/extension-placeholder'
-import Document from '@tiptap/extension-document'
-import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
+import { useEffect, useState } from "react";
+import Placeholder from "@tiptap/extension-placeholder";
+import Document from "@tiptap/extension-document";
 
 const MenuBar = ({ editor }) => {
   if (!editor) {
-    return null
+    return null;
   }
 
   const { activeNote } = useMyStore();
 
   useEffect(() => {
     editor.commands.setContent(`
+    <h1>${activeNote.title}</h1>
     <p>${activeNote.content}</p>`);
+
     console.log("editor-HTML: ", editor.getHTML());
   }, [activeNote]);
 
+  //TODO: funciton to save content
   useEffect(() => {
     // Function run every 5 seconds
     const intervalId = setInterval(() => {
@@ -37,15 +36,6 @@ const MenuBar = ({ editor }) => {
     // Clear the interval when the component unmounts
     return () => clearInterval(intervalId);
   }, []);
-
-  useEffect(() => {
-    // Find the first h1 element
-    const firstH1 = document.querySelector('h1');
-    if (firstH1) {
-      // firstH1.set
-    }
-  }, []); // Empty dependency array ensures the effect runs only once on mount
-
 
   return (
     <div className="p-4">
@@ -103,10 +93,10 @@ const MenuBar = ({ editor }) => {
         <Button
           variant="outline"
           onClick={() => editor.chain().focus().toggleCodeBlock().run()}
-          className={editor.isActive('codeBlock') ? 'is-active' : ''}
+          className={editor.isActive("codeBlock") ? "is-active" : ""}
         >
           code block
-      </Button>
+        </Button>
         <Button
           variant="outline"
           onClick={() => editor.chain().focus().undo().run()}
@@ -122,18 +112,33 @@ const MenuBar = ({ editor }) => {
           <FaRedo />
         </Button>
       </div>
-    </div>  )
-}
+    </div>
+  );
+};
 
 const CustomDocument = Document.extend({
-  content: 'heading block*',
-})
+  content: "heading block*",
+});
 
 export default () => {
+  const [headingValue, setHeadingValue] = useState("");
+  const { activeNote, updateNoteTitle } = useMyStore();
+
+  // update note title
+  useEffect(() => {
+    updateNoteTitle(activeNote.index, headingValue);
+  }, [headingValue]);
+
+  useEffect(() => {
+    // Set initial content of the h1 tag 
+    setHeadingValue(activeNote.title);
+  }, [activeNote]);
+
   const editor = useEditor({
     editorProps: {
       attributes: {
-        class: 'prose prose-sm sm:prose lg:prose-lg xl:prose-2xl mx-auto focus:outline-none',
+        class:
+          "prose prose-sm sm:prose lg:prose-lg xl:prose-2xl mx-auto focus:outline-none",
       },
     },
     extensions: [
@@ -143,22 +148,31 @@ export default () => {
       }),
       Placeholder.configure({
         placeholder: ({ node }) => {
-          if (node.type.name === 'heading') {
-            return 'What’s the title?'
+          if (node.type.name === "heading") {
+            return "What’s the title?";
           }
 
-          return 'Anything else ?'
+          return "Anything else ?";
         },
       }),
-      Text,
     ],
-    content: ``,
-  })
+    content: `
+    <h1>
+    ${activeNote.title}
+  </h1>`,
+    onUpdate({ editor }) {
+      // Access the HTML content of the h1 tag
+      const h1Content = editor.getHTML().match(/<h1>(.*?)<\/h1>/i);
+
+      // Update the state with the content of the h1 tag
+      setHeadingValue(h1Content ? h1Content[1] : "");
+    },
+  });
 
   return (
     <div>
       <MenuBar editor={editor} />
       <EditorContent className="px-4" editor={editor} />
     </div>
-  )
-}
+  );
+};
