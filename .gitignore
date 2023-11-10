@@ -1,3 +1,6 @@
 node_modules
 .yarn
 .next
+pocketbase
+pocketbase/pb_data/
+

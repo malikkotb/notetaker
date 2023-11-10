@@ -122,7 +122,9 @@ const CustomDocument = Document.extend({
 
 export default () => {
   const [headingValue, setHeadingValue] = useState("");
-  const { activeNote, updateNoteTitle } = useMyStore();
+  const [contentValue, setContentValue] = useState("");
+  // TODO: maybe change this to having only one attribute and not separate ones for note and title
+  const { activeNote, updateNoteTitle, updateNoteContent } = useMyStore();
 
   // update note title
   useEffect(() => {
@@ -130,8 +132,9 @@ export default () => {
   }, [headingValue]);
 
   useEffect(() => {
-    // Set initial content of the h1 tag 
+    // Set initial content of the h1 tag
     setHeadingValue(activeNote.title);
+    setContentValue(activeNote.content);
   }, [activeNote]);
 
   const editor = useEditor({
@@ -156,16 +159,24 @@ export default () => {
         },
       }),
     ],
-    content: `
-    <h1>
-    ${activeNote.title}
-  </h1>`,
+    //   content: `
+    //   <h1>
+    //   ${activeNote.title}
+    // </h1>`,
+    content: ``,
     onUpdate({ editor }) {
       // Access the HTML content of the h1 tag
-      const h1Content = editor.getHTML().match(/<h1>(.*?)<\/h1>/i);
+      const htmlContent = editor.getHTML();
 
+      const h1Content = htmlContent.match(/<h1>(.*?)<\/h1>/i);
       // Update the state with the content of the h1 tag
       setHeadingValue(h1Content ? h1Content[1] : "");
+
+      // regex to extract content after the </h1> tag
+      const match = htmlContent.match(/<\/h1>(.*)/s);
+      // Save content after </h1> to content of note
+      const contentAfterH1 = match ? match[1] : "";
+      updateNoteContent(activeNote.index, contentAfterH1);
     },
   });
 

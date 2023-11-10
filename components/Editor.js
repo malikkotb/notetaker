@@ -6,14 +6,7 @@ import { useEffect } from "react";
 
 
 export default function Editor({ toggleSidebar }) {
-  const { activeNote, updateActiveNoteTitle, notes} = useMyStore();
-
-  useEffect(() => {
-    if (activeNote) {
-      console.log(activeNote.index);
-      console.log(notes[activeNote.index].title)
-    }
-  }, [activeNote])
+  const { activeNote, notes} = useMyStore();
 
   return (
     <div className={`p-4 w-full`}>
