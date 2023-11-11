@@ -10,7 +10,6 @@ export default function Sidebar({ sidebarVisible }) {
 
   // TODO: add new note to database in store.js
   const addNote = () => {
-    console.log("add a new note");
 
     // update global notes
     addNewNote({ title: "", content: "" });
@@ -20,10 +19,12 @@ export default function Sidebar({ sidebarVisible }) {
   };
 
   const handleClickNote = (note, index) => {
+
     updateActiveNote({
       title: note.title,
       content: note.content,
       index: index,
+      record_id: note.id,
     });
     setActiveItem(index);
   };

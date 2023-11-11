@@ -10,6 +10,7 @@ import useMyStore from "../app/(store)/store";
 import { useEffect, useState } from "react";
 import Placeholder from "@tiptap/extension-placeholder";
 import Document from "@tiptap/extension-document";
+import PocketBase from "pocketbase";
 
 const MenuBar = ({ editor }) => {
   if (!editor) {
@@ -19,30 +20,40 @@ const MenuBar = ({ editor }) => {
   const { activeNote } = useMyStore();
 
   useEffect(() => {
-    console.log("active content: ", activeNote.content);
-    console.log("active title: ", activeNote.title);
-    let content;
-    if (activeNote.content === "") {
-      content = "<p></p>"
-    } else {
-      content = activeNote.content;
-    }
     editor.commands.setContent(`
     <h1>${activeNote.title}</h1>${activeNote.content}`);
   }, [activeNote]);
 
+  // funciton to save content every 5 seconds
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      console.log("notes in editor:", notes);
 
-    // //TODO: funciton to save content
-  // useEffect(() => {
-  //   // Function run every 5 seconds
-  //   const intervalId = setInterval(() => {
-  //     console.log(editor.getHTML());
-  //   }, 5000);
+      const updateNotes = async () => {
+        try {
+          const pb = new PocketBase("http://127.0.0.1:8090");
+          // TODO: Add checks to ensure that the note is added only for the logged-in user
+          const data = {
+            ...notes[activeNote.index],
+            title: activeNote.title,
+            content: activeNote.content,
+          };
+          const record = await pb
+            .collection("notes")
+            .update(activeNote.record_id, data);
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      };
 
-  //   // Clear the interval when the component unmounts
-  //   return () => clearInterval(intervalId);
-  // }, []);
+      updateNotes();
 
+      fetchNotes(); // fetch notes again
+    }, 5000);
+
+    // Clear the interval when the component unmounts
+    return () => clearInterval(intervalId);
+  }, [headingValue, contentValue]);
 
   return (
     <div className="p-4">
@@ -131,7 +142,7 @@ export default () => {
   const [headingValue, setHeadingValue] = useState("");
   const [contentValue, setContentValue] = useState("");
   // TODO: maybe change this to having only one attribute and not separate ones for note and title
-  const { activeNote, updateNoteTitle, updateNoteContent } =
+  const { activeNote, updateNoteTitle, updateNoteContent, notes } =
     useMyStore();
 
   // update note title
@@ -141,8 +152,8 @@ export default () => {
 
   // update note content
   useEffect(() => {
-      updateNoteContent(activeNote.index, contentValue);
-  }, [contentValue])
+    updateNoteContent(activeNote.index, contentValue);
+  }, [contentValue]);
 
   useEffect(() => {
     // Set initial content of the h1 tag
@@ -185,7 +196,7 @@ export default () => {
       const match = htmlContent.match(/<\/h1>(.*)/s);
       // Save content after </h1> to content of note
       const contentAfterH1 = match ? match[1] : "";
-      setContentValue(contentAfterH1)
+      setContentValue(contentAfterH1);
     },
   });
 

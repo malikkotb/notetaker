@@ -9,36 +9,24 @@ const useMyStore = create((set) => ({
   // this is called once on Mount
   fetchNotes: async () => {
     const pb = new PocketBase("http://127.0.0.1:8090");
-    const authData = await pb.admins.authWithPassword(process.env.ADMIN_EMAIL, process.env.ADMIN_PW);
+    // const authData = await pb.admins.authWithPassword(process.env.ADMIN_EMAIL, process.env.ADMIN_PW);
     const data = (await pb.collection("notes").getList(1, 50)).items;
     const notesFromDb = [];
     for (const element of data) {
       const obj = {
         title: element.title,
         content: element.content,
+        record_id: element.id,
       };
       notesFromDb.push(obj);
     }
 
-    console.log(notesFromDb);
-
     set({ notes: data });
   },
 
-  //TODO: addNote write function in pocketbase
-  // addNote: (newNote) => set((state) => ({ notes: [...state.notes, newNote] })),
-
-  // notes: [
-  //   {
-  //     title: "Example Title",
-  //     content: "",
-  //   },
-  //   {
-  //     title: "noteey",
-  //     content:
-  //       "Content for the third example object goes here. Feel free to add more details.",
-  //   },
-  // ],
+  // TODO: addNote write function in pocketbase
+  // TODO: adter adding a note, fetchNotes again!
+  // TODO: after updating a note, call fetchNotes again!
 
   addNewNote: (item) => set((state) => ({ notes: [...state.notes, item] })),
 
@@ -63,8 +51,6 @@ const useMyStore = create((set) => ({
       return { notes: updatedNotes };
     });
   },
-
-  //TODO: add a function that updates the content and title of note and saves it in DB every 5 seconds
 
   updateActiveNoteTitle: (newTitle) =>
     set((state) => ({ activeNote: { ...state.activeNote, title: newTitle } })),
