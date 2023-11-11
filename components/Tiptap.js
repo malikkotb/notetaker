@@ -19,6 +19,8 @@ const MenuBar = ({ editor }) => {
   const { activeNote } = useMyStore();
 
   useEffect(() => {
+    console.log("active content: ", activeNote.content);
+    console.log("active title: ", activeNote.title);
     let content;
     if (activeNote.content === "") {
       content = "<p></p>"
@@ -26,7 +28,7 @@ const MenuBar = ({ editor }) => {
       content = activeNote.content;
     }
     editor.commands.setContent(`
-    <h1>${activeNote.title}</h1>${content}`);
+    <h1>${activeNote.title}</h1>${activeNote.content}`);
   }, [activeNote]);
 
 
@@ -40,7 +42,7 @@ const MenuBar = ({ editor }) => {
   //   // Clear the interval when the component unmounts
   //   return () => clearInterval(intervalId);
   // }, []);
-  
+
 
   return (
     <div className="p-4">
@@ -127,6 +129,7 @@ const CustomDocument = Document.extend({
 
 export default () => {
   const [headingValue, setHeadingValue] = useState("");
+  const [contentValue, setContentValue] = useState("");
   // TODO: maybe change this to having only one attribute and not separate ones for note and title
   const { activeNote, updateNoteTitle, updateNoteContent } =
     useMyStore();
@@ -136,10 +139,15 @@ export default () => {
     updateNoteTitle(activeNote.index, headingValue);
   }, [headingValue]);
 
+  // update note content
+  useEffect(() => {
+      updateNoteContent(activeNote.index, contentValue);
+  }, [contentValue])
 
   useEffect(() => {
     // Set initial content of the h1 tag
     setHeadingValue(activeNote.title);
+    setContentValue(activeNote.content);
   }, [activeNote]);
 
   const editor = useEditor({
@@ -177,8 +185,7 @@ export default () => {
       const match = htmlContent.match(/<\/h1>(.*)/s);
       // Save content after </h1> to content of note
       const contentAfterH1 = match ? match[1] : "";
-      // console.log(contentAfterH1);
-      updateNoteContent(activeNote.index, contentAfterH1);
+      setContentValue(contentAfterH1)
     },
   });
 

@@ -37,7 +37,7 @@ export default function Sidebar({ sidebarVisible }) {
       >
         <div className="flex flex-col">
           <div className="mb-3 p-2 flex justify-between">
-            <div className="">Notetaker</div>
+            <div className="">NoteTaker</div>
             <div onClick={addNote} className="cursor-pointer">
               <Plus />
             </div>

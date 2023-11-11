@@ -4,7 +4,7 @@ const useMyStore = create((set) => ({
   activeNote: null,
 
   // Client-Side Data Fetching using Pocketbase:
-  notes: [], // inital notes
+  notes: [], // initial notes
 
   // this is called once on Mount
   fetchNotes: async () => {
@@ -54,6 +54,7 @@ const useMyStore = create((set) => ({
   },
 
   updateNoteContent: (noteIndex, newContent) => {
+    /// TODO: the issue is here
     set((state) => {
       const updatedNotes = [...state.notes];
       updatedNotes[noteIndex] = {
