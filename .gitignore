@@ -3,4 +3,4 @@ node_modules
 .next
 pocketbase
 pocketbase/pb_data/
-
+.env

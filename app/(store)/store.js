@@ -9,7 +9,7 @@ const useMyStore = create((set) => ({
   // this is called once on Mount
   fetchNotes: async () => {
     const pb = new PocketBase("http://127.0.0.1:8090");
-    // const authData = await pb.admins.authWithPassword('malikkotb@icloud.com', 'dejgy7-natFyc-juxjon');
+    const authData = await pb.admins.authWithPassword(process.env.ADMIN_EMAIL, process.env.ADMIN_PW);
     const data = (await pb.collection("notes").getList(1, 50)).items;
     const notesFromDb = [];
     for (const element of data) {
@@ -54,7 +54,6 @@ const useMyStore = create((set) => ({
   },
 
   updateNoteContent: (noteIndex, newContent) => {
-    /// TODO: the issue is here
     set((state) => {
       const updatedNotes = [...state.notes];
       updatedNotes[noteIndex] = {
