@@ -3,136 +3,13 @@ import "./styles.scss";
 
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import { Button } from "@/components/ui/button";
-import { FaListOl, FaListUl, FaUndo, FaRedo, FaCode } from "react-icons/fa";
-import { BsEraser } from "react-icons/bs";
+
 import useMyStore from "../app/(store)/store";
 import { useEffect, useState } from "react";
 import Placeholder from "@tiptap/extension-placeholder";
 import Document from "@tiptap/extension-document";
 import PocketBase from "pocketbase";
-
-const MenuBar = ({ editor }) => {
-  if (!editor) {
-    return null;
-  }
-
-  const { activeNote } = useMyStore();
-
-  useEffect(() => {
-    editor.commands.setContent(`
-    <h1>${activeNote.title}</h1>${activeNote.content}`);
-  }, [activeNote]);
-
-  // funciton to save content every 5 seconds
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      console.log("notes in editor:", notes);
-
-      const updateNotes = async () => {
-        try {
-          const pb = new PocketBase("http://127.0.0.1:8090");
-          // TODO: Add checks to ensure that the note is added only for the logged-in user
-          const data = {
-            ...notes[activeNote.index],
-            title: activeNote.title,
-            content: activeNote.content,
-          };
-          const record = await pb
-            .collection("notes")
-            .update(activeNote.record_id, data);
-        } catch (error) {
-          console.error("Error fetching data:", error);
-        }
-      };
-
-      updateNotes();
-
-      fetchNotes(); // fetch notes again
-    }, 5000);
-
-    // Clear the interval when the component unmounts
-    return () => clearInterval(intervalId);
-  }, [headingValue, contentValue]);
-
-  return (
-    <div className="p-4">
-      <div className="flex flex-wrap gap-2">
-        <Button
-          variant="outline"
-          onClick={() => editor.chain().focus().toggleBold().run()}
-          disabled={!editor.can().chain().focus().toggleBold().run()}
-          className={`${editor.isActive("bold") ? "is-active" : ""}`}
-        >
-          B
-        </Button>
-        <Button
-          variant="outline"
-          onClick={() => editor.chain().focus().toggleItalic().run()}
-          disabled={!editor.can().chain().focus().toggleItalic().run()}
-          className={editor.isActive("italic") ? "is-active" : ""}
-        >
-          I
-        </Button>
-        <Button
-          variant="outline"
-          onClick={() => editor.chain().focus().toggleCode().run()}
-          disabled={!editor.can().chain().focus().toggleCode().run()}
-          className={editor.isActive("code") ? "is-active" : ""}
-        >
-          <FaCode />
-        </Button>
-        <Button
-          variant="outline"
-          onClick={() => editor.chain().focus().unsetAllMarks().run()}
-        >
-          <BsEraser />
-        </Button>
-        <Button
-          variant="outline"
-          onClick={() => editor.chain().focus().clearNodes().run()}
-        >
-          clear nodes
-        </Button>
-        <Button
-          variant="outline"
-          onClick={() => editor.chain().focus().toggleBulletList().run()}
-          className={editor.isActive("bulletList") ? "is-active" : ""}
-        >
-          <FaListUl />
-        </Button>
-        <Button
-          variant="outline"
-          onClick={() => editor.chain().focus().toggleOrderedList().run()}
-          className={editor.isActive("orderedList") ? "is-active" : ""}
-        >
-          <FaListOl />
-        </Button>
-        <Button
-          variant="outline"
-          onClick={() => editor.chain().focus().toggleCodeBlock().run()}
-          className={editor.isActive("codeBlock") ? "is-active" : ""}
-        >
-          code block
-        </Button>
-        <Button
-          variant="outline"
-          onClick={() => editor.chain().focus().undo().run()}
-          disabled={!editor.can().chain().focus().undo().run()}
-        >
-          <FaUndo />
-        </Button>
-        <Button
-          variant="outline"
-          onClick={() => editor.chain().focus().redo().run()}
-          disabled={!editor.can().chain().focus().redo().run()}
-        >
-          <FaRedo />
-        </Button>
-      </div>
-    </div>
-  );
-};
+import MenuBar from "./MenuBar";
 
 const CustomDocument = Document.extend({
   content: "heading block*",
@@ -199,6 +76,46 @@ export default () => {
       setContentValue(contentAfterH1);
     },
   });
+
+   // useEffect(() => {
+  //   const intervalId = setInterval(() => {
+
+  //     const updateNotes = async () => {
+  //     };
+
+  //     updateNotes();
+
+  //     // fetchNotes(); // fetch notes again
+  //   }, 10000);
+
+  //   return () => clearInterval(intervalId);
+  // }, [notes]);
+
+
+  const persistData = async () => {
+
+    try {
+      const pb = new PocketBase("http://127.0.0.1:8090");
+      // TODO: Add checks to ensure that the note is added only for the logged-in user
+      const data = {
+        ...notes[activeNote.index],
+        title: headingValue,
+        content: contentValue,
+      };
+
+      const record = await pb
+        .collection("notes")
+        .update(activeNote.record_id, data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+
+    console.log("Persisting data to the database:", headingValue, contentValue);
+  };
+
+  useEffect(() => {
+    persistData();
+  }, [headingValue, contentValue]);
 
   return (
     <div>
