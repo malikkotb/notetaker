@@ -9,7 +9,7 @@ export default function MenuBar({ editor }) {
       return null;
     }
   
-    const { activeNote, notes, fetchNotes } = useMyStore();
+    const { activeNote } = useMyStore();
   
     useEffect(() => {
       editor.commands.setContent(`

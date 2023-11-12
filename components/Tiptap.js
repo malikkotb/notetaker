@@ -3,7 +3,6 @@ import "./styles.scss";
 
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-
 import useMyStore from "../app/(store)/store";
 import { useEffect, useState } from "react";
 import Placeholder from "@tiptap/extension-placeholder";
@@ -37,6 +36,32 @@ export default () => {
     setHeadingValue(activeNote.title);
     setContentValue(activeNote.content);
   }, [activeNote]);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      const updateNotes = async () => {
+        try {
+          const pb = new PocketBase("http://127.0.0.1:8090");
+          // TODO: Add checks to ensure that the note is added only for the logged-in user
+          const data = {
+            ...notes[activeNote.index],
+            title: headingValue,
+            content: contentValue,
+          };
+          const record = await pb
+            .collection("notes")
+            .update(activeNote.record_id, data);
+        } catch (error) {
+          console.log("ERROR", error);
+          console.error("Error fetching data:", error);
+        }
+      };
+
+      updateNotes();
+    }, 5000);
+
+    return () => clearInterval(intervalId);
+  }, [contentValue, headingValue]);
 
   const editor = useEditor({
     editorProps: {
@@ -76,46 +101,6 @@ export default () => {
       setContentValue(contentAfterH1);
     },
   });
-
-   // useEffect(() => {
-  //   const intervalId = setInterval(() => {
-
-  //     const updateNotes = async () => {
-  //     };
-
-  //     updateNotes();
-
-  //     // fetchNotes(); // fetch notes again
-  //   }, 10000);
-
-  //   return () => clearInterval(intervalId);
-  // }, [notes]);
-
-
-  const persistData = async () => {
-
-    try {
-      const pb = new PocketBase("http://127.0.0.1:8090");
-      // TODO: Add checks to ensure that the note is added only for the logged-in user
-      const data = {
-        ...notes[activeNote.index],
-        title: headingValue,
-        content: contentValue,
-      };
-
-      const record = await pb
-        .collection("notes")
-        .update(activeNote.record_id, data);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-
-    console.log("Persisting data to the database:", headingValue, contentValue);
-  };
-
-  useEffect(() => {
-    persistData();
-  }, [headingValue, contentValue]);
 
   return (
     <div>
