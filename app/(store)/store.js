@@ -4,9 +4,7 @@ const useMyStore = create((set) => ({
   activeNote: null,
 
   // Client-Side Data Fetching using Pocketbase:
-  notes: [], // initial notes
-
-  // this is called once on Mount
+  notes: [], 
   fetchNotes: async () => {
     const pb = new PocketBase("http://127.0.0.1:8090");
     // const authData = await pb.admins.authWithPassword(process.env.ADMIN_EMAIL, process.env.ADMIN_PW);
@@ -20,13 +18,8 @@ const useMyStore = create((set) => ({
       };
       notesFromDb.push(obj);
     }
-
     set({ notes: data });
   },
-
-  // TODO: addNote write function in pocketbase
-  // TODO: adter adding a note, fetchNotes again!
-  // TODO: after updating a note, call fetchNotes again!
 
   addNewNote: (item) => set((state) => ({ notes: [...state.notes, item] })),
 

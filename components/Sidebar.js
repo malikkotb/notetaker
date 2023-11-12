@@ -1,31 +1,60 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Plus } from "lucide-react";
 import useMyStore from "../app/(store)/store";
 import { Button } from "../components/ui/button";
+import PocketBase from "pocketbase";
 
 export default function Sidebar({ sidebarVisible }) {
-  const { updateActiveNote, notes, addNewNote, activeNote } = useMyStore();
+  const { updateActiveNote, notes, addNewNote, fetchNotes } = useMyStore();
   const [activeItem, setActiveItem] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [contentReady, setContentReady] = useState(false);
 
-  // TODO: add new note to database in store.js
-  const addNote = () => {
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        await fetchNotes();
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
+        setContentReady(true);
+      }
+    };
 
+    fetchData();
+  }, []);
+
+  const addNote = async () => {
     // update global notes
     addNewNote({ title: "", content: "" });
+    const pb = new PocketBase("http://127.0.0.1:8090");
 
+    // example create data
+    const data = {
+      userId: "malik",
+      title: "test",
+      content: "test",
+    };
+
+    const record = await pb.collection("notes").create(data);
     // change activeNote to this newly added Note
+    console.log(notes);
+    fetchNotes();
+    console.log(notes);
     updateActiveNote({ title: "", content: "", index: notes.length });
   };
 
   const handleClickNote = (note, index) => {
-
     updateActiveNote({
       title: note.title,
       content: note.content,
       index: index,
       record_id: note.id,
     });
+  
     setActiveItem(index);
   };
 
@@ -46,16 +75,21 @@ export default function Sidebar({ sidebarVisible }) {
           <h3 className="mb-2 px-4 text-lg font-semibold tracking-tight">
             Notes
           </h3>
-          {notes.map((note, index) => (
-            <Button
-              onClick={() => handleClickNote(note, index)}
-              className={`w-full justify-start font-normal`}
-              variant="ghost"
-              key={index}
-            >
-              {note.title === "" ? "Untitled" : note.title}
-            </Button>
-          ))}
+
+          {loading ? (
+            <p className="px-4">Loading...</p>
+          ) : (
+            notes.map((note, index) => (
+              <Button
+                onClick={() => handleClickNote(note, index)}
+                className={`w-full justify-start font-normal`}
+                variant="ghost"
+                key={index}
+              >
+                {contentReady && note.title}
+              </Button>
+            ))
+          )}
         </div>
         <div>Username</div>
       </div>

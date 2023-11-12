@@ -20,9 +20,9 @@ export default function Home() {
     };
   }, []);
 
-  useEffect(() => {
-    fetchNotes(); // fetchNotes on Mount 
-  }, []);
+  // useEffect(() => {
+  //   fetchNotes(); // fetchNotes on Mount 
+  // }, []);
 
   function toggleSidebar() {
     setSidebarVisible(!sidebarVisible);

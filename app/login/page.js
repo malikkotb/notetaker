@@ -1,11 +1,11 @@
-import { CreateAccount } from "../../components/CreateAccount";
+// import { CreateAccount } from "../../components/CreateAccount";
+      
 
 export default function page() {
   return (
-    <>
-    {/* TODO: setup supabase authentication */}
-      <div>Login Page</div>
-      <CreateAccount />
-    </>
+      <div className="h-screen flex">
+        <div className="bg-black w-full">picture or with quote</div>
+        <div className="w-full">login card</div>
+      </div>
   );
 }

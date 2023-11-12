@@ -52,7 +52,9 @@ export default () => {
             .collection("notes")
             .update(activeNote.record_id, data);
         } catch (error) {
+
           console.log("ERROR", error);
+          console.log(activeNote);
           console.error("Error fetching data:", error);
         }
       };
