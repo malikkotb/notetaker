@@ -5,10 +5,8 @@ import useMyStore from "../app/(store)/store";
 import { Button } from "../components/ui/button";
 import PocketBase from "pocketbase";
 
-export default function Sidebar({ sidebarVisible }) {
-  const { updateActiveNote, notes, addNewNote, fetchNotes } = useMyStore();
-  const [activeItem, setActiveItem] = useState(null);
-  const [loading, setLoading] = useState(true);
+export default function Sidebar({ sidebarVisible, loading, setLoading }) {
+  const { updateActiveNote, notes, fetchNotes } = useMyStore();
   const [contentReady, setContentReady] = useState(false);
 
   useEffect(() => {
@@ -28,8 +26,6 @@ export default function Sidebar({ sidebarVisible }) {
   }, []);
 
   const addNote = async () => {
-    // update global notes
-    // addNewNote({ title: "", content: "" });
     setLoading(true)
     const pb = new PocketBase("http://127.0.0.1:8090");
 
@@ -37,14 +33,16 @@ export default function Sidebar({ sidebarVisible }) {
       //TODO: change userid to loggedIn User
       userId: "malik",
       title: "Untitled",
-      content: "",
+      content: "<p></p>",
     };
 
     const record = await pb.collection("notes").create(data);
-
+    if (record) {
+      console.log("l´Loadng");
+      setLoading(false)
+    }
     fetchNotes();
-    updateActiveNote({ title: "", content: "", index: notes.length });
-    setLoading(false)
+    // updateActiveNote({ title: "", content: "", index: notes.length });
   };
 
   const handleClickNote = (note, index) => {
@@ -55,7 +53,6 @@ export default function Sidebar({ sidebarVisible }) {
       record_id: note.id,
     });
   
-    setActiveItem(index);
   };
 
   return (
@@ -82,7 +79,7 @@ export default function Sidebar({ sidebarVisible }) {
             notes.map((note, index) => (
               <Button
                 onClick={() => handleClickNote(note, index)}
-                className={`w-full justify-start font-normal`}
+                className={` w-52 overflow-hidden justify-start font-normal`}
                 variant="ghost"
                 key={index}
               >

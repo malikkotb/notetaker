@@ -38,7 +38,7 @@ export default () => {
   }, [activeNote]);
 
   useEffect(() => {
-    // console.log(notes);
+    console.log(notes);
     const intervalId = setInterval(() => {
       const updateNotes = async () => {
         try {
@@ -53,6 +53,8 @@ export default () => {
             .collection("notes")
             .update(activeNote.record_id, data);
         } catch (error) {
+          console.log(notes);
+          console.log("Error while updating");
           console.log("Error: ", error);
         }
       };

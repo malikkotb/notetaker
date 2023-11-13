@@ -4,7 +4,7 @@ import useMyStore from "@/app/(store)/store";
 import { ModeToggle } from "./ModeToggle";
 
 
-export default function Editor({ toggleSidebar }) {
+export default function Editor({ toggleSidebar, loading }) {
   const { activeNote, notes} = useMyStore();
 
   return (
@@ -14,11 +14,12 @@ export default function Editor({ toggleSidebar }) {
           <button className="cursor-pointer" onClick={toggleSidebar}>
             <Menu />
           </button>
-          {/* {activeNote && (
-            <div>{notes[activeNote.index].title === "" ? "Untitled" : notes[activeNote.index].title}</div>
-          )} */}
-          {activeNote && (
-            <div>{activeNote.title === "" ? "Untitled" : activeNote.title}</div>
+          {loading ? (
+            <p className="">Loading...</p>
+          ) : (
+            activeNote && (
+              <div>{notes[activeNote.index].title === "" ? "Untitled" : notes[activeNote.index].title}</div>
+            )
           )}
         </div>
         <div className="">

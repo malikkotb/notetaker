@@ -21,8 +21,6 @@ const useMyStore = create((set) => ({
     set({ notes: data });
   },
 
-  addNewNote: (item) => set((state) => ({ notes: [...state.notes, item] })),
-
   updateNoteTitle: (noteIndex, newTitle) => {
     set((state) => {
       const updatedNotes = [...state.notes];

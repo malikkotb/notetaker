@@ -5,6 +5,8 @@ import { ChevronLast, ChevronFirst } from "lucide-react";
 import { useEffect, useState } from "react";
 import useMyStore from "./(store)/store";
 export default function Home() {
+  const [loading, setLoading] = useState(true);
+  
   const [sidebarVisible, setSidebarVisible] = useState(true);
   // const {fetchNotes} = useMyStore();
   useEffect(() => {
@@ -27,8 +29,8 @@ export default function Home() {
 
   return (
     <div className="flex m-0">
-      <Sidebar sidebarVisible={sidebarVisible} />
-      <Editor toggleSidebar={toggleSidebar} />
+      <Sidebar sidebarVisible={sidebarVisible} loading={loading} setLoading={setLoading} />
+      <Editor toggleSidebar={toggleSidebar} loading={loading}/>
     </div>
   );
 }
