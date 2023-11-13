@@ -29,22 +29,22 @@ export default function Sidebar({ sidebarVisible }) {
 
   const addNote = async () => {
     // update global notes
-    addNewNote({ title: "", content: "" });
+    // addNewNote({ title: "", content: "" });
+    setLoading(true)
     const pb = new PocketBase("http://127.0.0.1:8090");
 
-    // example create data
     const data = {
+      //TODO: change userid to loggedIn User
       userId: "malik",
-      title: "test",
-      content: "test",
+      title: "Untitled",
+      content: "",
     };
 
     const record = await pb.collection("notes").create(data);
-    // change activeNote to this newly added Note
-    console.log(notes);
+
     fetchNotes();
-    console.log(notes);
     updateActiveNote({ title: "", content: "", index: notes.length });
+    setLoading(false)
   };
 
   const handleClickNote = (note, index) => {

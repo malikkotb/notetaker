@@ -14,8 +14,11 @@ export default function Editor({ toggleSidebar }) {
           <button className="cursor-pointer" onClick={toggleSidebar}>
             <Menu />
           </button>
-          {activeNote && (
+          {/* {activeNote && (
             <div>{notes[activeNote.index].title === "" ? "Untitled" : notes[activeNote.index].title}</div>
+          )} */}
+          {activeNote && (
+            <div>{activeNote.title === "" ? "Untitled" : activeNote.title}</div>
           )}
         </div>
         <div className="">

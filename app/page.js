@@ -6,8 +6,9 @@ import { useEffect, useState } from "react";
 import useMyStore from "./(store)/store";
 export default function Home() {
   const [sidebarVisible, setSidebarVisible] = useState(true);
-  const {fetchNotes} = useMyStore();
+  // const {fetchNotes} = useMyStore();
   useEffect(() => {
+    // fetchNotes();
     const handleResize = () => {
       setSidebarVisible(window.innerWidth >= 768);
     };
@@ -19,10 +20,6 @@ export default function Home() {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
-
-  // useEffect(() => {
-  //   fetchNotes(); // fetchNotes on Mount 
-  // }, []);
 
   function toggleSidebar() {
     setSidebarVisible(!sidebarVisible);
