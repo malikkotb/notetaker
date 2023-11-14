@@ -1,7 +1,8 @@
 "use client";
+import { Toaster, toast } from 'sonner'
+
 import Sidebar from "../components/Sidebar";
 import Editor from "../components/Editor";
-import { ChevronLast, ChevronFirst } from "lucide-react";
 import { useEffect, useState } from "react";
 import useMyStore from "./(store)/store";
 export default function Home() {
@@ -26,6 +27,7 @@ export default function Home() {
   function toggleSidebar() {
     setSidebarVisible(!sidebarVisible);
   }
+
 
   return (
     <div className="flex m-0">

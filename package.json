@@ -40,6 +40,7 @@
     "react-hook-form": "^7.47.0",
     "react-icons": "^4.11.0",
     "sass": "^1.69.4",
+    "sonner": "^1.2.0",
     "tailwind-merge": "^2.0.0",
     "tailwindcss-animate": "^1.0.7",
     "zod": "^3.22.4",
