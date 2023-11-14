@@ -82,7 +82,7 @@ export default function Sidebar({ sidebarVisible, loading, setLoading }) {
       <Toaster position="top-right" richColors />
       <div
         className={`w-72 dark:bg-neutral-900 ${
-          sidebarVisible ? "flex" : "hidden"
+          sidebarVisible ? "flex sticky top-0" : "hidden"
         } p-4 h-screen flex-col justify-between border-r shadow-inner`}
       >
         <div className="flex flex-col">
@@ -97,7 +97,7 @@ export default function Sidebar({ sidebarVisible, loading, setLoading }) {
           </h3>
 
           {loading ? (
-            <p className="px-4">Loading...</p>
+            <p className="px-4 w-52">Loading...</p>
           ) : (
             notes.map((note, index) => (
               <Button
