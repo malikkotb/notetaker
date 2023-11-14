@@ -22,7 +22,7 @@ export default function Editor({ toggleSidebar, loading }) {
             )
           )} */}
         </div>
-        <div className="">
+        <div>
           <ModeToggle />
         </div>
       </div>

@@ -15,6 +15,9 @@ const CustomDocument = Document.extend({
 });
 
 export default () => {
+  //TODO: maybe (just a thought) use refs instead of state for headingValue and contentValue 
+  // cause this will just rerender the component every single time a character is typed
+  // which is literally horrible for performance
   const [headingValue, setHeadingValue] = useState("");
   const [contentValue, setContentValue] = useState("");
 

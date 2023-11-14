@@ -3912,7 +3912,7 @@ next@latest:
     postcss: ^8
     react: ^18
     react-dom: ^18
-    react-hook-form: ^7.47.0
+    react-hook-form: ^7.48.2
     react-icons: ^4.12.0
     sass: ^1.69.4
     sonner: ^1.2.0
@@ -4519,7 +4519,7 @@ next@latest:
   languageName: node
   linkType: hard
 
-"react-hook-form@npm:^7.47.0":
+"react-hook-form@npm:^7.48.2":
   version: 7.48.2
   resolution: "react-hook-form@npm:7.48.2"
   peerDependencies:
