@@ -10,6 +10,19 @@ export default function Sidebar({ sidebarVisible, loading, setLoading }) {
   const [contentReady, setContentReady] = useState(false);
 
   useEffect(() => {
+    if (loading === false) {
+      console.log("update acticeNote, as new note was added or deleted");
+      const note = notes[notes.length - 1];
+      updateActiveNote({
+          title: note.title,
+          content: note.content,
+          index: notes.length - 1,
+          record_id: note.id,
+        });
+      }
+  }, [notes.length])
+
+  useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
@@ -42,7 +55,6 @@ export default function Sidebar({ sidebarVisible, loading, setLoading }) {
       setLoading(false)
     }
     fetchNotes();
-    // updateActiveNote({ title: "", content: "", index: notes.length });
   };
 
   const handleClickNote = (note, index) => {
