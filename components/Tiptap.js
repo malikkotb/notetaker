@@ -38,7 +38,7 @@ export default () => {
   }, [activeNote]);
 
   useEffect(() => {
-    console.log(notes);
+    // console.log(notes);
     const intervalId = setInterval(() => {
       const updateNotes = async () => {
         try {
@@ -60,7 +60,7 @@ export default () => {
       };
 
       updateNotes();
-    }, 5000);
+    }, 3000);
 
     return () => clearInterval(intervalId);
   }, [contentValue, headingValue]);

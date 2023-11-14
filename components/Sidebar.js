@@ -33,12 +33,12 @@ export default function Sidebar({ sidebarVisible, loading, setLoading }) {
       //TODO: change userid to loggedIn User
       userId: "malik",
       title: "Untitled",
-      content: "<p></p>",
+      content: "",
     };
 
     const record = await pb.collection("notes").create(data);
     if (record) {
-      console.log("l´Loadng");
+      console.log("Data loaded");
       setLoading(false)
     }
     fetchNotes();
