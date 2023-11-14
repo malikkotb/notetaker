@@ -13,7 +13,7 @@ export default function Sidebar({ sidebarVisible, loading, setLoading }) {
 
   useEffect(() => {
     if (loading === false) {
-      console.log("update acticeNote, as new note was added or deleted");
+      console.log("update activeNote");
       const note = notes[notes.length - 1];
       updateActiveNote({
         title: note.title,
@@ -36,8 +36,8 @@ export default function Sidebar({ sidebarVisible, loading, setLoading }) {
         setContentReady(true);
       }
     };
-
     fetchData();
+    setTimeout(() => {}, 1000)
   }, []);
 
   const addNote = async () => {
@@ -69,12 +69,12 @@ export default function Sidebar({ sidebarVisible, loading, setLoading }) {
     });
   };
 
-  const deleteNote = async (note, index) => {
+  const handleDeleteNote = async (note) => {
     const pb = new PocketBase("http://127.0.0.1:8090");
     await pb.collection("notes").delete(note.id);
 
-
-    // toast.error("Note was deleted");
+    await fetchNotes(); // Fetch notes again after deleting a note
+    toast.error("Note was deleted");
   };
 
   return (
@@ -93,7 +93,7 @@ export default function Sidebar({ sidebarVisible, loading, setLoading }) {
             </div>
           </div>
           <h3 className="mb-2 px-4 text-lg font-semibold tracking-tight">
-            Notes
+            My Notes
           </h3>
 
           {loading ? (
@@ -110,7 +110,10 @@ export default function Sidebar({ sidebarVisible, loading, setLoading }) {
                   <div className="overflow-hidden">{contentReady && note.title}</div>
                   <button
                     className="z-10"
-                    onClick={() => handleDeleteNote(note, index)}
+                    onClick={(e) => {
+                      e.stopPropagation(); // Stop event propagation
+                      handleDeleteNote(note);
+                    }}
                   >
                     <Trash2 className="w-4 hover:text-red-500" />
                   </button>

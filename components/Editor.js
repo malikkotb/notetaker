@@ -14,13 +14,13 @@ export default function Editor({ toggleSidebar, loading }) {
           <button className="cursor-pointer" onClick={toggleSidebar}>
             <Menu />
           </button>
-          {loading ? (
+          {/* {loading ? (
             <p className="">Loading...</p>
           ) : (
             activeNote && (
               <div>{notes[activeNote.index].title === "" ? "Untitled" : notes[activeNote.index].title}</div>
             )
-          )}
+          )} */}
         </div>
         <div className="">
           <ModeToggle />
