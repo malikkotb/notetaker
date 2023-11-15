@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import pb from "../../app/(lib)/pocketbase";
 import { useForm } from "react-hook-form";
 import useLogout from "../../app/(hooks)/useLogout";
-
+import useLogin from "../../app/(hooks)/useLogin";
 const Spinner = (props) => {
   return (
     <svg
@@ -46,33 +46,15 @@ const GitHub = (props) => {
 };
 
 export function UserAuthForm({ className, ...props }) {
-  const [isLoading, setIsLoading] = useState(false);
   const logout = useLogout();
-  const { register, handleSubmit } = useForm();
+  const { login, isLoading } = useLogin();
+  const { register, handleSubmit, reset } = useForm();
   
   const isLoggedIn = pb.authStore.isValid;
 
-  async function onSubmit(event) {
-    event.preventDefault();
-    setIsLoading(true);
-
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 3000);
-  }
-
-  async function login(data) {
-    // the data is coming from react-hook-form
-    setIsLoading(true);
-    console.log(data);
-    try {
-      const authData = await pb
-        .collection("users")
-        .authWithPassword(data.email, data.password);
-    } catch (e) {
-      alert(e);
-    }
-    setIsLoading(false);
+  async function onSubmit(data) {
+    login({email: data.email, password: data.password})   
+    reset();
   }
 
   if (isLoggedIn) {
@@ -112,7 +94,7 @@ export function UserAuthForm({ className, ...props }) {
         </div>
       </form> */}
 
-      <form onSubmit={handleSubmit(login)}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div className="grid gap-2">
           <div className="grid gap-1">
             <Label className="sr-only" htmlFor="email">
