@@ -1,11 +1,10 @@
-"use client";
-
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
-import { useState } from "react";
-import pb from "../../app/(lib)/pocketbase"
+import { useEffect, useState } from "react";
+import pb from "../../app/(lib)/pocketbase";
+import { useForm } from "react-hook-form";
 
 const Spinner = (props) => {
   return (
@@ -47,6 +46,10 @@ const GitHub = (props) => {
 
 export function UserAuthForm({ className, ...props }) {
   const [isLoading, setIsLoading] = useState(false);
+  const [logOut, setLogOut] = useState(0);
+  const { register, handleSubmit } = useForm();
+  
+  const isLoggedIn = pb.authStore.isValid;
 
   async function onSubmit(event) {
     event.preventDefault();
@@ -57,17 +60,44 @@ export function UserAuthForm({ className, ...props }) {
     }, 3000);
   }
 
+  async function login(data) {
+    // the data is coming from react-hook-form
+    setIsLoading(true);
+    console.log(data);
+    try {
+      const authData = await pb
+        .collection("users")
+        .authWithPassword(data.email, data.password);
+    } catch (e) {
+      alert(e);
+    }
+    setIsLoading(false);
+  }
+
+  function logout() {
+    pb.authStore.clear();
+    setLogOut(Math.random()) // change dummy state to force a re-render
+  }
+
+  if (isLoggedIn) {
+    return (
+      <>
+        <h1 suppressHydrationWarning>Logged In: {pb.authStore.model.email}</h1>
+        <button onClick={() => logout()}>Logout</button>
+      </>
+    );
+  }
+
   return (
     <div className={cn("grid gap-6", className)} {...props}>
-      <form onSubmit={onSubmit}>
+      {/* <form onSubmit={onSubmit}>
         <div className="grid gap-2">
           <div className="grid gap-1">
             <Label className="sr-only" htmlFor="email">
               Email
             </Label>
-            <div>
+            <div suppressHydrationWarning>
               {pb.authStore.isValid.toString()}
-              {pb.authStore.isAdmin.toString()}
             </div>
             <Input
               id="email"
@@ -84,7 +114,39 @@ export function UserAuthForm({ className, ...props }) {
             Sign In with Email
           </Button>
         </div>
+      </form> */}
+
+      <form onSubmit={handleSubmit(login)}>
+        <div className="grid gap-2">
+          <div className="grid gap-1">
+            <Label className="sr-only" htmlFor="email">
+              Email
+            </Label>
+            <Input
+              id="email"
+              placeholder="name@example.com"
+              type="email"
+              autoCapitalize="none"
+              autoComplete="email"
+              autoCorrect="off"
+              disabled={isLoading}
+              {...register("email")}
+            />
+            <Input
+              id="password"
+              placeholder="Password"
+              type="password"
+              disabled={isLoading}
+              {...register("password")}
+            />
+          </div>
+          <Button disabled={isLoading}>
+            {isLoading && <Spinner className="mr-2 h-4 w-4 animate-spin" />}
+            Sign In with Email
+          </Button>
+        </div>
       </form>
+
       <div className="relative">
         <div className="absolute inset-0 flex items-center">
           <span className="w-full border-t" />
