@@ -5,6 +5,7 @@ import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { useState } from "react";
+import pb from "../../app/(lib)/pocketbase"
 
 const Spinner = (props) => {
   return (
@@ -64,6 +65,10 @@ export function UserAuthForm({ className, ...props }) {
             <Label className="sr-only" htmlFor="email">
               Email
             </Label>
+            <div>
+              {pb.authStore.isValid.toString()}
+              {pb.authStore.isAdmin.toString()}
+            </div>
             <Input
               id="email"
               placeholder="name@example.com"

@@ -4,3 +4,4 @@ node_modules
 pocketbase
 pocketbase/pb_data/
 .env
+.env*.local

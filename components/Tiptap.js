@@ -7,7 +7,7 @@ import useMyStore from "../app/(store)/store";
 import { useEffect, useState } from "react";
 import Placeholder from "@tiptap/extension-placeholder";
 import Document from "@tiptap/extension-document";
-import PocketBase from "pocketbase";
+import pb from "../app/(lib)/pocketbase"
 import MenuBar from "./MenuBar";
 
 const CustomDocument = Document.extend({
@@ -45,7 +45,6 @@ export default () => {
     const intervalId = setInterval(() => {
       const updateNotes = async () => {
         try {
-          const pb = new PocketBase("http://127.0.0.1:8090");
           // TODO: Add checks to ensure that the note is added only for the logged-in user
           const data = {
             ...notes[activeNote.index],

@@ -1,13 +1,13 @@
 import { create } from "zustand";
-import PocketBase from "pocketbase";
+import pb from "../(lib)/pocketbase"
 const useMyStore = create((set) => ({
   activeNote: null,
 
   // Client-Side Data Fetching using Pocketbase:
   notes: [], 
   fetchNotes: async () => {
-    const pb = new PocketBase("http://127.0.0.1:8090");
-    // const authData = await pb.admins.authWithPassword(process.env.ADMIN_EMAIL, process.env.ADMIN_PW);
+    // const authData = await pb.admins.authWithPassword(process.env.NEXT_PUBLIC_ADMIN_EMAIL, process.env.NEXT_PUBLIC_ADMIN_PW);
+    pb.authStore.clear();
     const data = (await pb.collection("notes").getList(1, 50)).items;
     const notesFromDb = [];
     for (const element of data) {

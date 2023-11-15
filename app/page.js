@@ -1,10 +1,7 @@
 "use client";
-import { Toaster, toast } from "sonner";
-
 import Sidebar from "../components/Sidebar";
 import Editor from "../components/Editor";
 import { useEffect, useState } from "react";
-import useMyStore from "./(store)/store";
 import Login from "../components/authentication/Login";
 export default function Home() {
   const [loggedIn, setLoggedIn] = useState(true);
@@ -14,6 +11,7 @@ export default function Home() {
   // const {fetchNotes} = useMyStore();
   useEffect(() => {
     // fetchNotes();
+
     const handleResize = () => {
       setSidebarVisible(window.innerWidth >= 768);
     };
