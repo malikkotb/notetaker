@@ -5,6 +5,7 @@ import { Label } from "../ui/label";
 import { useEffect, useState } from "react";
 import pb from "../../app/(lib)/pocketbase";
 import { useForm } from "react-hook-form";
+import useLogout from "../../app/(hooks)/useLogout";
 
 const Spinner = (props) => {
   return (
@@ -46,7 +47,7 @@ const GitHub = (props) => {
 
 export function UserAuthForm({ className, ...props }) {
   const [isLoading, setIsLoading] = useState(false);
-  const [logOut, setLogOut] = useState(0);
+  const logout = useLogout();
   const { register, handleSubmit } = useForm();
   
   const isLoggedIn = pb.authStore.isValid;
@@ -72,11 +73,6 @@ export function UserAuthForm({ className, ...props }) {
       alert(e);
     }
     setIsLoading(false);
-  }
-
-  function logout() {
-    pb.authStore.clear();
-    setLogOut(Math.random()) // change dummy state to force a re-render
   }
 
   if (isLoggedIn) {
