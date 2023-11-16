@@ -1,17 +1,15 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "../components/ThemeProvider";
-import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+import { ReactQueryProvider } from "./ReactQueryProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
-const queryClient = new QueryClient()
-
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body suppressHydrationWarning className={inter.className}>
-        <QueryClientProvider client={queryClient}>
+    <ReactQueryProvider>
+      <html lang="en" suppressHydrationWarning>
+        <body suppressHydrationWarning className={inter.className}>
           <ThemeProvider
             attribute="class"
             defaultTheme="system"
@@ -20,8 +18,8 @@ export default function RootLayout({ children }) {
           >
             {children}
           </ThemeProvider>
-        </QueryClientProvider>
-      </body>
-    </html>
+        </body>
+      </html>
+    </ReactQueryProvider>
   );
 }
