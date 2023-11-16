@@ -1,4 +1,3 @@
-import { useState } from "react";
 import pb from "../(lib)/pocketbase";
 import { useMutation } from "@tanstack/react-query";
 // useMutation hook takes in mutationFn as 1st argument
@@ -19,5 +18,5 @@ export default function useLogin() {
     // }, 3000);
   }
 
-  return useMutation(login);
+  return useMutation({mutationFn: login}); // returned function in component where you use this hook is called "mutate"
 }
