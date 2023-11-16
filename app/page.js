@@ -3,15 +3,12 @@ import Sidebar from "../components/Sidebar";
 import Editor from "../components/Editor";
 import { useEffect, useState } from "react";
 import Login from "../components/authentication/Login";
+import useMyStore from "./(store)/store";
 export default function Home() {
-  const [loggedIn, setLoggedIn] = useState(true);
   const [loading, setLoading] = useState(true);
-
+  const { authenticated } = useMyStore();
   const [sidebarVisible, setSidebarVisible] = useState(true);
-  // const {fetchNotes} = useMyStore();
   useEffect(() => {
-    // fetchNotes();
-
     const handleResize = () => {
       setSidebarVisible(window.innerWidth >= 768);
     };
@@ -30,8 +27,8 @@ export default function Home() {
 
   return (
     <>
-      {loggedIn ? (
-        <Login setLoggedIn={setLoggedIn} />
+      {!authenticated ? (
+        <Login />
       ) : (
         <div className="flex m-0">
           <Sidebar

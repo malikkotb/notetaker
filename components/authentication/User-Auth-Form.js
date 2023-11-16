@@ -1,3 +1,4 @@
+"use client";
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
@@ -8,6 +9,7 @@ import { useForm } from "react-hook-form";
 import useLogout from "../../app/(hooks)/useLogout";
 import useLogin from "../../app/(hooks)/useLogin";
 import { Toaster, toast } from "sonner";
+import useMyStore from "../../app/(store)/store";
 
 const Spinner = (props) => {
   return (
@@ -51,19 +53,24 @@ export function UserAuthForm({ className, ...props }) {
   const logout = useLogout();
   const { mutate, isLoading, isError, error, isSuccess } = useLogin();
   const { register, handleSubmit, reset } = useForm();
-
+  const { authenticated, toggleAuthenticated } = useMyStore();
   useEffect(() => {
     if (isSuccess) {
-      toast.success("Login successful");
+      toggleAuthenticated();
     } else if (isError) {
       toast.error("Login failed");
     }
   }, [isSuccess, isError]);
 
   useEffect(() => {
-    logout();
-    console.log("logout on Mount");
-  }, [])
+    if (typeof window !== "undefined") {
+      // Client-side code here
+      logout();
+      console.log("logout on Mount");
+    }
+  }, []);
+
+  //TODO: add a transition between logging in and displaying the editor
 
   const isLoggedIn = pb.authStore.isValid;
 
@@ -72,18 +79,23 @@ export function UserAuthForm({ className, ...props }) {
     reset();
   }
 
-  // There is an error (hydration error) when I login successfully and then refresh the page
+  // There is an error (hydration error) if you login successfully and then refresh the page
+  // this occurs because you will be still logged in in the backend
+  // but the jsx that is rendered is the one for when the user is not logged in
 
-  if (isLoggedIn) {
-    return (
-      <div>
-      {/* suppressHydartionWarning h1 */}
-        <Toaster position="bottom-right" richColors />
-        <h1 suppressHydrationWarning>Logged In: {pb.authStore.model.email}</h1>
-        <button onClick={() => logout()}>Logout</button>
-      </div>
-    );
-  }
+  // Initial State on the Server: If you're fetching data during the initial rendering, make
+  // sure that the server sends the same data that the client expects.
+  // Mismatched data can cause hydration issues.
+
+  // if (isLoggedIn) {
+  //   return (
+  //     <div>
+  //       <Toaster position="bottom-right" richColors />
+  //       <h1 suppressHydrationWarning>Logged In: {pb.authStore.model.email}</h1>
+  //       <button onClick={() => logout()}>Logout</button>
+  //     </div>
+  //   );
+  // }
 
   return (
     <div>

@@ -2,7 +2,8 @@ import { create } from "zustand";
 import pb from "../(lib)/pocketbase"
 const useMyStore = create((set) => ({
   activeNote: null,
-
+  authenticated: false,
+  toggleAuthenticated: () => set((state) => ({ authenticated: !state.authenticated })),
   // Client-Side Data Fetching using Pocketbase:
   notes: [], 
   fetchNotes: async () => {

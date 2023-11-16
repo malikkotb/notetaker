@@ -55,7 +55,6 @@ export default () => {
             .collection("notes")
             .update(activeNote.record_id, data);
         } catch (error) {
-          // console.log(notes);
           console.log("Error while updating");
           console.log("Error: ", error);
         }
