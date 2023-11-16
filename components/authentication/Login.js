@@ -12,7 +12,7 @@ export default function AuthenticationPage() {
     <>
       <div className="container relative hidden h-screen flex-col items-center justify-center sm:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
         <div className="absolute flex right-4 top-4 md:right-8 md:top-8">
-          <Link
+          {/* <Link
             href="/"
             className={cn(
               buttonVariants({ variant: "ghost" })
@@ -20,7 +20,7 @@ export default function AuthenticationPage() {
             )}
           >
             Login
-          </Link>
+          </Link> */}
           <ModeToggle />
         </div>
 

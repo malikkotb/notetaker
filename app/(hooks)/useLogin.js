@@ -13,10 +13,8 @@ export default function useLogin() {
     const authData = await pb
       .collection("users")
       .authWithPassword(email, password);
-    // setTimeout(() => {
-    //   setIsLoading(false);
-    // }, 3000);
+    setTimeout(() => {}, 2000);
   }
 
-  return useMutation({mutationFn: login}); // returned function in component where you use this hook is called "mutate"
+  return useMutation({ mutationFn: login }); // returned function in component where you use this hook is called "mutate"
 }

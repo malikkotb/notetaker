@@ -7,6 +7,8 @@ import pb from "../../app/(lib)/pocketbase";
 import { useForm } from "react-hook-form";
 import useLogout from "../../app/(hooks)/useLogout";
 import useLogin from "../../app/(hooks)/useLogin";
+import { Toaster, toast } from "sonner";
+
 const Spinner = (props) => {
   return (
     <svg
@@ -47,83 +49,102 @@ const GitHub = (props) => {
 
 export function UserAuthForm({ className, ...props }) {
   const logout = useLogout();
-  const { mutate, isLoading, isError, error } = useLogin();
+  const { mutate, isLoading, isError, error, isSuccess } = useLogin();
   const { register, handleSubmit, reset } = useForm();
-  
-  // useEffect(() => {
-  //   console.log(useLogin().mutate);
-  // }, [])
+
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success("Login successful");
+    } else if (isError) {
+      toast.error("Login failed");
+    }
+  }, [isSuccess, isError]);
+
+  useEffect(() => {
+    logout();
+    console.log("logout on Mount");
+  }, [])
 
   const isLoggedIn = pb.authStore.isValid;
 
   async function onSubmit(data) {
-    mutate({email: data.email, password: data.password}) // mutate is basically the login function in the useLogin hook
+    mutate({ email: data.email, password: data.password }); // mutate is basically the login function in the useLogin hook
     reset();
   }
 
+  // There is an error (hydration error) when I login successfully and then refresh the page
+
   if (isLoggedIn) {
     return (
-      <>
+      <div>
+      {/* suppressHydartionWarning h1 */}
+        <Toaster position="bottom-right" richColors />
         <h1 suppressHydrationWarning>Logged In: {pb.authStore.model.email}</h1>
         <button onClick={() => logout()}>Logout</button>
-      </>
+      </div>
     );
   }
 
   return (
-    <div className={cn("grid gap-6", className)} {...props}>
-        <h1 suppressHydrationWarning>Logged In: {pb.authStore.isValid.toString()} {pb.authStore.isValid && pb.authStore.model.email}</h1>
-
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="grid gap-2">
-          <div className="grid gap-1">
-            <Label className="sr-only" htmlFor="email">
-              Email
-            </Label>
-            <Input
-              id="email"
-              placeholder="name@example.com"
-              type="email"
-              autoCapitalize="none"
-              autoComplete="email"
-              autoCorrect="off"
-              disabled={isLoading}
-              {...register("email")}
-            />
-            <Input
-              id="password"
-              placeholder="Password"
-              type="password"
-              disabled={isLoading}
-              {...register("password")}
-            />
+    <div>
+      <Toaster position="bottom-right" richColors />
+      <div className={cn("grid gap-6", className)} {...props}>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="grid gap-2">
+            <div className="grid gap-1">
+              <Label className="sr-only" htmlFor="email">
+                Email
+              </Label>
+              <Input
+                id="email"
+                placeholder="name@example.com"
+                type="email"
+                autoCapitalize="none"
+                autoComplete="email"
+                autoCorrect="off"
+                disabled={isLoading}
+                {...register("email")}
+              />
+              <Input
+                id="password"
+                placeholder="Password"
+                type="password"
+                disabled={isLoading}
+                {...register("password")}
+              />
+            </div>
+            {isError && (
+              <p className="text-xs text-red-500">
+                Invalid email or password. Error: {error.message}
+              </p>
+            )}
+            <Button disabled={isLoading}>
+              {isLoading && <Spinner className="mr-2 h-4 w-4 animate-spin" />}
+              Sign In with Email
+            </Button>
           </div>
-          {isError && <p className="text-xs text-red-500">Invalid email or password.
-          Error: {error.message}</p>}
-          <Button disabled={isLoading}>
-            {isLoading && <Spinner className="mr-2 h-4 w-4 animate-spin" />}
-            Sign In with Email
-          </Button>
-        </div>
-      </form>
+        </form>
 
-      <div className="relative">
-        <div className="absolute inset-0 flex items-center">
-          <span className="w-full border-t" />
+        <div className="relative">
+          <div className="absolute inset-0 flex items-center">
+            <span className="w-full border-t" />
+          </div>
+          <div className="relative flex justify-center text-xs uppercase">
+            <span className="bg-white dark:bg-black px-2">
+              Or continue with
+            </span>
+          </div>
         </div>
-        <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-white dark:bg-black px-2">Or continue with</span>
-        </div>
+
+        <Button variant="outline" type="button" disabled={isLoading}>
+          {isLoading ? (
+            <Spinner className="mr-2 h-4 w-4 animate-spin" />
+          ) : (
+            <GitHub className="mr-2 h-4 w-4" />
+          )}{" "}
+          Github
+        </Button>
       </div>
-
-      <Button variant="outline" type="button" disabled={isLoading}>
-        {isLoading ? (
-          <Spinner className="mr-2 h-4 w-4 animate-spin" />
-        ) : (
-          <GitHub className="mr-2 h-4 w-4" />
-        )}{" "}
-        Github
-      </Button>
     </div>
   );
 }

@@ -7,7 +7,6 @@ const useMyStore = create((set) => ({
   notes: [], 
   fetchNotes: async () => {
     // const authData = await pb.admins.authWithPassword(process.env.NEXT_PUBLIC_ADMIN_EMAIL, process.env.NEXT_PUBLIC_ADMIN_PW);
-    pb.authStore.clear();
     const data = (await pb.collection("notes").getList(1, 50)).items;
     const notesFromDb = [];
     for (const element of data) {
