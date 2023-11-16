@@ -47,13 +47,13 @@ const GitHub = (props) => {
 
 export function UserAuthForm({ className, ...props }) {
   const logout = useLogout();
-  const { login, isLoading } = useLogin();
+  const { mutate, isLoading, isError } = useLogin();
   const { register, handleSubmit, reset } = useForm();
   
   const isLoggedIn = pb.authStore.isValid;
 
   async function onSubmit(data) {
-    login({email: data.email, password: data.password})   
+    mutate({email: data.email, password: data.password}) // mutate is basically the login function in the useLogin hook
     reset();
   }
 
@@ -68,32 +68,7 @@ export function UserAuthForm({ className, ...props }) {
 
   return (
     <div className={cn("grid gap-6", className)} {...props}>
-      {/* <form onSubmit={onSubmit}>
-        <div className="grid gap-2">
-          <div className="grid gap-1">
-            <Label className="sr-only" htmlFor="email">
-              Email
-            </Label>
-            <div suppressHydrationWarning>
-              {pb.authStore.isValid.toString()}
-            </div>
-            <Input
-              id="email"
-              placeholder="name@example.com"
-              type="email"
-              autoCapitalize="none"
-              autoComplete="email"
-              autoCorrect="off"
-              disabled={isLoading}
-            />
-          </div>
-          <Button disabled={isLoading}>
-            {isLoading && <Spinner className="mr-2 h-4 w-4 animate-spin" />}
-            Sign In with Email
-          </Button>
-        </div>
-      </form> */}
-
+      {isError && <p className="bg-red-500">Invalid email or password</p>}
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="grid gap-2">
           <div className="grid gap-1">
