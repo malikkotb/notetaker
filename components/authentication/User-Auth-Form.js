@@ -71,6 +71,9 @@ export function UserAuthForm({ className, ...props }) {
   }, []);
 
   //TODO: add a transition between logging in and displaying the editor
+  //TODO: maybe switch from rendering in the same component
+  // to using different urls 
+  // so one for Home and one /login
 
   const isLoggedIn = pb.authStore.isValid;
 
