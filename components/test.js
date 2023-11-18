@@ -15,50 +15,6 @@ import { Spinner } from "../icons/Spinner";
 import { RiGoogleLine } from "react-icons/ri";
 
 export function UserAuthForm({ className, ...props }) {
-  const logout = useLogout();
-  const { mutate, isLoading, isError, error, isSuccess } = useLogin();
-  const { register, handleSubmit, reset } = useForm();
-  const { authenticated, toggleAuthenticated } = useMyStore();
-  useEffect(() => {
-    if (isSuccess) {
-      toggleAuthenticated();
-    } else if (isError) {
-      toast.error("Login failed");
-    }
-  }, [isSuccess, isError]);
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      // Client-side code here
-      logout();
-      console.log("logout on Mount");
-    }
-  }, []);
-
-  // const isLoggedIn = pb.authStore.isValid;
-
-  async function onSubmit(data) {
-    mutate({ email: data.email, password: data.password }); // mutate is basically the login function in the useLogin hook
-    reset();
-  }
-
-  // There is an error (hydration error) if you login successfully and then refresh the page
-  // this occurs because you will be still logged in in the backend
-  // but the jsx that is rendered is the one for when the user is not logged in
-
-  // Initial State on the Server: If you're fetching data during the initial rendering, make
-  // sure that the server sends the same data that the client expects.
-  // Mismatched data can cause hydration issues.
-
-  // if (isLoggedIn) {
-  //   return (
-  //     <div>
-  //       <Toaster position="bottom-right" richColors />
-  //       <h1 suppressHydrationWarning>Logged In: {pb.authStore.model.email}</h1>
-  //       <button onClick={() => logout()}>Logout</button>
-  //     </div>
-  //   );
-  // }
 
   return (
     <div>
@@ -99,6 +55,8 @@ export function UserAuthForm({ className, ...props }) {
             </Button>
           </div>
         </form>
+
+        
 
         <div className="relative">
           <div className="absolute inset-0 flex items-center">

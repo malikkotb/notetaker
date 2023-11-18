@@ -1,57 +1,92 @@
-"use client"
-
-import { Button } from "./ui/button"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from ".//ui/card"
-import { Input } from "./ui/input"
-import { Label } from "./ui/label"
+"use client";
+import pb from "../app/(lib)/pocketbase";
+import { useState } from "react";
+import { Button } from "./ui/button";
+import { Input } from "./ui/input";
+import { Label } from "./ui/label";
+import { useForm } from "react-hook-form";
 
 export function CreateAccount() {
+  // TODO: add toaster: "Account created!"
+
+  //TODO: create useCreateAccount hook
+
+  const { register, handleSubmit, reset } = useForm();
+
+  async function onSubmitLogin(data) {
+    mutate({ email: data.email, password: data.password });
+    reset();
+  }
+
+  // async function onSubmitCreateAccount(data) {
+  //   // Implement account creation logic here
+  //   // You can use a different mutation function or API endpoint for creating an account
+  //   // Example: createUser({ email: data.email, password: data.password });
+
+  // }
+
+  async function onSubmitCreateAccount() {
+    // example create data
+    const data = {
+      username: "test_username",
+      email: "test@example.com",
+      emailVisibility: true,
+      password: "12345678",
+      passwordConfirm: "12345678"
+    };
+
+    const record = await pb.collection("users").create(data);
+
+    // (optional) send an email verification request
+    // await pb.collection("users").requestVerification("test@example.com");
+    reset(); // reset form
+  }
+
+  const [isLoading, setIsLoading] = useState(false);
   return (
-    <Card>
-      <CardHeader className="space-y-1">
-        <CardTitle className="text-2xl">Create an account</CardTitle>
-        <CardDescription>
-          Enter your email below to create your account
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="grid gap-4">
-        <div className="grid grid-cols-2 gap-6">
-          <Button variant="outline">
-            Github
-          </Button>
-          <Button variant="outline">
-            Google
-          </Button>
+    <form onSubmit={handleSubmit(onSubmitCreateAccount)}>
+      <div className="grid gap-2">
+        {/* Additional fields for account creation, e.g., confirm password, etc. */}
+        <div className="grid gap-1">
+          <Label className="sr-only" htmlFor="newEmail">
+            New Email
+          </Label>
+          <Input
+            id="email"
+            placeholder="name@example.com"
+            type="email"
+            autoCapitalize="none"
+            autoComplete="email"
+            autoCorrect="off"
+            disabled={isLoading}
+            {...register("email")}
+          />
+          <Input
+            id="password"
+            placeholder="Password"
+            type="password"
+            disabled={isLoading}
+            {...register("password")}
+          />
+          <Input
+            id="confirmPassword"
+            placeholder="Repeat password"
+            type="password"
+            disabled={isLoading}
+            {...register("passwordConfirm")}
+          />
         </div>
-        <div className="relative">
-          <div className="absolute inset-0 flex items-center">
-            <span className="w-full border-t" />
-          </div>
-          <div className="relative flex justify-center text-xs uppercase">
-            <span className="bg-background px-2 text-muted-foreground">
-              Or continue with
-            </span>
-          </div>
-        </div>
-        <div className="grid gap-2">
-          <Label htmlFor="email">Email</Label>
-          <Input id="email" type="email" placeholder="m@example.com" />
-        </div>
-        <div className="grid gap-2">
-          <Label htmlFor="password">Password</Label>
-          <Input id="password" type="password" />
-        </div>
-      </CardContent>
-      <CardFooter>
-        <Button className="w-full">Create account</Button>
-      </CardFooter>
-    </Card>
-  )
+        {/* Display error message for account creation */}
+        {/* {isError && (
+          <p className="text-xs text-red-500">
+            Account creation failed. Error: {error.message}
+          </p>
+        )} */}
+        <Button disabled={isLoading}>
+          {isLoading && <Spinner className="mr-2 h-4 w-4 animate-spin" />}
+          Create Account
+        </Button>
+      </div>
+    </form>
+  );
 }

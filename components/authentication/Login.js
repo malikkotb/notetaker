@@ -53,10 +53,10 @@ export default function AuthenticationPage() {
                 {create ? "Create an account" : "Login"}
               </h1>
               <p className="text-sm text-zinc-400">
-                Enter your email and password below to {create ? "create an account" : "login"}
+                Enter your details below to {create ? "create an account" : "login"}
               </p>
             </div>
-            {create ? (<CreateAccount />) : (<UserAuthForm />)}
+            <UserAuthForm create={create} />
             <p className="px-8 text-center text-sm text-zinc-400">
               By clicking continue, you agree to our{" "}
               <Link
