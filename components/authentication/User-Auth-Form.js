@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import useLogout from "../../app/(hooks)/useLogout";
 import useLogin from "../../app/(hooks)/useLogin";
@@ -19,6 +19,7 @@ export function UserAuthForm({ className, create, ...props }) {
   const { mutate, isLoading, isError, error, isSuccess } = useLogin();
   const { register, handleSubmit, reset } = useForm();
   const { authenticated, toggleAuthenticated } = useMyStore();
+
   useEffect(() => {
     if (isSuccess) {
       toggleAuthenticated();
@@ -34,6 +35,7 @@ export function UserAuthForm({ className, create, ...props }) {
       console.log("logout on Mount");
     }
   }, []);
+
 
   // const isLoggedIn = pb.authStore.isValid;
 
