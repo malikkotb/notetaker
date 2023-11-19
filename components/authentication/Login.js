@@ -1,4 +1,3 @@
-import { CreateAccount } from "../CreateAccount";
 
 import { PiNotebookLight } from "react-icons/pi";
 import Link from "next/link";

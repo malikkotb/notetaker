@@ -3,13 +3,14 @@ import { useState, useEffect } from "react";
 import { Plus } from "lucide-react";
 import useMyStore from "../app/(store)/store";
 import { Button } from "../components/ui/button";
-import pb from "../app/(lib)/pocketbase"
+import pb from "../app/(lib)/pocketbase";
 import { Trash2 } from "lucide-react";
 import { Toaster, toast } from "sonner";
 import Link from "next/link";
 
 export default function Sidebar({ sidebarVisible, loading, setLoading }) {
   const { updateActiveNote, notes, fetchNotes } = useMyStore();
+  const [searchTerm, setSearchTerm] = useState("");
   const [contentReady, setContentReady] = useState(false);
 
   useEffect(() => {
@@ -59,6 +60,14 @@ export default function Sidebar({ sidebarVisible, loading, setLoading }) {
     fetchNotes();
   };
 
+  const handleSearch = (e) => {
+    const searchTermLowerCase = e.target.value.toLowerCase();
+    const result = notes.filter((note) =>
+      note.title.toLowerCase().includes(searchTermLowerCase)
+    );
+    setSearchTerm(e.target.value);
+  };
+
   const handleClickNote = (note, index) => {
     updateActiveNote({
       title: note.title,
@@ -69,7 +78,6 @@ export default function Sidebar({ sidebarVisible, loading, setLoading }) {
   };
 
   const handleDeleteNote = async (note) => {
-
     await pb.collection("notes").delete(note.id);
 
     await fetchNotes(); // Fetch notes again after deleting a note
@@ -94,35 +102,45 @@ export default function Sidebar({ sidebarVisible, loading, setLoading }) {
           <h3 className="mb-2 px-4 text-lg font-semibold tracking-tight">
             My Notes
           </h3>
-
+          <input
+            className="px-4 my-2"
+            type="text"
+            placeholder="Search..."
+            value={searchTerm}
+            onChange={handleSearch}
+          />
           {loading ? (
             <p className="px-4 w-52">Loading...</p>
           ) : (
-            notes.map((note, index) => (
-              <Button
-                onClick={() => handleClickNote(note, index)}
-                className={`w-52 overflow-hidden justify-start font-normal`}
-                variant="ghost"
-                key={index}
-              >
-                <div className="items-center w-full flex justify-between">
-                  <div className="overflow-hidden">
-                    {contentReady && note.title}
-                  </div>
-                  <Link
-                    href="/"
-                    onClick={(e) => {
-                      e.stopPropagation(); // Stop event propagation
-                      handleDeleteNote(note);
-                    }}
-                    // className={cn(
-                    //   buttonVariants({ variant: "ghost" })
-                    //   // "absolute right-4 top-4 md:right-8 md:top-8"
-                    // )}
-                  >
-                    <Trash2 className="w-4 hover:text-red-500" />
-                  </Link>
-                  {/* <button
+            notes
+              .filter((note) =>
+                note.title.toLowerCase().includes(searchTerm.toLowerCase())
+              )
+              .map((note, index) => (
+                <Button
+                  onClick={() => handleClickNote(note, index)}
+                  className={`w-52 overflow-hidden justify-start font-normal`}
+                  variant="ghost"
+                  key={index}
+                >
+                  <div className="items-center w-full flex justify-between">
+                    <div className="overflow-hidden">
+                      {contentReady && note.title}
+                    </div>
+                    <Link
+                      href="/"
+                      onClick={(e) => {
+                        e.stopPropagation(); // Stop event propagation
+                        handleDeleteNote(note);
+                      }}
+                      // className={cn(
+                      //   buttonVariants({ variant: "ghost" })
+                      //   // "absolute right-4 top-4 md:right-8 md:top-8"
+                      // )}
+                    >
+                      <Trash2 className="w-4 hover:text-red-500" />
+                    </Link>
+                    {/* <button
                     className="z-10"
                     onClick={(e) => {
                       e.stopPropagation(); // Stop event propagation
@@ -131,12 +149,12 @@ export default function Sidebar({ sidebarVisible, loading, setLoading }) {
                   >
                     <Trash2 className="w-4 hover:text-red-500" />
                   </button> */}
-                </div>
-              </Button>
-            ))
+                  </div>
+                </Button>
+              ))
           )}
         </div>
-        <div>Username</div>
+        <div>{pb.authStore.model.email}</div>
       </div>
     </>
   );
