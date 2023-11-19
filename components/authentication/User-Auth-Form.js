@@ -17,7 +17,7 @@ import { CreateAccount } from "../CreateAccount";
 export function UserAuthForm({ className, create, ...props }) {
   const logout = useLogout();
   const { mutate, isLoading, isError, error, isSuccess } = useLogin();
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit, reset, formState } = useForm();
   const { authenticated, toggleAuthenticated } = useMyStore();
 
   useEffect(() => {
@@ -84,14 +84,14 @@ export function UserAuthForm({ className, create, ...props }) {
                   autoComplete="email"
                   autoCorrect="off"
                   disabled={isLoading}
-                  {...register("email")}
+                  {...register("email", { required: true })}
                 />
                 <Input
                   id="password"
                   placeholder="Password"
                   type="password"
                   disabled={isLoading}
-                  {...register("password")}
+                  {...register("password", { required: true })}
                 />
               </div>
               {isError && (
@@ -99,7 +99,7 @@ export function UserAuthForm({ className, create, ...props }) {
                   Invalid email or password. Error: {error.message}
                 </p>
               )}
-              <Button disabled={isLoading}>
+              <Button disabled={isLoading || !formState.isValid}>
                 {isLoading && <Spinner className="mr-2 h-4 w-4 animate-spin" />}
                 Sign In with Email
               </Button>

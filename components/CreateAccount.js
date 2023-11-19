@@ -2,21 +2,20 @@
 import { forwardRef, useEffect } from "react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
-import { Label } from "./ui/label";
 import { useForm } from "react-hook-form";
 import useCreateAcc from "@/app/(hooks)/useCreateAcc";
 import { toast, Toaster } from "sonner";
 
 export const CreateAccount = forwardRef(() => {
   const { mutate, isLoading, isError, error, isSuccess } = useCreateAcc();
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit, reset, formState } = useForm();
 
   async function onSubmitCreateAccount(data) {
     mutate({
       email: data.email,
       password: data.password,
       passwordConfirm: data.passwordConfirm,
-    }); // mutate is basically the login function in the useLogin hook
+    }); 
     reset(); // reset form
   }
 
@@ -35,9 +34,6 @@ export const CreateAccount = forwardRef(() => {
         <div className="grid gap-2">
           {/* Additional fields for account creation, e.g., confirm password, etc. */}
           <div className="grid gap-1">
-            <Label className="sr-only" htmlFor="newEmail">
-              New Email
-            </Label>
             <Input
               id="email"
               placeholder="name@example.com"
@@ -46,21 +42,22 @@ export const CreateAccount = forwardRef(() => {
               autoComplete="email"
               autoCorrect="off"
               disabled={isLoading}
-              {...register("email")}
+              {...register("email", { required: true })}
             />
             <Input
               id="password"
               placeholder="Password"
               type="password"
               disabled={isLoading}
-              {...register("password")}
+              {...register("password", { required: true, minLength: 5 })}
+
             />
             <Input
               id="confirmPassword"
               placeholder="Repeat Password"
               type="password"
               disabled={isLoading}
-              {...register("passwordConfirm")}
+              {...register("passwordConfirm", { required: true, minLength: 5 })}
             />
           </div>
           {/* Display error message for account creation */}
@@ -69,7 +66,7 @@ export const CreateAccount = forwardRef(() => {
               Account creation failed. Error: {error.message}
             </p>
           )}
-          <Button disabled={isLoading}>
+          <Button disabled={isLoading || !formState.isValid}>
             {isLoading && <Spinner className="mr-2 h-4 w-4 animate-spin" />}
             Create Account
           </Button>
