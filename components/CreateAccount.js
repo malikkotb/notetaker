@@ -50,7 +50,6 @@ export const CreateAccount = forwardRef(() => {
               type="password"
               disabled={isLoading}
               {...register("password", { required: true, minLength: 5 })}
-
             />
             <Input
               id="confirmPassword"

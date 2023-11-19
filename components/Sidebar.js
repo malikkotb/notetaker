@@ -7,9 +7,10 @@ import pb from "../app/(lib)/pocketbase";
 import { Trash2 } from "lucide-react";
 import { Toaster, toast } from "sonner";
 import Link from "next/link";
+import { Input } from "./ui/input";
 
 export default function Sidebar({ sidebarVisible, loading, setLoading }) {
-  const { updateActiveNote, notes, fetchNotes } = useMyStore();
+  const { updateActiveNote, activeNote, notes, fetchNotes } = useMyStore();
   const [searchTerm, setSearchTerm] = useState("");
   const [contentReady, setContentReady] = useState(false);
 
@@ -45,8 +46,7 @@ export default function Sidebar({ sidebarVisible, loading, setLoading }) {
   const addNote = async () => {
     setLoading(true);
     const data = {
-      //TODO: change userid to loggedIn User
-      userId: "malik",
+      userId: pb.authStore.model.id,
       title: "Untitled",
       content: "",
     };
@@ -102,10 +102,10 @@ export default function Sidebar({ sidebarVisible, loading, setLoading }) {
           <h3 className="mb-2 px-4 text-lg font-semibold tracking-tight">
             My Notes
           </h3>
-          <input
+          <Input
             className="px-4 my-2"
-            type="text"
             placeholder="Search..."
+            type="text"
             value={searchTerm}
             onChange={handleSearch}
           />
@@ -119,7 +119,9 @@ export default function Sidebar({ sidebarVisible, loading, setLoading }) {
               .map((note, index) => (
                 <Button
                   onClick={() => handleClickNote(note, index)}
-                  className={`w-52 overflow-hidden justify-start font-normal`}
+                  className={`w-52 overflow-hidden justify-start font-normal ${
+                    index === activeNote?.index ? ' bg-zinc-200' : ''
+                  }`}
                   variant="ghost"
                   key={index}
                 >
@@ -133,22 +135,9 @@ export default function Sidebar({ sidebarVisible, loading, setLoading }) {
                         e.stopPropagation(); // Stop event propagation
                         handleDeleteNote(note);
                       }}
-                      // className={cn(
-                      //   buttonVariants({ variant: "ghost" })
-                      //   // "absolute right-4 top-4 md:right-8 md:top-8"
-                      // )}
                     >
                       <Trash2 className="w-4 hover:text-red-500" />
                     </Link>
-                    {/* <button
-                    className="z-10"
-                    onClick={(e) => {
-                      e.stopPropagation(); // Stop event propagation
-                      handleDeleteNote(note);
-                    }}
-                  >
-                    <Trash2 className="w-4 hover:text-red-500" />
-                  </button> */}
                   </div>
                 </Button>
               ))
