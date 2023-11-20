@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import Login from "../components/authentication/Login";
 import useMyStore from "./(store)/store";
 export default function Home() {
-  const [loading, setLoading] = useState(true);
   const { authenticated } = useMyStore();
   const [sidebarVisible, setSidebarVisible] = useState(true);
   useEffect(() => {
@@ -33,10 +32,8 @@ export default function Home() {
         <div className="flex m-0">
           <Sidebar
             sidebarVisible={sidebarVisible}
-            loading={loading}
-            setLoading={setLoading}
           />
-          <Editor toggleSidebar={toggleSidebar} loading={loading} />
+          <Editor toggleSidebar={toggleSidebar} />
         </div>
       )}
     </>

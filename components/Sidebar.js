@@ -9,13 +9,16 @@ import { Toaster, toast } from "sonner";
 import Link from "next/link";
 import { Input } from "./ui/input";
 
-export default function Sidebar({ sidebarVisible, loading, setLoading }) {
+export default function Sidebar({ sidebarVisible }) {
   const { updateActiveNote, activeNote } = useMyStore();
   const [searchTerm, setSearchTerm] = useState("");
   const [contentReady, setContentReady] = useState(false);
 
   const { data: notes, isLoading, isError } = useNotesQuery();
 
+  if (isError) {
+    console.log("error fetching notes");
+  }
 
   // function to check: if a note was updated
   // switch to react-query method
@@ -69,7 +72,9 @@ export default function Sidebar({ sidebarVisible, loading, setLoading }) {
 
   const handleDeleteNote = async (note) => {
     await pb.collection("notes").delete(note.id);
+    // TODO: switch to using useQuery/useMutation hook
 
+    //TODO: queryClient.invalidateQueries to refetch data
     await fetchNotes(); // Fetch notes again after deleting a note
     toast.error("Note was deleted");
   };
@@ -99,7 +104,7 @@ export default function Sidebar({ sidebarVisible, loading, setLoading }) {
             value={searchTerm}
             onChange={handleSearch}
           />
-          {loading ? (
+          {isLoading ? (
             <p className="px-4 w-52">Loading...</p>
           ) : (
             notes
