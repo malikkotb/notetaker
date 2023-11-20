@@ -10,10 +10,15 @@ import Link from "next/link";
 import { Input } from "./ui/input";
 
 export default function Sidebar({ sidebarVisible, loading, setLoading }) {
-  const { updateActiveNote, activeNote, notes, fetchNotes } = useMyStore();
+  const { updateActiveNote, activeNote } = useMyStore();
   const [searchTerm, setSearchTerm] = useState("");
   const [contentReady, setContentReady] = useState(false);
 
+  const { data: notes, isLoading, isError } = useNotesQuery();
+
+
+  // function to check: if a note was updated
+  // switch to react-query method
   useEffect(() => {
     if (loading === false) {
       console.log("update activeNote");
@@ -27,24 +32,7 @@ export default function Sidebar({ sidebarVisible, loading, setLoading }) {
     }
   }, [notes.length]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        await fetchNotes();
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      } finally {
-        setLoading(false);
-        setContentReady(true);
-      }
-    };
-    fetchData();
-    setTimeout(() => {}, 1000);
-  }, []);
-
   const addNote = async () => {
-    setLoading(true);
     const data = {
       userId: pb.authStore.model.id,
       title: "Untitled",
@@ -55,8 +43,10 @@ export default function Sidebar({ sidebarVisible, loading, setLoading }) {
     if (record) {
       console.log("Data loaded");
       toast.success("New note was created");
-      setLoading(false);
     }
+
+    // TODO: queryClient.invalidateQueries() isntead of fetchNotes 
+
     fetchNotes();
   };
 
