@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Plus } from "lucide-react";
 import useMyStore from "../app/(store)/store";
 import { Button } from "../components/ui/button";
@@ -16,7 +16,7 @@ export default function Sidebar({ sidebarVisible }) {
   const [searchTerm, setSearchTerm] = useState("");
 
   const { data: notes, isLoading, isError, error, isSuccess } = useNotesQuery();
-  const { mutate, isLoading: addNoteLoading } = useAddNote();
+  const { mutate, isSuccess: isSuccessAddNote } = useAddNote();
 
 
   if (isSuccess) {
@@ -43,6 +43,7 @@ export default function Sidebar({ sidebarVisible }) {
   //   }
   // }, [notes]);
 
+
   const addNote = async () => {
     const data = {
       userId: pb.authStore.model.id,
@@ -51,6 +52,9 @@ export default function Sidebar({ sidebarVisible }) {
     };
     
     mutate(data);
+    if (isSuccessAddNote) {
+      toast.success("New note was created");
+    }
 
   };
 
@@ -106,7 +110,7 @@ export default function Sidebar({ sidebarVisible }) {
             value={searchTerm}
             onChange={handleSearch}
           />
-          {(isLoading || addNoteLoading) ? (
+          {isLoading ? (
             <p className="px-4 w-52">Loading...</p>
           ) : (
             notes?.filter((note) =>
