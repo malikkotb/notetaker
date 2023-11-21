@@ -10,18 +10,16 @@ import Link from "next/link";
 import { Input } from "./ui/input";
 import useNotesQuery from "../app/(hooks)/useNotesQuery";
 import useAddNote from "@/app/(hooks)/useAddNote";
+import { useQueryClient, useMutation } from "@tanstack/react-query";
 
 export default function Sidebar({ sidebarVisible }) {
   const { updateActiveNote, activeNote } = useMyStore();
   const [searchTerm, setSearchTerm] = useState("");
   const searchInput = useRef();
+  const queryClient = useQueryClient();
 
   const { data: notes, isLoading, isError, error, isSuccess } = useNotesQuery();
   const { mutate, isSuccess: isSuccessAddNote } = useAddNote();
-
-  if (isSuccess) {
-    console.log(notes);
-  }
 
   if (isError) {
     console.log("Error fetching notes: ", error.message);
@@ -49,7 +47,6 @@ export default function Sidebar({ sidebarVisible }) {
       title: "Untitled",
       content: "",
     };
-
     mutate(data);
     if (isSuccessAddNote) {
       toast.success("New note was created");
@@ -69,14 +66,16 @@ export default function Sidebar({ sidebarVisible }) {
     });
   };
 
-  const handleDeleteNote = async (note) => {
-    await pb.collection("notes").delete(note.id);
-    // TODO: switch to using useQuery/useMutation hook
-
-    //TODO: queryClient.invalidateQueries to refetch data
-    // await fetchNotes(); // Fetch notes again after deleting a note
-    toast.error("Note was deleted");
-  };
+  const { mutate: deleteNoteMutation } = useMutation({
+    mutationFn: async (note) => {
+      console.log(note);
+      await pb.collection("notes").delete(note.record_id);
+    },
+    onSuccess: () => {
+      toast.error("Note was deleted");
+      queryClient.invalidateQueries({ queryKey: ["notes"] });
+    },
+  });
 
   return (
     <>
@@ -123,7 +122,7 @@ export default function Sidebar({ sidebarVisible }) {
                       href="/"
                       onClick={(e) => {
                         e.stopPropagation(); // Stop event propagation
-                        handleDeleteNote(note);
+                        deleteNoteMutation(note);
                       }}
                     >
                       <Trash2 className="w-4 hover:text-red-500" />

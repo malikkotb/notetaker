@@ -8,7 +8,6 @@ export default function useAddNote() {
     if (record) {
       console.log("Data loaded");
       queryClient.invalidateQueries({ queryKey: ["notes"] })
-
     }
   };
 
