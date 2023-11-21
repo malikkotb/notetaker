@@ -9,12 +9,15 @@ import { Toaster, toast } from "sonner";
 import Link from "next/link";
 import { Input } from "./ui/input";
 import useNotesQuery from "../app/(hooks)/useNotesQuery";
+import useAddNote from "@/app/(hooks)/useAddNote";
 
 export default function Sidebar({ sidebarVisible }) {
   const { updateActiveNote, activeNote } = useMyStore();
   const [searchTerm, setSearchTerm] = useState("");
 
   const { data: notes, isLoading, isError, error, isSuccess } = useNotesQuery();
+  const { mutate, isLoading: addNoteLoading } = useAddNote();
+
 
   if (isSuccess) {
     console.log(notes);
@@ -31,16 +34,14 @@ export default function Sidebar({ sidebarVisible }) {
   //     console.log("update activeNote");
   //     const note = notes[notes.length - 1];
 
-  // TODO: set active note to first note in array
-
   //     updateActiveNote({
   //       title: note.title,
   //       content: note.content,
-  //       index: notes.length - 1,
+  //       index: notes.length - 1, TODO: set active note to first note in array. which is being done here
   //       record_id: note.id,
   //     });
   //   }
-  // }, [notes.length]);
+  // }, [notes]);
 
   const addNote = async () => {
     const data = {
@@ -48,16 +49,9 @@ export default function Sidebar({ sidebarVisible }) {
       title: "Untitled",
       content: "",
     };
+    
+    mutate(data);
 
-    const record = await pb.collection("notes").create(data);
-    if (record) {
-      console.log("Data loaded");
-      toast.success("New note was created");
-    }
-
-    // TODO: queryClient.invalidateQueries() isntead of fetchNotes 
-
-    // fetchNotes();
   };
 
   const handleSearch = (e) => {
@@ -112,7 +106,7 @@ export default function Sidebar({ sidebarVisible }) {
             value={searchTerm}
             onChange={handleSearch}
           />
-          {isLoading ? (
+          {(isLoading || addNoteLoading) ? (
             <p className="px-4 w-52">Loading...</p>
           ) : (
             notes?.filter((note) =>

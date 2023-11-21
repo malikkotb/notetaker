@@ -52,16 +52,6 @@ export function UserAuthForm({ className, create, ...props }) {
   // sure that the server sends the same data that the client expects.
   // Mismatched data can cause hydration issues.
 
-  // if (isLoggedIn) {
-  //   return (
-  //     <div>
-  //       <Toaster position="bottom-right" richColors />
-  //       <h1 suppressHydrationWarning>Logged In: {pb.authStore.model.email}</h1>
-  //       <button onClick={() => logout()}>Logout</button>
-  //     </div>
-  //   );
-  // }
-
   return (
     <div>
       <Toaster position="bottom-right" richColors />
