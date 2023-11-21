@@ -44,14 +44,6 @@ export function UserAuthForm({ className, create, ...props }) {
     reset(); // reset form
   }
 
-  // There is an error (hydration error) if you login successfully and then refresh the page
-  // this occurs because you will be still logged in in the backend
-  // but the jsx that is rendered is the one for when the user is not logged in
-
-  // Initial State on the Server: If you're fetching data during the initial rendering, make
-  // sure that the server sends the same data that the client expects.
-  // Mismatched data can cause hydration issues.
-
   return (
     <div>
       <Toaster position="bottom-right" richColors />

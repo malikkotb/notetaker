@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Plus } from "lucide-react";
 import useMyStore from "../app/(store)/store";
 import { Button } from "../components/ui/button";
@@ -14,10 +14,10 @@ import useAddNote from "@/app/(hooks)/useAddNote";
 export default function Sidebar({ sidebarVisible }) {
   const { updateActiveNote, activeNote } = useMyStore();
   const [searchTerm, setSearchTerm] = useState("");
+  const searchInput = useRef();
 
   const { data: notes, isLoading, isError, error, isSuccess } = useNotesQuery();
   const { mutate, isSuccess: isSuccessAddNote } = useAddNote();
-
 
   if (isSuccess) {
     console.log(notes);
@@ -43,31 +43,24 @@ export default function Sidebar({ sidebarVisible }) {
   //   }
   // }, [notes]);
 
-
   const addNote = async () => {
     const data = {
       userId: pb.authStore.model.id,
       title: "Untitled",
       content: "",
     };
-    
+
     mutate(data);
     if (isSuccessAddNote) {
       toast.success("New note was created");
     }
-
   };
 
   const handleSearch = (e) => {
-    const searchTermLowerCase = e.target.value.toLowerCase();
-    const result = notes.filter((note) =>
-      note.title.toLowerCase().includes(searchTermLowerCase)
-    );
-    setSearchTerm(e.target.value);
+    setSearchTerm(searchInput.current.value);
   };
 
   const handleClickNote = (note, index) => {
-    //TODO: change this as well
     updateActiveNote({
       title: note.title,
       content: note.content,
@@ -107,28 +100,25 @@ export default function Sidebar({ sidebarVisible }) {
             className="px-4 my-2"
             placeholder="Search..."
             type="text"
-            value={searchTerm}
+            ref={searchInput}
             onChange={handleSearch}
           />
           {isLoading ? (
             <p className="px-4 w-52">Loading...</p>
           ) : (
-            notes?.filter((note) =>
-                note.title.toLowerCase().includes(searchTerm.toLowerCase())
-              )
+            notes
+              ?.filter((note) => note.title.toLowerCase().includes(searchTerm))
               .map((note, index) => (
                 <Button
                   onClick={() => handleClickNote(note, index)}
                   className={`w-52 overflow-hidden justify-start font-normal ${
-                    index === activeNote?.index ? ' bg-zinc-200' : ''
+                    index === activeNote?.index ? " bg-zinc-200" : ""
                   }`}
                   variant="ghost"
                   key={index}
                 >
                   <div className="items-center w-full flex justify-between">
-                    <div className="overflow-hidden">
-                      {note.title}
-                    </div>
+                    <div className="overflow-hidden">{note.title}</div>
                     <Link
                       href="/"
                       onClick={(e) => {

@@ -1,9 +1,10 @@
 import { create } from "zustand";
-import pb from "../(lib)/pocketbase"
+import pb from "../(lib)/pocketbase";
 const useMyStore = create((set) => ({
   activeNote: null,
   authenticated: false,
-  toggleAuthenticated: () => set((state) => ({ authenticated: !state.authenticated })),
+  toggleAuthenticated: () =>
+    set((state) => ({ authenticated: !state.authenticated })),
 
   updateNoteTitle: (noteIndex, newTitle) => {
     set((state) => {
@@ -27,8 +28,6 @@ const useMyStore = create((set) => ({
     });
   },
 
-  updateActiveNoteTitle: (newTitle) =>
-    set((state) => ({ activeNote: { ...state.activeNote, title: newTitle } })),
   updateActiveNote: (newActiveNote) => set({ activeNote: newActiveNote }),
 }));
 
