@@ -21,50 +21,49 @@ export default () => {
   const [headingValue, setHeadingValue] = useState("");
   const [contentValue, setContentValue] = useState("");
 
-  const { activeNote, updateNoteTitle, updateNoteContent, notes } =
+  const { activeNote, updateNoteTitle, updateNoteContent } =
     useMyStore();
 
   // update note title
-  useEffect(() => {
-    updateNoteTitle(activeNote.index, headingValue);
-  }, [headingValue]);
+  // useEffect(() => {
+  //   updateNoteTitle(activeNote.index, headingValue);
+  // }, [headingValue]);
 
   // update note content
-  useEffect(() => {
-    updateNoteContent(activeNote.index, contentValue);
-  }, [contentValue]);
+  // useEffect(() => {
+  //   updateNoteContent(activeNote.index, contentValue);
+  // }, [contentValue]);
 
   useEffect(() => {
     // Set initial content of the h1 tag
-    console.log("notes, set heading content: ", notes);
     setHeadingValue(activeNote.title);
     setContentValue(activeNote.content);
   }, [activeNote]);
 
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      const updateNotes = async () => {
-        try {
-          // TODO: Add checks to ensure that the note is added only for the logged-in user
-          const data = {
-            ...notes[activeNote.index],
-            title: headingValue,
-            content: contentValue,
-          };
-          const record = await pb
-            .collection("notes")
-            .update(activeNote.record_id, data);
-        } catch (error) {
-          console.log("Error while updating");
-          console.log("Error: ", error);
-        }
-      };
+  // useEffect(() => {
+  //   const intervalId = setInterval(() => {
+  //     const updateNotes = async () => {
+  //       try {
+  //         // TODO: Add checks to ensure that the note is added only for the logged-in user
+  //         const data = {
+  //           ...notes[activeNote.index],
+  //           title: headingValue,
+  //           content: contentValue,
+  //         };
+  //         const record = await pb
+  //           .collection("notes")
+  //           .update(activeNote.record_id, data);
+  //       } catch (error) {
+  //         console.log("Error while updating");
+  //         console.log("Error: ", error);
+  //       }
+  //     };
 
-      updateNotes();
-    }, 3000);
+  //     updateNotes();
+  //   }, 3000);
 
-    return () => clearInterval(intervalId);
-  }, [contentValue, headingValue]);
+  //   return () => clearInterval(intervalId);
+  // }, [contentValue, headingValue]);
 
   const editor = useEditor({
     editorProps: {

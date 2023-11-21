@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import pb from "../(lib)/pocketbase";
 
 export default function useNotesQuery() {
   async function fetchNotes() {
@@ -11,12 +12,12 @@ export default function useNotesQuery() {
         content: element.content,
         record_id: element.id,
       };
-      notesFnotesromDb.push(obj);
+      notes.push(obj);
     }
 
     return notes;
 
   }
 
-  return useQuery({ queryFn: fetchNotes, queryKey: "notes" });
+  return useQuery({ queryFn: fetchNotes, queryKey: ["notes"] });
 }

@@ -8,32 +8,39 @@ import { Trash2 } from "lucide-react";
 import { Toaster, toast } from "sonner";
 import Link from "next/link";
 import { Input } from "./ui/input";
+import useNotesQuery from "../app/(hooks)/useNotesQuery";
 
 export default function Sidebar({ sidebarVisible }) {
   const { updateActiveNote, activeNote } = useMyStore();
   const [searchTerm, setSearchTerm] = useState("");
-  const [contentReady, setContentReady] = useState(false);
 
-  const { data: notes, isLoading, isError } = useNotesQuery();
+  const { data: notes, isLoading, isError, error, isSuccess } = useNotesQuery();
+
+  if (isSuccess) {
+    console.log(notes);
+  }
 
   if (isError) {
-    console.log("error fetching notes");
+    console.log("Error fetching notes: ", error.message);
   }
 
   // function to check: if a note was updated
-  // switch to react-query method
-  useEffect(() => {
-    if (loading === false) {
-      console.log("update activeNote");
-      const note = notes[notes.length - 1];
-      updateActiveNote({
-        title: note.title,
-        content: note.content,
-        index: notes.length - 1,
-        record_id: note.id,
-      });
-    }
-  }, [notes.length]);
+  // TODO: switch to react-query method
+  // useEffect(() => {
+  //   if (loading === false) {
+  //     console.log("update activeNote");
+  //     const note = notes[notes.length - 1];
+
+  // TODO: set active note to first note in array
+
+  //     updateActiveNote({
+  //       title: note.title,
+  //       content: note.content,
+  //       index: notes.length - 1,
+  //       record_id: note.id,
+  //     });
+  //   }
+  // }, [notes.length]);
 
   const addNote = async () => {
     const data = {
@@ -50,7 +57,7 @@ export default function Sidebar({ sidebarVisible }) {
 
     // TODO: queryClient.invalidateQueries() isntead of fetchNotes 
 
-    fetchNotes();
+    // fetchNotes();
   };
 
   const handleSearch = (e) => {
@@ -62,6 +69,7 @@ export default function Sidebar({ sidebarVisible }) {
   };
 
   const handleClickNote = (note, index) => {
+    //TODO: change this as well
     updateActiveNote({
       title: note.title,
       content: note.content,
@@ -75,7 +83,7 @@ export default function Sidebar({ sidebarVisible }) {
     // TODO: switch to using useQuery/useMutation hook
 
     //TODO: queryClient.invalidateQueries to refetch data
-    await fetchNotes(); // Fetch notes again after deleting a note
+    // await fetchNotes(); // Fetch notes again after deleting a note
     toast.error("Note was deleted");
   };
 
@@ -107,8 +115,7 @@ export default function Sidebar({ sidebarVisible }) {
           {isLoading ? (
             <p className="px-4 w-52">Loading...</p>
           ) : (
-            notes
-              .filter((note) =>
+            notes?.filter((note) =>
                 note.title.toLowerCase().includes(searchTerm.toLowerCase())
               )
               .map((note, index) => (
@@ -122,7 +129,7 @@ export default function Sidebar({ sidebarVisible }) {
                 >
                   <div className="items-center w-full flex justify-between">
                     <div className="overflow-hidden">
-                      {contentReady && note.title}
+                      {note.title}
                     </div>
                     <Link
                       href="/"
