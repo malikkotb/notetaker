@@ -1,6 +1,5 @@
 "use client";
 import "./styles.scss";
-
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import useMyStore from "../app/(store)/store";
@@ -16,6 +15,8 @@ const CustomDocument = Document.extend({
 
 export default () => {
   const { mutate: updateNote } = useUpdateNote();
+  const { activeNote } = useMyStore();
+
 
   const editor = useEditor({
     editorProps: {
@@ -34,7 +35,6 @@ export default () => {
           if (node.type.name === "heading") {
             return "What’s the title?";
           }
-
           return "Anything else ?";
         },
       }),
@@ -58,6 +58,11 @@ export default () => {
       updateNote(data);
     },
   });
+
+  // useEffect(() => {
+  //     editor?.commands.setContent(`
+  //       <h1>${activeNote.title}</h1>${activeNote.content}`);
+  // }, [activeNote, ]);
 
   return (
     <div>

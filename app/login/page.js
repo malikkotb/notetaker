@@ -1,10 +1,10 @@
-
+"use client"
 import { PiNotebookLight } from "react-icons/pi";
 import Link from "next/link";
 import { UserAuthForm } from "./User-Auth-Form";
-import { ModeToggle } from "../ModeToggle";
+import { ModeToggle } from "../../components/ModeToggle";
 import { cn } from "@/lib/utils";
-import { buttonVariants } from "../ui/button";
+import { buttonVariants } from "../../components/ui/button";
 import { useState } from "react";
 
 export default function AuthenticationPage() {
@@ -16,7 +16,7 @@ export default function AuthenticationPage() {
       <div className="container relative h-screen flex-col items-center justify-center grid lg:max-w-none lg:grid-cols-2 lg:px-0">
         <div className="absolute flex right-4 gap-1 top-4 md:right-8 md:top-8">
           <Link
-            href="/"
+            href=""
             onClick={() => setCreate(!create)}
             className={cn(
               buttonVariants({ variant: "ghost" })

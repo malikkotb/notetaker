@@ -1,18 +1,19 @@
 "use client";
 import { cn } from "@/lib/utils";
-import { Button } from "../ui/button";
-import { Input } from "../ui/input";
-import { Label } from "../ui/label";
-import { useEffect, useRef, useState } from "react";
+import { Button } from "../../components/ui/button";
+import { Input } from "../../components/ui/input";
+import { Label } from "../../components/ui/label";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import useLogout from "../../app/(hooks)/useLogout";
-import useLogin from "../../app/(hooks)/useLogin";
+import useLogout from "../(hooks)/useLogout";
+import useLogin from "../(hooks)/useLogin";
 import { Toaster, toast } from "sonner";
-import useMyStore from "../../app/(store)/store";
-import { GitHub } from "../icons/GitHub";
-import { Spinner } from "../icons/Spinner";
+import useMyStore from "../(store)/store";
+import { GitHub } from "../../components/icons/GitHub";
+import { Spinner } from "../../components/icons/Spinner";
 import { RiGoogleLine } from "react-icons/ri";
-import { CreateAccount } from "../CreateAccount";
+import { CreateAccount } from "../../components/CreateAccount";
+import { useRouter } from 'next/navigation'
 
 export function UserAuthForm({ className, create, ...props }) {
   const logout = useLogout();
@@ -20,9 +21,12 @@ export function UserAuthForm({ className, create, ...props }) {
   const { register, handleSubmit, reset, formState } = useForm();
   const { toggleAuthenticated } = useMyStore();
 
+  const router = useRouter();
+
   useEffect(() => {
     if (isSuccess) {
       toggleAuthenticated();
+      router.push("/")
     } else if (isError) {
       toast.error("Login failed");
     }

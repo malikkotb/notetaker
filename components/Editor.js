@@ -10,17 +10,11 @@ export default function Editor({ toggleSidebar }) {
     <>
       <div className={`p-4 w-full`}>
         <div className="flex items-center justify-between">
-          <div className="flex gap-2">
+          <div className="flex px-4 gap-2">
             <button className="cursor-pointer" onClick={toggleSidebar}>
               <Menu />
             </button>
-            {/* {loading ? (
-            <p className="">Loading...</p>
-            ) : (
-              activeNote && (
-                <div>{notes[activeNote.index].title === "" ? "Untitled" : notes[activeNote.index].title}</div>
-                )
-              )} */}
+            {activeNote ? activeNote.index : ""}
           </div>
           <div>
             <ModeToggle />
