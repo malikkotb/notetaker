@@ -3,15 +3,20 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import useMyStore from "../(store)/store";
 
 export default function useUpdateNote() {
-    const { activeNote } = useMyStore();
-    const queryClient = useQueryClient();
+  const { activeNote } = useMyStore();
+  const queryClient = useQueryClient();
   const updateNote = async (data) => {
+    if (data.title.trim() === "") {
+      console.log("Title is empty. Not updating the note.");
+      data.title = "Untitled";
+    }
+
     const record = await pb
-            .collection("notes")
-            .update(activeNote.record_id, data);
+      .collection("notes")
+      .update(activeNote.record_id, data);
     if (record) {
       console.log("Data updated");
-      queryClient.invalidateQueries({ queryKey: ["notes"] })
+      queryClient.invalidateQueries({ queryKey: ["notes"] });
     }
   };
 

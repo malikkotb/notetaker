@@ -6,7 +6,6 @@ import Login from "./login/page";
 import useMyStore from "./(store)/store";
 import useNotesQuery from "./(hooks)/useNotesQuery";
 export default function Home() {
-  const { authenticated } = useMyStore();
   const [sidebarVisible, setSidebarVisible] = useState(true);
   useEffect(() => {
     const handleResize = () => {
@@ -32,10 +31,6 @@ export default function Home() {
   }
 
   return (
-    // <>
-    //   {!authenticated ? (
-    //     <Login />
-    //   ) : (
         <div className="flex m-0">
           <Sidebar
             sidebarVisible={sidebarVisible}
@@ -44,7 +39,5 @@ export default function Home() {
           />
           <Editor notes={notes} toggleSidebar={toggleSidebar} />
         </div>
-    //   )}
-    // </>
   );
 }

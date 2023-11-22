@@ -3,7 +3,7 @@ import Tiptap from "./Tiptap";
 import useMyStore from "@/app/(store)/store";
 import { ModeToggle } from "./ModeToggle";
 
-export default function Editor({ toggleSidebar }) {
+export default function Editor({ toggleSidebar, notes }) {
   const { activeNote } = useMyStore();
 
   return (
@@ -14,7 +14,7 @@ export default function Editor({ toggleSidebar }) {
             <button className="cursor-pointer" onClick={toggleSidebar}>
               <Menu />
             </button>
-            {activeNote ? activeNote.index : ""}
+            {activeNote ? notes[activeNote.index].title : ""}
           </div>
           <div>
             <ModeToggle />
