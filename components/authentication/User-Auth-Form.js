@@ -18,7 +18,7 @@ export function UserAuthForm({ className, create, ...props }) {
   const logout = useLogout();
   const { mutate, isLoading, isError, error, isSuccess } = useLogin();
   const { register, handleSubmit, reset, formState } = useForm();
-  const { authenticated, toggleAuthenticated } = useMyStore();
+  const { toggleAuthenticated } = useMyStore();
 
   useEffect(() => {
     if (isSuccess) {

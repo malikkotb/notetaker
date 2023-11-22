@@ -3,6 +3,11 @@ import { useState, useRef } from "react";
 import { Plus } from "lucide-react";
 import useMyStore from "../app/(store)/store";
 import { Button } from "../components/ui/button";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "../components/ui/popover";
 import pb from "../app/(lib)/pocketbase";
 import { Trash2 } from "lucide-react";
 import { Toaster, toast } from "sonner";
@@ -12,12 +17,15 @@ import useNotesQuery from "../app/(hooks)/useNotesQuery";
 import useAddNote from "@/app/(hooks)/useAddNote";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { CaretDownIcon } from "@radix-ui/react-icons";
+import useLogout from "@/app/(hooks)/useLogout";
 
 export default function Sidebar({ sidebarVisible }) {
   const { updateActiveNote, activeNote } = useMyStore();
   const [searchTerm, setSearchTerm] = useState("");
   const searchInput = useRef();
   const queryClient = useQueryClient();
+  const logout = useLogout();
+
 
   const { data: notes, isLoading, isError, error } = useNotesQuery();
   const { mutate, isSuccess: isSuccessAddNote } = useAddNote();
@@ -121,7 +129,14 @@ export default function Sidebar({ sidebarVisible }) {
         <div className="p-4 w-full flex justify-between">
           <div className="text-sm">{pb.authStore.model.email}</div>
           <div className="">
-            <CaretDownIcon />
+            <Popover>
+              <PopoverTrigger>
+                <CaretDownIcon />
+              </PopoverTrigger>
+              <PopoverContent className="">
+                <Button variant={"ghost"} onClick={() => logout()}>Log Out</Button>
+              </PopoverContent>
+            </Popover>
           </div>
         </div>
       </div>
