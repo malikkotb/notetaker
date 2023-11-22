@@ -15,7 +15,6 @@ const CustomDocument = Document.extend({
 });
 
 export default () => {
-  const { activeNote } = useMyStore();
   const { mutate: updateNote } = useUpdateNote();
 
   const editor = useEditor({

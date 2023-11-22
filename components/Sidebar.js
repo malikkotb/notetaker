@@ -11,6 +11,7 @@ import { Input } from "./ui/input";
 import useNotesQuery from "../app/(hooks)/useNotesQuery";
 import useAddNote from "@/app/(hooks)/useAddNote";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
+import { CaretDownIcon } from "@radix-ui/react-icons";
 
 export default function Sidebar({ sidebarVisible }) {
   const { updateActiveNote, activeNote } = useMyStore();
@@ -66,9 +67,9 @@ export default function Sidebar({ sidebarVisible }) {
       <div
         className={`w-72 dark:bg-neutral-900 ${
           sidebarVisible ? "flex sticky top-0" : "hidden"
-        } p-4 h-screen flex-col justify-between border-r shadow-inner`}
+        } h-screen flex-col justify-between border-r shadow-inner`}
       >
-        <div className="flex flex-col">
+        <div className="p-4 flex flex-col">
           <div className="mb-3 p-2 flex justify-between">
             <div className="">NoteTaker</div>
             <div onClick={addNote} className="cursor-pointer">
@@ -94,7 +95,9 @@ export default function Sidebar({ sidebarVisible }) {
                 <Button
                   onClick={() => handleClickNote(note, index)}
                   className={`w-52 overflow-hidden justify-start font-normal ${
-                    index === activeNote?.index ? " bg-zinc-200" : ""
+                    index === activeNote?.index
+                      ? " bg-zinc-100 dark:bg-neutral-800"
+                      : ""
                   }`}
                   variant="ghost"
                   key={index}
@@ -115,7 +118,12 @@ export default function Sidebar({ sidebarVisible }) {
               ))
           )}
         </div>
-        <div>{pb.authStore.model.email}</div>
+        <div className="p-4 w-full flex justify-between">
+          <div className="text-sm">{pb.authStore.model.email}</div>
+          <div className="">
+            <CaretDownIcon />
+          </div>
+        </div>
       </div>
     </>
   );

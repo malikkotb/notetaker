@@ -7,16 +7,17 @@ export default function useNotesQuery() {
     const data = (await pb.collection("notes").getList(1, 50)).items;
     const notes = [];
     for (const element of data) {
-      const obj = {
-        title: element.title,
-        content: element.content,
-        record_id: element.id,
-      };
-      notes.push(obj);
+      if (element.userId === pb.authStore.model.id) {
+        const obj = {
+          title: element.title,
+          content: element.content,
+          record_id: element.id,
+        };
+        notes.push(obj);
+      }
     }
 
     return notes;
-
   }
 
   return useQuery({ queryFn: fetchNotes, queryKey: ["notes"] });
