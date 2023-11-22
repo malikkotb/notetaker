@@ -34,6 +34,7 @@
     "@tiptap/starter-kit": "^2.1.12",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
+    "framer-motion": "^10.16.5",
     "lucide-react": "^0.290.0",
     "next": "latest",
     "next-themes": "^0.2.1",
