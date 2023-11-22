@@ -18,28 +18,12 @@ export default function Sidebar({ sidebarVisible }) {
   const searchInput = useRef();
   const queryClient = useQueryClient();
 
-  const { data: notes, isLoading, isError, error, isSuccess } = useNotesQuery();
+  const { data: notes, isLoading, isError, error } = useNotesQuery();
   const { mutate, isSuccess: isSuccessAddNote } = useAddNote();
 
   if (isError) {
     console.log("Error fetching notes: ", error.message);
   }
-
-  // function to check: if a note was updated
-  // TODO: switch to react-query method
-  // useEffect(() => {
-  //   if (loading === false) {
-  //     console.log("update activeNote");
-  //     const note = notes[notes.length - 1];
-
-  //     updateActiveNote({
-  //       title: note.title,
-  //       content: note.content,
-  //       index: notes.length - 1, TODO: set active note to first note in array. which is being done here
-  //       record_id: note.id,
-  //     });
-  //   }
-  // }, [notes]);
 
   const addNote = async () => {
     const data = {
@@ -62,13 +46,12 @@ export default function Sidebar({ sidebarVisible }) {
       title: note.title,
       content: note.content,
       index: index,
-      record_id: note.id,
+      record_id: note.record_id,
     });
   };
 
   const { mutate: deleteNoteMutation } = useMutation({
     mutationFn: async (note) => {
-      console.log(note);
       await pb.collection("notes").delete(note.record_id);
     },
     onSuccess: () => {

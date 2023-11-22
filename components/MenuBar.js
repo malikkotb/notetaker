@@ -11,17 +11,12 @@ export default function MenuBar({ editor }) {
   
     const { activeNote } = useMyStore();
   
-    // useEffect(() => {
-    //   editor.commands.setContent(`
-    //   <h1>${activeNote.title}</h1>${activeNote.content}`);
-    // }, [activeNote]);
-
     useEffect(() => {
       if (editor) {
         editor.commands.setContent(`
           <h1>${activeNote.title}</h1>${activeNote.content}`);
       }
-    }, [editor, activeNote]);
+    }, [activeNote]);
   
     return (
       <div className="p-4">
