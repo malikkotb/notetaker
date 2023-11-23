@@ -5,8 +5,10 @@ import { useEffect, useState } from "react";
 import Login from "./login/page";
 import useMyStore from "./(store)/store";
 import useNotesQuery from "./(hooks)/useNotesQuery";
+import SideBarCategories from "../components/SideBarCategories";
 export default function Home() {
   const [sidebarVisible, setSidebarVisible] = useState(true);
+  const [catSidebarVisible, setCatSidebarVisible] = useState(true);
   useEffect(() => {
     const handleResize = () => {
       setSidebarVisible(window.innerWidth >= 768);
@@ -31,13 +33,14 @@ export default function Home() {
   }
 
   return (
-        <div className="flex m-0">
-          <Sidebar
-            sidebarVisible={sidebarVisible}
-            isLoading={isLoading}
-            notes={notes}
-          />
-          <Editor notes={notes} toggleSidebar={toggleSidebar} />
-        </div>
+    <div className="flex m-0">
+      <SideBarCategories catSidebarVisible={catSidebarVisible} />
+      <Sidebar
+        sidebarVisible={sidebarVisible}
+        isLoading={isLoading}
+        notes={notes}
+      />
+      <Editor notes={notes} toggleSidebar={toggleSidebar} />
+    </div>
   );
 }

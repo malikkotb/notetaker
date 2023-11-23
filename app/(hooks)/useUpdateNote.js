@@ -7,7 +7,6 @@ export default function useUpdateNote() {
   const queryClient = useQueryClient();
   const updateNote = async (data) => {
     if (data.title.trim() === "") {
-      console.log("Title is empty. Not updating the note.");
       data.title = "Untitled";
     }
 

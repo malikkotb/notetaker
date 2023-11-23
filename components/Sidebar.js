@@ -26,7 +26,6 @@ export default function Sidebar({ sidebarVisible, notes, isLoading }) {
   const logout = useLogout();
 
   const { mutate, isSuccess: isSuccessAddNote } = useAddNote();
-  
 
   const addNote = async () => {
     const data = {
@@ -72,15 +71,15 @@ export default function Sidebar({ sidebarVisible, notes, isLoading }) {
         } h-screen flex-col justify-between border-r shadow-inner`}
       >
         <div className="p-4 flex flex-col">
-          <div className="mb-3 p-2 flex justify-between">
-            <div className="">NoteTaker</div>
+          <div className="flex justify-between mb-2 px-2">
+            <h3 className="text-lg font-semibold tracking-tight">
+              My Notes
+              {/* TODO: Display current category here */}
+            </h3>
             <div onClick={addNote} className="cursor-pointer">
               <Plus />
             </div>
           </div>
-          <h3 className="mb-2 px-4 text-lg font-semibold tracking-tight">
-            My Notes
-          </h3>
           <Input
             className="px-4 my-2"
             placeholder="Search..."
@@ -128,7 +127,9 @@ export default function Sidebar({ sidebarVisible, notes, isLoading }) {
                 <CaretDownIcon />
               </PopoverTrigger>
               <PopoverContent className="">
-                <Button variant={"ghost"} onClick={() => logout()}>Log Out</Button>
+                <Button variant={"ghost"} onClick={() => logout()}>
+                  Log Out
+                </Button>
               </PopoverContent>
             </Popover>
           </div>
