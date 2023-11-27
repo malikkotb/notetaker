@@ -1,9 +1,7 @@
 "use client";
 import { useState, useRef } from "react";
-import { Plus } from "lucide-react";
+import { Pencil2Icon } from "@radix-ui/react-icons";
 import useMyStore from "../app/(store)/store";
-import { Button } from "../components/ui/button";
-
 import pb from "../app/(lib)/pocketbase";
 import { Trash2 } from "lucide-react";
 import { Toaster, toast } from "sonner";
@@ -11,14 +9,17 @@ import Link from "next/link";
 import { Input } from "./ui/input";
 import useAddNote from "@/app/(hooks)/useAddNote";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
-import useLogout from "@/app/(hooks)/useLogout";
+
+function removeHtmlTags(input) {
+  return input.replace(/<\/?[^>]+(>|$)/g, "");
+}
+
 
 export default function Sidebar({ sidebarVisible, notes, isLoading }) {
   const { updateActiveNote, activeNote } = useMyStore();
   const [searchTerm, setSearchTerm] = useState("");
   const searchInput = useRef();
   const queryClient = useQueryClient();
-  const logout = useLogout();
 
   const { mutate, isSuccess: isSuccessAddNote } = useAddNote();
 
@@ -65,41 +66,50 @@ export default function Sidebar({ sidebarVisible, notes, isLoading }) {
           sidebarVisible ? "flex sticky top-0" : "hidden"
         } h-screen flex-col justify-between border-r shadow-inner`}
       >
-        <div className="p-4 flex flex-col">
-          <div className="flex justify-between mb-2 px-2">
+        <div className="flex flex-col">
+          <div className="flex justify-between items-center pt-4 px-4">
             <h3 className="text-lg font-semibold tracking-tight">
               My Notes
               {/* TODO: Display current category here */}
             </h3>
             <div onClick={addNote} className="cursor-pointer">
-              <Plus />
+              {/* TODO: add note in that specific category */}
+              <Pencil2Icon />
             </div>
           </div>
-          <Input
-            className="px-4 my-2"
-            placeholder="Search..."
-            type="text"
-            ref={searchInput}
-            onChange={handleSearch}
-          />
+
+          <div className="p-2">
+            <Input
+              className="px-4 my-2"
+              placeholder="Filter..."
+              type="text"
+              ref={searchInput}
+              onChange={handleSearch}
+            />
+          </div>
+
           {isLoading ? (
             <p className="px-4 w-52">Loading...</p>
           ) : (
             notes
               ?.filter((note) => note.title.toLowerCase().includes(searchTerm))
               .map((note, index) => (
-                <Button
+                // A single note:
+                <div
                   onClick={() => handleClickNote(note, index)}
-                  className={`w-52 overflow-hidden justify-start font-normal ${
+                  className={`w-64 h-28 p-3 hover:bg-zinc-100 cursor-pointer rounded-none border-b ${
+                    index === 0 ? "border-t" : ""
+                  } overflow-hidden justify-start font-normal ${
                     index === activeNote?.index
-                      ? " bg-zinc-100 dark:bg-neutral-800"
+                      ? "bg-zinc-100 dark:bg-neutral-800"
                       : ""
                   }`}
                   variant="ghost"
                   key={index}
                 >
+                  {/* Categoty */}
                   <div className="items-center w-full flex justify-between">
-                    <div className="overflow-hidden">{note.title}</div>
+                    <div className="overflow-hidden text-xs">Category</div>
                     <Link
                       href="/"
                       onClick={(e) => {
@@ -110,11 +120,20 @@ export default function Sidebar({ sidebarVisible, notes, isLoading }) {
                       <Trash2 className="w-4 hover:text-red-500" />
                     </Link>
                   </div>
-                </Button>
+
+                  {/* Title and content */}
+                  <div className="">
+                    <div className="overflow-hidden font-bold">
+                      {note.title}
+                    </div>
+                    <div className="text-sm overflow-hidden">
+                      {removeHtmlTags(note.content)}
+                    </div>
+                  </div>
+                </div>
               ))
           )}
         </div>
-       
       </div>
     </>
   );
