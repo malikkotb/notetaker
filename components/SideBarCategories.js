@@ -9,16 +9,32 @@ import {
 import { CaretDownIcon } from "@radix-ui/react-icons";
 import { Button } from "../components/ui/button";
 import useMyStore from "@/app/(store)/store";
+import useAddCategory from "../app/(hooks)/useAddCategory";
 
-export default function SideBarCategories({ catSidebarVisible }) {
+export default function SideBarCategories({
+  catSidebarVisible,
+  categories,
+  isLoading,
+}) {
   const { updateActiveCategory, activeCategory } = useMyStore();
-    
-    //TODO: add new category
+  const { mutate, isSuccess: isSuccesAddCategory } = useAddCategory();
+
+  //TODO: add new category
   const addCategory = async () => {};
   const logout = useLogout();
 
   //TODO: selected feature for categories
-  //TODO: functionality to hide SideBarCategories 
+  //TODO: functionality to hiding SideBarCategories
+
+  const handleClickCategory = (category, index) => {
+    // Category: name, notes, categoryId
+    updateActiveCategory({
+      name: category.name,
+      notes: category.notes,
+      index: index,
+      id: category.categoryId,
+    });
+  };
 
   return (
     <div
@@ -27,20 +43,29 @@ export default function SideBarCategories({ catSidebarVisible }) {
       } h-screen flex-col justify-between border-r shadow-inner`}
     >
       <div>
-        <div className="w-full px-8 py-2 mt-4">All Notes</div>
+        <div className="w-full px-8 py-2 mt-4">------</div>
         <div className="flex justify-between items-center w-full px-8 py-2 my-4">
           <div className="text-xs font-bold tracking-widest">CATEGORIES</div>
           <div onClick={addCategory} className="cursor-pointer">
             <Plus />
           </div>
         </div>
-        {/* TODO: loop over given categories for this user */}
-        <div className="px-8 py-2 text-sm text-zinc-300">Business</div>
-        <div className="px-8 py-2 text-sm text-zinc-300">Design</div>
-        <div className="px-8 py-2 text-sm text-zinc-300">General</div>
-        <div className="px-8 py-2 text-sm text-zinc-300">Journal</div>
-        <div className="px-8 py-2 text-sm text-zinc-300">Personal</div>
-        <div className="px-8 py-2 text-sm text-zinc-300">Programming</div>
+
+        {isLoading ? (
+          <p className="px-4 w-52">Loading...</p>
+        ) : (
+          categories?.map((category, index) => (
+            // A single category:
+            <div
+              key={index}
+              className={`px-8 py-3 cursor-pointer hover:bg-blue-600 text-sm text-zinc-300
+                ${index === activeCategory?.index ? "bg-blue-600 dark:bg-neutral-800" : ""}`}
+              onClick={() => handleClickCategory(category, index)}
+              >
+              {category.name}
+            </div>
+          ))
+        )}
 
         <div className="mt-4 flex justify-between items-center w-full px-8 py-2">
           <div className="text-xs font-bold tracking-widest">TAGS</div>

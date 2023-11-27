@@ -38,7 +38,7 @@ export default function Home() {
 
   return (
     <div className="flex m-0">
-      <SideBarCategories catSidebarVisible={catSidebarVisible} />
+      <SideBarCategories categories={categories} isLoading={categoriesLoading} catSidebarVisible={catSidebarVisible} />
       <Sidebar
         sidebarVisible={sidebarVisible}
         isLoading={isLoading}

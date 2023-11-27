@@ -6,7 +6,6 @@ export default function useAddNote() {
   const addNewNote = async (data) => {
     const record = await pb.collection("notes").create(data);
     if (record) {
-      console.log("Data loaded");
       queryClient.invalidateQueries({ queryKey: ["notes"] })
     }
   };

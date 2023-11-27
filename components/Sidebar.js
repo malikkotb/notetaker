@@ -14,9 +14,8 @@ function removeHtmlTags(input) {
   return input.replace(/<\/?[^>]+(>|$)/g, " ");
 }
 
-
 export default function Sidebar({ sidebarVisible, notes, isLoading }) {
-  const { updateActiveNote, activeNote } = useMyStore();
+  const { updateActiveNote, activeNote, activeCategory } = useMyStore();
   const [searchTerm, setSearchTerm] = useState("");
   const searchInput = useRef();
   const queryClient = useQueryClient();
@@ -28,6 +27,7 @@ export default function Sidebar({ sidebarVisible, notes, isLoading }) {
       userId: pb.authStore.model.id,
       title: "Untitled",
       content: "",
+      category: activeCategory.id
     };
     mutate(data);
     if (isSuccessAddNote) {
@@ -61,80 +61,82 @@ export default function Sidebar({ sidebarVisible, notes, isLoading }) {
   return (
     <>
       <Toaster position="top-right" richColors />
-      <div
-        className={` w-80 dark:bg-neutral-900 ${
-          sidebarVisible ? "flex sticky top-0" : "hidden"
-        } h-screen flex-col justify-between border-r shadow-inner`}
-      >
-        <div className="flex flex-col">
-          <div className="flex justify-between items-center pt-4 px-4">
-            <h3 className="text-lg font-semibold tracking-tight">
-              My Notes
-              {/* TODO: Display current category here */}
-            </h3>
-            <div onClick={addNote} className="cursor-pointer">
-              {/* TODO: add note in that specific category */}
-              <Pencil2Icon />
+      {activeCategory && (
+        <div
+          className={` w-80 dark:bg-neutral-900 ${
+            sidebarVisible ? "flex sticky top-0" : "hidden"
+          } h-screen flex-col justify-between border-r shadow-inner`}
+        >
+          <div className="flex flex-col">
+            <div className="flex justify-between items-center pt-4 px-4">
+              <h3 className="text-lg font-semibold tracking-tight">
+                {activeCategory.name}
+              </h3>
+              <div onClick={addNote} className="cursor-pointer">
+                <Pencil2Icon />
+              </div>
             </div>
-          </div>
 
-          <div className="p-2">
-            <Input
-              className="px-4 my-2"
-              placeholder="Filter..."
-              type="text"
-              ref={searchInput}
-              onChange={handleSearch}
-            />
-          </div>
+            <div className="p-2">
+              <Input
+                className="px-4 my-2"
+                placeholder="Filter..."
+                type="text"
+                ref={searchInput}
+                onChange={handleSearch}
+              />
+            </div>
 
-          {isLoading ? (
-            <p className="px-4 w-52">Loading...</p>
-          ) : (
-            notes
-              ?.filter((note) => note.title.toLowerCase().includes(searchTerm))
-              .map((note, index) => (
-                // A single note:
-                <div
-                  onClick={() => handleClickNote(note, index)}
-                  className={`w-64 h-28 p-3 hover:bg-zinc-100 cursor-pointer rounded-none border-b ${
-                    index === 0 ? "border-t" : ""
-                  } overflow-hidden justify-start font-normal ${
-                    index === activeNote?.index
-                      ? "bg-zinc-100 dark:bg-neutral-800"
-                      : ""
-                  }`}
-                  variant="ghost"
-                  key={index}
-                >
-                  {/* Categoty */}
-                  <div className="items-center w-full flex justify-between">
-                    <div className="overflow-hidden text-xs">Category</div>
-                    <Link
-                      href="/"
-                      onClick={(e) => {
-                        e.stopPropagation(); // Stop event propagation
-                        deleteNoteMutation(note);
-                      }}
-                    >
-                      <Trash2 className="w-4 hover:text-red-500" />
-                    </Link>
-                  </div>
-
-                  {/* Title and content */}
-                  <div className="">
-                    <div className="overflow-hidden font-bold">
-                      {note.title}
+            {isLoading ? (
+              <p className="px-4 w-52">Loading...</p>
+            ) : (
+              notes
+                ?.filter((note) =>
+                  note.title.toLowerCase().includes(searchTerm)
+                )
+                .map((note, index) => (
+                  // A single note:
+                  <div
+                    onClick={() => handleClickNote(note, index)}
+                    className={`w-64 h-28 p-3 hover:bg-zinc-100 cursor-pointer rounded-none border-b ${
+                      index === 0 ? "border-t" : ""
+                    } overflow-hidden justify-start font-normal ${
+                      index === activeNote?.index
+                        ? "bg-zinc-100 dark:bg-neutral-800"
+                        : ""
+                    }`}
+                    variant="ghost"
+                    key={index}
+                  >
+                    {/* Categoty */}
+                    <div className="items-center w-full flex justify-between">
+                      <div className="overflow-hidden text-xs">Category</div>
+                      <Link
+                        href="/"
+                        onClick={(e) => {
+                          e.stopPropagation(); // Stop event propagation
+                          deleteNoteMutation(note);
+                        }}
+                      >
+                        <Trash2 className="w-4 hover:text-red-500" />
+                      </Link>
                     </div>
-                    <div className="text-sm text-zinc-500 overflow-hidden line-clamp-2">
-                      {removeHtmlTags(note.content)}
+
+                    {/* Title and content */}
+                    <div className="">
+                      <div className="overflow-hidden font-bold">
+                        {note.title}
+                      </div>
+                      <div className="text-sm text-zinc-500 overflow-hidden line-clamp-2">
+                        {removeHtmlTags(note.content)}
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))
-          )}
+                ))
+            )}
+          </div>
         </div>
-      </div>
+      )}
     </>
   );
 }

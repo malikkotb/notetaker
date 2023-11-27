@@ -24,7 +24,7 @@ export default function Editor({ toggleSidebar, notes }) {
           <Tiptap />
         ) : (
           <h2 className="items-center mt-32 text-2xl text-center">
-            Select a note or create a new one
+            Select a category and then select a note or create a new one
           </h2>
         )}
       </div>
