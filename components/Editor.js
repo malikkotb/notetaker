@@ -4,14 +4,14 @@ import useMyStore from "@/app/(store)/store";
 import { ModeToggle } from "./ModeToggle";
 
 export default function Editor({ toggleSidebar, notes }) {
-  const { activeNote } = useMyStore();
+  const { activeNote, activeCategory } = useMyStore();
 
   return (
     <>
       <div className={`p-4 w-full`}>
         <div className="flex items-center justify-between">
           <div className="flex px-4 gap-2">
-            <button className="cursor-pointer" onClick={toggleSidebar}>
+            <button className="cursor-pointer" disabled={!activeCategory} onClick={toggleSidebar}>
               <Menu />
             </button>
             {activeNote ? notes[activeNote.index].title : ""}

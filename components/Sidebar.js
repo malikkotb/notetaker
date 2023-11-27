@@ -110,7 +110,7 @@ export default function Sidebar({ sidebarVisible, notes, isLoading }) {
                   >
                     {/* Categoty */}
                     <div className="items-center w-full flex justify-between">
-                      <div className="overflow-hidden text-xs">Category</div>
+                      <div className="overflow-hidden text-xs">{activeCategory.name}</div>
                       <Link
                         href="/"
                         onClick={(e) => {

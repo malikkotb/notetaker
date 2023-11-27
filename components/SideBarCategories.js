@@ -28,12 +28,17 @@ export default function SideBarCategories({
 
   const handleClickCategory = (category, index) => {
     // Category: name, notes, categoryId
+    console.log(category);
     updateActiveCategory({
       name: category.name,
       notes: category.notes,
       index: index,
-      id: category.categoryId,
+      categoryId: category.categoryId,
     });
+
+    //  TODO: refetch 
+    // TODO: invalidateQueries 
+
   };
 
   return (

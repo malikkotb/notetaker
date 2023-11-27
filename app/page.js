@@ -22,12 +22,18 @@ export default function Home() {
     };
   }, []);
 
-  const { data: notes, isLoading, isError, error } = useNotesQuery();
+  
+  const { data: notes, isSuccess: notesLoaded, isLoading, isError, error } = useNotesQuery();
   const { data: categories, isLoading: categoriesLoading, isError: catIsError, error: catError, isSuccess} = useCatQuery();
 
   if (isSuccess) {
     console.log(categories); 
   }
+
+  if(notesLoaded) {
+    console.log(notes);
+  }
+
   if (isError) {
     console.log("Error fetching notes: ", error.message);
   }
