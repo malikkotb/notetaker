@@ -11,7 +11,7 @@ import useAddNote from "@/app/(hooks)/useAddNote";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 
 function removeHtmlTags(input) {
-  return input.replace(/<\/?[^>]+(>|$)/g, "");
+  return input.replace(/<\/?[^>]+(>|$)/g, " ");
 }
 
 
@@ -126,7 +126,7 @@ export default function Sidebar({ sidebarVisible, notes, isLoading }) {
                     <div className="overflow-hidden font-bold">
                       {note.title}
                     </div>
-                    <div className="text-sm overflow-hidden">
+                    <div className="text-sm text-zinc-500 overflow-hidden line-clamp-2">
                       {removeHtmlTags(note.content)}
                     </div>
                   </div>

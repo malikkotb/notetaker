@@ -8,8 +8,12 @@ import {
 } from "../components/ui/popover";
 import { CaretDownIcon } from "@radix-ui/react-icons";
 import { Button } from "../components/ui/button";
+import useMyStore from "@/app/(store)/store";
 
 export default function SideBarCategories({ catSidebarVisible }) {
+  const { updateActiveCategory, activeCategory } = useMyStore();
+    
+    //TODO: add new category
   const addCategory = async () => {};
   const logout = useLogout();
 

@@ -1,23 +1,23 @@
-// import { useQuery } from "@tanstack/react-query";
-// import pb from "../(lib)/pocketbase";
+import { useQuery } from "@tanstack/react-query";
+import pb from "../(lib)/pocketbase";
 
-// export default function useNotesQuery() {
-//   async function fetchNotes() {
-//     const data = (await pb.collection("categories").getList(1, 50)).items;
-//     const notes = [];
-//     for (const element of data) {
-//       if (element.userId === pb.authStore.model.id) {
-//         const obj = {
-//           title: element.title,
-//           content: element.content,
-//           record_id: element.id,
-//         };
-//         notes.push(obj);
-//       }
-//     }
+export default function useCatQuery() {
+  async function fetchCategories() {
+    const data = (await pb.collection("categories").getList(1, 50)).items;
+    const categories = [];
+    for (const element of data) {
+      if (element.userId === pb.authStore.model.id) {
+        const obj = {
+          title: element.title,
+          content: element.content,
+          record_id: element.id,
+        };
+        categories.push(obj);
+      }
+    }
 
-//     return notes;
-//   }
+    return categories;
+  }
 
-//   return useQuery({ queryFn: fetchNotes, queryKey: ["categories"] });
-// }
+  return useQuery({ queryFn: fetchCategories, queryKey: ["categories"] });
+}
