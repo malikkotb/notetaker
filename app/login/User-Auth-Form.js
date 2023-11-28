@@ -37,6 +37,7 @@ export function UserAuthForm({ className, create, ...props }) {
       // Client-side code here
       logout();
       console.log("logout on Mount");
+      
     }
   }, []);
 

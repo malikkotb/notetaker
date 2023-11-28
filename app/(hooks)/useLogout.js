@@ -9,10 +9,12 @@ export default function useLogout() {
   const { toggleAuthenticated } = useMyStore();
 
   async function logout() {
-    toggleAuthenticated();
     pb.authStore.clear();
+    toggleAuthenticated();
     setLogOut(Math.random()); // change dummy state to force a re-render
-    router.push("/login");
+    // setTimeout(() => {
+    //   router.push("/login");
+    // }, 500)
 
   }
 

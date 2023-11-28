@@ -6,12 +6,12 @@ import useNotesQuery from "./(hooks)/useNotesQuery";
 import useCatQuery from "@/app/(hooks)/useCatQuery";
 import SideBarCategories from "../components/SideBarCategories";
 import useMyStore from "./(store)/store";
-import { useRouter } from "next/router";
+import useLogout from "./(hooks)/useLogout";
 export default function Home() {
   const [sidebarVisible, setSidebarVisible] = useState(true);
   const [catSidebarVisible, setCatSidebarVisible] = useState(true);
   const { authenticated } = useMyStore();
-
+  const logout = useLogout();
 
   useEffect(() => {
     const handleResize = () => {

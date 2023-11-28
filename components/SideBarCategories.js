@@ -11,7 +11,18 @@ import { Button } from "../components/ui/button";
 import useMyStore from "@/app/(store)/store";
 import useAddCategory from "../app/(hooks)/useAddCategory";
 import { Toaster, toast } from "sonner";
-import { useEffect } from "react";
+import { useRef } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogClose,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 export default function SideBarCategories({
   catSidebarVisible,
@@ -21,21 +32,21 @@ export default function SideBarCategories({
   const { updateActiveCategory, activeCategory, authenticated } = useMyStore();
   const { mutate, isSuccess: isSuccesAddCategory } = useAddCategory();
   const logout = useLogout();
+  const inputRef = useRef();
 
-  // useEffect(() => {
-  //   if (authenticated === false) {
 
-  //   }
-  // }, [authenticated])
+  const handleAddCategory = () => {
+    const name = inputRef.current.value;
+    console.log('Input Value:', name);
+    if (name !== "" || name !== null) {
+      addCategory(name);
+    }
+  };
 
-  const addCategory = async () => {
-    // if (inputName === "") {
-    //   return;
-    // }
-
+  const addCategory = async (name) => {
     const data = {
       userId: pb.authStore.model.id,
-      name: "RandomCat",
+      name: name,
     };
     mutate(data);
     if (isSuccesAddCategory) {
@@ -65,9 +76,39 @@ export default function SideBarCategories({
           <div className="w-full px-8 py-2 mt-4">SecondBrain</div>
           <div className="flex justify-between items-center w-full px-8 py-2 my-4">
             <div className="text-xs font-bold tracking-widest">CATEGORIES</div>
-            <div onClick={addCategory} className="cursor-pointer">
+            {/* <div onClick={handleAddCategory} className="cursor-pointer">
               <Plus />
-            </div>
+            </div> */}
+
+            <Dialog>
+              <DialogTrigger asChild>
+                <div className="cursor-pointer">
+                  <Plus />
+                </div>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[425px] bg-white">
+                <DialogHeader>
+                  <DialogTitle>Name the category</DialogTitle>
+                </DialogHeader>
+                <div className="grid gap-4 py-4">
+                  <div className="items-center gap-4">
+                    <Input
+                      id="name"
+                      placeholder="Thoughts..."
+                      className="col-span-2"
+                      ref={inputRef}
+                    />
+                  </div>
+                </div>
+                <DialogFooter>
+                  <DialogClose asChild>
+                    <Button type="button" onClick={handleAddCategory}>
+                      Add Category
+                    </Button>
+                  </DialogClose>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
           </div>
 
           {isLoading ? (
