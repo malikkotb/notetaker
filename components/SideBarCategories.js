@@ -37,7 +37,6 @@ export default function SideBarCategories({
 
   const handleAddCategory = () => {
     const name = inputRef.current.value;
-    console.log('Input Value:', name);
     if (name !== "" || name !== null) {
       addCategory(name);
     }
@@ -54,7 +53,7 @@ export default function SideBarCategories({
     }
   };
 
-  //TODO: functionality to hiding SideBarCategories
+  //TODO: functionality for hiding SideBarCategories
 
   const handleClickCategory = (category, index) => {
     updateActiveCategory({

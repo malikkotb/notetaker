@@ -7,11 +7,14 @@ import useCatQuery from "@/app/(hooks)/useCatQuery";
 import SideBarCategories from "../components/SideBarCategories";
 import useMyStore from "./(store)/store";
 import useLogout from "./(hooks)/useLogout";
+import { useRouter } from 'next/navigation'
+
 export default function Home() {
   const [sidebarVisible, setSidebarVisible] = useState(true);
   const [catSidebarVisible, setCatSidebarVisible] = useState(true);
-  const { authenticated } = useMyStore();
+  const { authenticated, updateActiveNote, updateActiveCategory } = useMyStore();
   const logout = useLogout();
+  const router = useRouter();
 
   useEffect(() => {
     const handleResize = () => {
@@ -25,6 +28,18 @@ export default function Home() {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
+  useEffect(() => {
+    if (!authenticated) {
+      console.log("should reload now and go to /login");
+      updateActiveNote(null);
+      updateActiveCategory(null);
+      router.refresh()
+      router.push("/login");
+     
+
+    }
+  }, [authenticated])
 
   const { data: notes, isLoading, isError, error } = useNotesQuery();
   const {
