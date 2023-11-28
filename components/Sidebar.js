@@ -27,7 +27,7 @@ export default function Sidebar({ sidebarVisible, notes, isLoading }) {
       userId: pb.authStore.model.id,
       title: "Untitled",
       content: "",
-      category: activeCategory.id
+      category: activeCategory.categoryId,
     };
     mutate(data);
     if (isSuccessAddNote) {
@@ -91,8 +91,10 @@ export default function Sidebar({ sidebarVisible, notes, isLoading }) {
               <p className="px-4 w-52">Loading...</p>
             ) : (
               notes
-                ?.filter((note) =>
-                  note.title.toLowerCase().includes(searchTerm)
+                ?.filter(
+                  (note) =>
+                    note.title.toLowerCase().includes(searchTerm) &&
+                    note.categoryId === activeCategory.categoryId
                 )
                 .map((note, index) => (
                   // A single note:
@@ -108,9 +110,11 @@ export default function Sidebar({ sidebarVisible, notes, isLoading }) {
                     variant="ghost"
                     key={index}
                   >
-                    {/* Categoty */}
+                    {/* Category */}
                     <div className="items-center w-full flex justify-between">
-                      <div className="overflow-hidden text-xs">{activeCategory.name}</div>
+                      <div className="overflow-hidden text-xs">
+                        {activeCategory.name}
+                      </div>
                       <Link
                         href="/"
                         onClick={(e) => {

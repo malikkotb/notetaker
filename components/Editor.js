@@ -14,7 +14,7 @@ export default function Editor({ toggleSidebar, notes }) {
             <button className="cursor-pointer" disabled={!activeCategory} onClick={toggleSidebar}>
               <Menu />
             </button>
-            {activeNote ? notes[activeNote.index].title : ""}
+            {/* {activeNote ? notes[activeNote.index].title : ""} */}
           </div>
           <div>
             <ModeToggle />

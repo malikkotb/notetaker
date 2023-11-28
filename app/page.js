@@ -2,7 +2,6 @@
 import Sidebar from "../components/Sidebar";
 import Editor from "../components/Editor";
 import { useEffect, useState } from "react";
-import useMyStore from "./(store)/store";
 import useNotesQuery from "./(hooks)/useNotesQuery";
 import useCatQuery from "@/app/(hooks)/useCatQuery";
 import SideBarCategories from "../components/SideBarCategories";
@@ -22,20 +21,15 @@ export default function Home() {
     };
   }, []);
 
-  
-  const { data: notes, isSuccess: notesLoaded, isLoading, isError, error } = useNotesQuery();
-  const { data: categories, isLoading: categoriesLoading, isError: catIsError, error: catError, isSuccess} = useCatQuery();
-
-  if (isSuccess) {
-    console.log(categories); 
-  }
-
-  if(notesLoaded) {
-    console.log(notes);
-  }
+  const { data: notes, isLoading, isError, error } = useNotesQuery();
+  const { data: categories, isLoading: catsLoading, isError: catIsError, error: catError} = useCatQuery();
 
   if (isError) {
     console.log("Error fetching notes: ", error.message);
+  }
+
+  if (catIsError) {
+    console.log("Error fetching categories: ", catError.message);
   }
 
   function toggleSidebar() {
@@ -44,7 +38,7 @@ export default function Home() {
 
   return (
     <div className="flex m-0">
-      <SideBarCategories categories={categories} isLoading={categoriesLoading} catSidebarVisible={catSidebarVisible} />
+      <SideBarCategories categories={categories} isLoading={catsLoading} catSidebarVisible={catSidebarVisible} />
       <Sidebar
         sidebarVisible={sidebarVisible}
         isLoading={isLoading}

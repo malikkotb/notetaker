@@ -9,7 +9,7 @@ export default function useNotesQuery() {
     const data = (await pb.collection("notes").getList(1, 50)).items;
     const notes = [];
     for (const element of data) {
-      if (element.userId === pb.authStore.model.id && element.category === activeCategory.categoryId) {
+      if (element.userId === pb.authStore.model.id) {
         const obj = {
           title: element.title,
           content: element.content,
