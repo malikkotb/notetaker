@@ -27,16 +27,16 @@ export default function AuthenticationPage() {
           </Link>
           <ModeToggle />
         </div>
-        <div className="relative hidden h-full flex-col bg-muted p-10 text-white lg:flex">
-          <div className="absolute inset-0 bg-zinc-900" />
+        <div className="relative hidden h-full flex-col p-10 text-white lg:flex">
+          <div className="absolute inset-0" style={{ backgroundImage: 'url("pexels_bg.jpg")', backgroundSize: 'cover', backgroundPosition: '50% 0%' }} />
           <div className="relative z-20 gap-2 flex items-center text-lg font-medium">
             <PiNotebookLight />
-            NoteTaker
+            SecondBrain
           </div>
           <div className="relative z-20 mt-auto">
             <blockquote className="space-y-2">
               <p className="text-lg">
-                &ldquo;NoteTaker has transformed the way I organize my thoughts,
+                &ldquo;SecondBrain has transformed the way I organize my thoughts,
                 making note-taking effortlessly intuitive and incredibly
                 efficient. It's the perfect companion for staying organized and
                 boosting productivity!&rdquo;

@@ -5,9 +5,14 @@ import { useEffect, useState } from "react";
 import useNotesQuery from "./(hooks)/useNotesQuery";
 import useCatQuery from "@/app/(hooks)/useCatQuery";
 import SideBarCategories from "../components/SideBarCategories";
+import useMyStore from "./(store)/store";
+import { useRouter } from "next/router";
 export default function Home() {
   const [sidebarVisible, setSidebarVisible] = useState(true);
   const [catSidebarVisible, setCatSidebarVisible] = useState(true);
+  const { authenticated } = useMyStore();
+
+
   useEffect(() => {
     const handleResize = () => {
       setSidebarVisible(window.innerWidth >= 768);
@@ -22,7 +27,12 @@ export default function Home() {
   }, []);
 
   const { data: notes, isLoading, isError, error } = useNotesQuery();
-  const { data: categories, isLoading: catsLoading, isError: catIsError, error: catError} = useCatQuery();
+  const {
+    data: categories,
+    isLoading: catsLoading,
+    isError: catIsError,
+    error: catError,
+  } = useCatQuery();
 
   if (isError) {
     console.log("Error fetching notes: ", error.message);
@@ -38,7 +48,11 @@ export default function Home() {
 
   return (
     <div className="flex m-0">
-      <SideBarCategories categories={categories} isLoading={catsLoading} catSidebarVisible={catSidebarVisible} />
+      <SideBarCategories
+        categories={categories}
+        isLoading={catsLoading}
+        catSidebarVisible={catSidebarVisible}
+      />
       <Sidebar
         sidebarVisible={sidebarVisible}
         isLoading={isLoading}

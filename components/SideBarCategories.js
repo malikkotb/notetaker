@@ -11,15 +11,22 @@ import { Button } from "../components/ui/button";
 import useMyStore from "@/app/(store)/store";
 import useAddCategory from "../app/(hooks)/useAddCategory";
 import { Toaster, toast } from "sonner";
+import { useEffect } from "react";
 
 export default function SideBarCategories({
   catSidebarVisible,
   categories,
   isLoading,
 }) {
-  const { updateActiveCategory, activeCategory } = useMyStore();
+  const { updateActiveCategory, activeCategory, authenticated } = useMyStore();
   const { mutate, isSuccess: isSuccesAddCategory } = useAddCategory();
   const logout = useLogout();
+
+  // useEffect(() => {
+  //   if (authenticated === false) {
+
+  //   }
+  // }, [authenticated])
 
   const addCategory = async () => {
     // if (inputName === "") {
@@ -55,7 +62,7 @@ export default function SideBarCategories({
         } h-screen flex-col justify-between border-r shadow-inner`}
       >
         <div>
-          <div className="w-full px-8 py-2 mt-4">NoteTaker</div>
+          <div className="w-full px-8 py-2 mt-4">SecondBrain</div>
           <div className="flex justify-between items-center w-full px-8 py-2 my-4">
             <div className="text-xs font-bold tracking-widest">CATEGORIES</div>
             <div onClick={addCategory} className="cursor-pointer">
@@ -95,7 +102,7 @@ export default function SideBarCategories({
         </div>
         <div className="p-4 px-8 w-full flex items-center justify-between">
           <div className="bg-red-400 p-4 rounded-full mr-2"></div>
-          <div className="text-sm">{pb.authStore.model.email}</div>
+          <div className="text-sm">{pb.authStore.model?.email}</div>
           <div className="ml-2">
             <Popover>
               <PopoverTrigger>
