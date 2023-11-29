@@ -1,4 +1,4 @@
-import { Plus } from "lucide-react";
+import { Plus, ChevronLeft, ChevronRight } from "lucide-react";
 import useLogout from "@/app/(hooks)/useLogout";
 import pb from "../app/(lib)/pocketbase";
 import {
@@ -11,7 +11,7 @@ import { Button } from "../components/ui/button";
 import useMyStore from "@/app/(store)/store";
 import useAddCategory from "../app/(hooks)/useAddCategory";
 import { Toaster, toast } from "sonner";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -22,18 +22,18 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import data from "@emoji-mart/data";
+import Picker from "@emoji-mart/react";
 
-export default function SideBarCategories({
-  catSidebarVisible,
-  categories,
-  isLoading,
-}) {
+export default function SideBarCategories({ categories, isLoading }) {
   const { updateActiveCategory, activeCategory, authenticated } = useMyStore();
   const { mutate, isSuccess: isSuccesAddCategory } = useAddCategory();
   const logout = useLogout();
   const inputRef = useRef();
+  const [catSidebarVisible, setCatSidebarVisible] = useState(true);
 
+  const [showPicker, setShowPicker] = useState(false);
+  const [chosenEmoji, setChosenEmoji] = useState(true);
 
   const handleAddCategory = () => {
     const name = inputRef.current.value;
@@ -42,10 +42,22 @@ export default function SideBarCategories({
     }
   };
 
+  const handleEmojiClick = (emoji) => {
+    setChosenEmoji(emoji);
+    setShowPicker(false);
+  };
+
   const addCategory = async (name) => {
+    // add icon somehow
+    // and setChosenEmoji(null) back to nothing for the next added category
+
+    // if (chosenEmoji === null) {
+    //   console.log("disable button");
+    // }
     const data = {
       userId: pb.authStore.model.id,
       name: name,
+      emoji: chosenEmoji,
     };
     mutate(data);
     if (isSuccesAddCategory) {
@@ -53,7 +65,8 @@ export default function SideBarCategories({
     }
   };
 
-  //TODO: functionality for hiding SideBarCategories
+  // display chevron right when sidebarCatgeories is collapesed
+  // display chevron left when sidebarCatgeories is opened
 
   const handleClickCategory = (category, index) => {
     updateActiveCategory({
@@ -72,31 +85,57 @@ export default function SideBarCategories({
         } h-screen flex-col justify-between border-r shadow-inner`}
       >
         <div>
-          <div className="w-full px-8 py-2 mt-4">SecondBrain</div>
+          <div className="w-full px-8 py-2 mt-4 flex justify-between items-center">
+            <div>SecondBrain</div>
+            <div>{catSidebarVisible ? <ChevronLeft /> : <ChevronRight />}</div>
+          </div>
           <div className="flex justify-between items-center w-full px-8 py-2 my-4">
             <div className="text-xs font-bold tracking-widest">CATEGORIES</div>
-            {/* <div onClick={handleAddCategory} className="cursor-pointer">
-              <Plus />
-            </div> */}
-
             <Dialog>
               <DialogTrigger asChild>
                 <div className="cursor-pointer">
                   <Plus />
                 </div>
               </DialogTrigger>
-              <DialogContent className="sm:max-w-[425px] bg-white">
+              <DialogContent className="sm:max-w-[350px] bg-white">
                 <DialogHeader>
                   <DialogTitle>Name the category</DialogTitle>
                 </DialogHeader>
-                <div className="grid gap-4 py-4">
+                <div className="pt-4">
                   <div className="items-center gap-4">
                     <Input
                       id="name"
-                      placeholder="Thoughts..."
-                      className="col-span-2"
+                      placeholder="Game changer..."
+                      className=""
                       ref={inputRef}
                     />
+                    <div className="w-full justify-center py-2">
+                      <div className="flex justify-between items-center">
+                        <Button onClick={() => setShowPicker(!showPicker)}>
+                          Add Icon
+                        </Button>
+                        {chosenEmoji && (
+                          <div className="text-lg">
+                            Chosen Emoji: 🪩 {chosenEmoji.native}
+                          </div>
+                        )}
+                      </div>
+                      {showPicker && (
+                        <div style={{ maxHeight: "20rem", overflowY: "auto" }} className="">
+                          <Picker
+                            className=""
+                            style={{ height: "20rem" }}
+                            data={data}
+                            onEmojiSelect={console.log}
+                            // onClickOutside={setShowPicker(!showPicker)}
+                            navPosition="top"
+                            perLine={7}
+                            maxFrequentRows={0}
+                            previewPosition="none"
+                          />
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
                 <DialogFooter>
@@ -133,7 +172,7 @@ export default function SideBarCategories({
           <div className="mt-4 flex justify-between items-center w-full px-8 py-2">
             <div className="text-xs font-bold tracking-widest">TAGS</div>
             <div
-              //   onClick={addCategory}
+              //   onClick={addTags}
               className="cursor-pointer"
             >
               <Plus />

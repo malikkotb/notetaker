@@ -64,7 +64,7 @@ export default function Sidebar({ sidebarVisible, notes, isLoading }) {
       <Toaster position="top-right" richColors />
       {activeCategory && (
         <div
-          className={`max-w-80 flex-shrink-0 dark:bg-neutral-900 ${
+          className={`w-64 flex-shrink-0 dark:bg-neutral-900 ${
             sidebarVisible ? "flex sticky top-0" : "hidden"
           } h-screen flex-col justify-between border-r shadow-inner`}
         >
@@ -104,7 +104,7 @@ export default function Sidebar({ sidebarVisible, notes, isLoading }) {
                     className={`w-64 h-28 p-3 hover:bg-zinc-100 cursor-pointer rounded-none border-b ${
                       index === 0 ? "border-t" : ""
                     } overflow-hidden justify-start font-normal ${
-                      index === activeNote?.index
+                      note.record_id === activeNote?.record_id
                         ? "bg-zinc-100 dark:bg-neutral-800"
                         : ""
                     }`}

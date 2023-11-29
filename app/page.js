@@ -12,7 +12,6 @@ import pb from "./(lib)/pocketbase";
 
 export default function Home() {
   const [sidebarVisible, setSidebarVisible] = useState(true);
-  const [catSidebarVisible, setCatSidebarVisible] = useState(true);
   const { authenticated, updateActiveNote, updateActiveCategory } =
     useMyStore();
   const router = useRouter();
@@ -67,7 +66,6 @@ export default function Home() {
       <SideBarCategories
         categories={categories}
         isLoading={catsLoading}
-        catSidebarVisible={catSidebarVisible}
       />
       <Sidebar
         sidebarVisible={sidebarVisible}
