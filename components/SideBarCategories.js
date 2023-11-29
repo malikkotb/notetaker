@@ -33,12 +33,14 @@ export default function SideBarCategories({ categories, isLoading }) {
   const [catSidebarVisible, setCatSidebarVisible] = useState(true);
 
   const [showPicker, setShowPicker] = useState(false);
-  const [chosenEmoji, setChosenEmoji] = useState(true);
+  const [chosenEmoji, setChosenEmoji] = useState(null);
 
   const handleAddCategory = () => {
     const name = inputRef.current.value;
-    if (name !== "" || name !== null) {
+    console.log("emoji: ", chosenEmoji.native);
+    if (chosenEmoji !== null && (name !== "" || name !== null)) {
       addCategory(name);
+      setChosenEmoji(null);
     }
   };
 
@@ -49,15 +51,10 @@ export default function SideBarCategories({ categories, isLoading }) {
 
   const addCategory = async (name) => {
     // add icon somehow
-    // and setChosenEmoji(null) back to nothing for the next added category
-
-    // if (chosenEmoji === null) {
-    //   console.log("disable button");
-    // }
     const data = {
       userId: pb.authStore.model.id,
       name: name,
-      emoji: chosenEmoji,
+      emoji: chosenEmoji.native,
     };
     mutate(data);
     if (isSuccesAddCategory) {
@@ -109,25 +106,20 @@ export default function SideBarCategories({ categories, isLoading }) {
                       className=""
                       ref={inputRef}
                     />
-                    <div className="w-full justify-center py-2">
+                    <div className="w-full justify-center gap-2 py-2">
                       <div className="flex justify-between items-center">
                         <Button onClick={() => setShowPicker(!showPicker)}>
-                          Add Icon
+                          Select Icon
                         </Button>
                         {chosenEmoji && (
-                          <div className="text-lg">
-                            Chosen Emoji: 🪩 {chosenEmoji.native}
-                          </div>
+                          <div className="text-2xl">{chosenEmoji.native}</div>
                         )}
                       </div>
                       {showPicker && (
-                        <div style={{ maxHeight: "20rem", overflowY: "auto" }} className="">
+                        <div className="overflow-hidden h-60">
                           <Picker
-                            className=""
-                            style={{ height: "20rem" }}
                             data={data}
-                            onEmojiSelect={console.log}
-                            // onClickOutside={setShowPicker(!showPicker)}
+                            onEmojiSelect={handleEmojiClick}
                             navPosition="top"
                             perLine={7}
                             maxFrequentRows={0}
@@ -156,7 +148,7 @@ export default function SideBarCategories({ categories, isLoading }) {
               // A single category:
               <div
                 key={index}
-                className={`px-8 py-3 cursor-pointer hover:bg-blue-600 text-sm text-zinc-300
+                className={`px-8 py-3 cursor-pointer hover:bg-blue-600 text-base text-zinc-300
               ${
                 index === activeCategory?.index
                   ? "bg-blue-600 dark:bg-neutral-800"
@@ -164,7 +156,7 @@ export default function SideBarCategories({ categories, isLoading }) {
               }`}
                 onClick={() => handleClickCategory(category, index)}
               >
-                {category.name}
+                {category.emoji} {category.name}
               </div>
             ))
           )}

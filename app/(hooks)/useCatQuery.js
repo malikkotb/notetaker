@@ -11,6 +11,7 @@ export default function useCatQuery() {
           name: element.name,
           notes: element.notes,
           categoryId: element.id,
+          emoji: element.emoji
         };
         categories.push(obj);
       }
