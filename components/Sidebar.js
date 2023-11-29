@@ -55,6 +55,7 @@ export default function Sidebar({ sidebarVisible, notes, isLoading }) {
     onSuccess: () => {
       toast.error("Note was deleted");
       queryClient.invalidateQueries({ queryKey: ["notes"] });
+      updateActiveNote(null);
     },
   });
 
@@ -63,7 +64,7 @@ export default function Sidebar({ sidebarVisible, notes, isLoading }) {
       <Toaster position="top-right" richColors />
       {activeCategory && (
         <div
-          className={` w-80 dark:bg-neutral-900 ${
+          className={`max-w-80 flex-shrink-0 dark:bg-neutral-900 ${
             sidebarVisible ? "flex sticky top-0" : "hidden"
           } h-screen flex-col justify-between border-r shadow-inner`}
         >

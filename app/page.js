@@ -7,13 +7,14 @@ import useCatQuery from "@/app/(hooks)/useCatQuery";
 import SideBarCategories from "../components/SideBarCategories";
 import useMyStore from "./(store)/store";
 import useLogout from "./(hooks)/useLogout";
-import { useRouter } from 'next/navigation'
+import { useRouter } from "next/navigation";
+import pb from "./(lib)/pocketbase";
 
 export default function Home() {
   const [sidebarVisible, setSidebarVisible] = useState(true);
   const [catSidebarVisible, setCatSidebarVisible] = useState(true);
-  const { authenticated, updateActiveNote, updateActiveCategory } = useMyStore();
-  const logout = useLogout();
+  const { authenticated, updateActiveNote, updateActiveCategory } =
+    useMyStore();
   const router = useRouter();
 
   useEffect(() => {
@@ -25,6 +26,7 @@ export default function Home() {
 
     // Clean up the event listener when the component unmounts
     return () => {
+      console.log("cleaning up");
       window.removeEventListener("resize", handleResize);
     };
   }, []);
@@ -34,12 +36,11 @@ export default function Home() {
       console.log("should reload now and go to /login");
       updateActiveNote(null);
       updateActiveCategory(null);
-      router.refresh()
+      // router.refresh();
+      // pb.authStore.clear();
       router.push("/login");
-     
-
     }
-  }, [authenticated])
+  }, [authenticated]);
 
   const { data: notes, isLoading, isError, error } = useNotesQuery();
   const {

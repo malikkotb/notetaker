@@ -67,7 +67,7 @@ export default function SideBarCategories({
     <>
       <Toaster position="top-right" richColors />
       <div
-        className={`w-96 text-white bg-blue-500 dark:bg-neutral-900 ${
+        className={`max-w-96 flex-shrink-0 text-white bg-blue-500 dark:bg-neutral-900 ${
           catSidebarVisible ? "flex sticky top-0" : "hidden"
         } h-screen flex-col justify-between border-r shadow-inner`}
       >
