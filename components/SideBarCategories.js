@@ -24,6 +24,7 @@ import {
 import { Input } from "@/components/ui/input";
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
+import Image from "next/image";
 
 export default function SideBarCategories({ categories, isLoading }) {
   const { updateActiveCategory, activeCategory, authenticated } = useMyStore();
@@ -50,7 +51,6 @@ export default function SideBarCategories({ categories, isLoading }) {
   };
 
   const addCategory = async (name) => {
-    // add icon somehow
     const data = {
       userId: pb.authStore.model.id,
       name: name,
@@ -61,9 +61,6 @@ export default function SideBarCategories({ categories, isLoading }) {
       toast.success("New category added");
     }
   };
-
-  // display chevron right when sidebarCatgeories is collapesed
-  // display chevron left when sidebarCatgeories is opened
 
   const handleClickCategory = (category, index) => {
     updateActiveCategory({
@@ -77,17 +74,18 @@ export default function SideBarCategories({ categories, isLoading }) {
     <>
       <Toaster position="top-right" richColors />
       <div
-        className={`max-w-96 flex-shrink-0 text-white bg-blue-500 dark:bg-neutral-900 ${
-          catSidebarVisible ? "flex sticky top-0" : "hidden"
-        } h-screen flex-col justify-between border-r shadow-inner`}
+        className={`flex sticky top-0 text-white bg-blue-500 dark:bg-neutral-900 
+        h-screen flex-col justify-between border-r shadow-inner`}
+        style={{ width: catSidebarVisible ? "250px" : "80px" }}
       >
         <div>
           <div className="w-full px-8 py-2 mt-4 flex justify-between items-center">
-            <div>SecondBrain</div>
-            <div>{catSidebarVisible ? <ChevronLeft /> : <ChevronRight />}</div>
+            <Image width={30} height={30} alt="logo" src="/sb_logo.png" className=" rounded-md"></Image>
+            <div>{catSidebarVisible && "SecondBrain"}</div>
+            <div className="cursor-pointer" onClick={() => setCatSidebarVisible(!catSidebarVisible)}>{catSidebarVisible ? <ChevronLeft /> : "<ChevronRight />"}</div>
           </div>
-          <div className="flex justify-between items-center w-full px-8 py-2 my-4">
-            <div className="text-xs font-bold tracking-widest">CATEGORIES</div>
+          <div className={`flex ${catSidebarVisible ? "justify-between" : "justify-center"} items-center w-full px-8 py-2 my-4`}>
+            <div className="text-xs font-bold tracking-widest">{catSidebarVisible && "CATEGORIES"}</div>
             <Dialog>
               <DialogTrigger asChild>
                 <div className="cursor-pointer">
@@ -148,7 +146,7 @@ export default function SideBarCategories({ categories, isLoading }) {
               // A single category:
               <div
                 key={index}
-                className={`px-8 py-3 cursor-pointer hover:bg-blue-600 text-base text-zinc-300
+                className={`px-8 py-3 cursor-pointer hover:bg-blue-600 text-base text-zinc-300  line-clamp-1
               ${
                 index === activeCategory?.index
                   ? "bg-blue-600 dark:bg-neutral-800"
@@ -156,13 +154,13 @@ export default function SideBarCategories({ categories, isLoading }) {
               }`}
                 onClick={() => handleClickCategory(category, index)}
               >
-                {category.emoji} {category.name}
+                {category.emoji} {catSidebarVisible && category.name} 
               </div>
             ))
           )}
 
           <div className="mt-4 flex justify-between items-center w-full px-8 py-2">
-            <div className="text-xs font-bold tracking-widest">TAGS</div>
+            <div className={`${catSidebarVisible ? "justify-between" : "justify-center"} text-xs font-bold tracking-widest`}>{catSidebarVisible && "TAGS"}</div>
             <div
               //   onClick={addTags}
               className="cursor-pointer"
@@ -171,15 +169,15 @@ export default function SideBarCategories({ categories, isLoading }) {
             </div>
           </div>
         </div>
-        <div className="p-4 px-8 w-full flex items-center justify-between">
-          <div className="bg-red-400 p-4 rounded-full mr-2"></div>
-          <div className="text-sm">{pb.authStore.model?.email}</div>
-          <div className="ml-2">
+        <div className="p-4 flex items-center justify-center">
+        {catSidebarVisible && <div className="text-sm">{pb.authStore.model?.email}</div>}
+          <div className={`${catSidebarVisible ? "ml-2" : ""}`}>
             <Popover>
               <PopoverTrigger>
                 <CaretDownIcon />
               </PopoverTrigger>
-              <PopoverContent className="">
+              <PopoverContent className="px-4 py-2">
+              {!catSidebarVisible && <div className="text-sm">{pb.authStore.model?.email}</div>}
                 <Button variant={"ghost"} onClick={() => logout()}>
                   Log Out
                 </Button>
