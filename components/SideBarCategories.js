@@ -79,13 +79,35 @@ export default function SideBarCategories({ categories, isLoading }) {
         style={{ width: catSidebarVisible ? "250px" : "80px" }}
       >
         <div>
-          <div className="w-full px-8 py-2 mt-4 flex justify-between items-center">
-            <Image width={30} height={30} alt="logo" src="/sb_logo.png" className=" rounded-md"></Image>
-            <div>{catSidebarVisible && "SecondBrain"}</div>
-            <div className="cursor-pointer" onClick={() => setCatSidebarVisible(!catSidebarVisible)}>{catSidebarVisible ? <ChevronLeft /> : "<ChevronRight />"}</div>
+          <div className={`${catSidebarVisible ? "justify-between gap-2" : "justify-center"} w-full px-8 py-2 mt-4 flex items-center`}>
+            <div className={`${!catSidebarVisible ? "cursor-pointer" : "" } w-10 h-10 flex-shrink-0`} onClick={() => setCatSidebarVisible(!catSidebarVisible)}>
+              <img alt="logo" src="/sb_logo.png" className="rounded-md" />
+            </div>
+            {/* <Image
+              width={30}
+              height={30}
+              alt="logo"
+              src="/sb_logo.png"
+              className="rounded-md"
+            ></Image> */}
+            <div className="text-sm font-bold">{catSidebarVisible && "SecondBrain"}</div>
+            {catSidebarVisible && (
+              <div
+                className="cursor-pointer"
+                onClick={() => setCatSidebarVisible(!catSidebarVisible)}
+              >
+                <ChevronLeft />
+              </div>
+            )}
           </div>
-          <div className={`flex ${catSidebarVisible ? "justify-between" : "justify-center"} items-center w-full px-8 py-2 my-4`}>
-            <div className="text-xs font-bold tracking-widest">{catSidebarVisible && "CATEGORIES"}</div>
+          <div
+            className={`flex ${
+              catSidebarVisible ? "justify-between" : "justify-center"
+            } items-center w-full px-8 py-2 my-4`}
+          >
+            <div className="text-xs font-bold tracking-widest">
+              {catSidebarVisible && "CATEGORIES"}
+            </div>
             <Dialog>
               <DialogTrigger asChild>
                 <div className="cursor-pointer">
@@ -146,7 +168,7 @@ export default function SideBarCategories({ categories, isLoading }) {
               // A single category:
               <div
                 key={index}
-                className={`px-8 py-3 cursor-pointer hover:bg-blue-600 text-base text-zinc-300  line-clamp-1
+                className={`px-8 py-3 flex items-center gap-2 cursor-pointer hover:bg-blue-600 text-lg text-zinc-300
               ${
                 index === activeCategory?.index
                   ? "bg-blue-600 dark:bg-neutral-800"
@@ -154,13 +176,20 @@ export default function SideBarCategories({ categories, isLoading }) {
               }`}
                 onClick={() => handleClickCategory(category, index)}
               >
-                {category.emoji} {catSidebarVisible && category.name} 
+                <div>{category.emoji}</div> 
+                <div className="text-sm line-clamp-1">{catSidebarVisible && category.name}</div>
               </div>
             ))
           )}
 
           <div className="mt-4 flex justify-between items-center w-full px-8 py-2">
-            <div className={`${catSidebarVisible ? "justify-between" : "justify-center"} text-xs font-bold tracking-widest`}>{catSidebarVisible && "TAGS"}</div>
+            <div
+              className={`${
+                catSidebarVisible ? "justify-between" : "justify-center"
+              } text-xs font-bold tracking-widest`}
+            >
+              {catSidebarVisible && "TAGS"}
+            </div>
             <div
               //   onClick={addTags}
               className="cursor-pointer"
@@ -170,14 +199,18 @@ export default function SideBarCategories({ categories, isLoading }) {
           </div>
         </div>
         <div className="p-4 flex items-center justify-center">
-        {catSidebarVisible && <div className="text-sm">{pb.authStore.model?.email}</div>}
+          {catSidebarVisible && (
+            <div className="text-sm">{pb.authStore.model?.email}</div>
+          )}
           <div className={`${catSidebarVisible ? "ml-2" : ""}`}>
             <Popover>
               <PopoverTrigger>
                 <CaretDownIcon />
               </PopoverTrigger>
               <PopoverContent className="px-4 py-2">
-              {!catSidebarVisible && <div className="text-sm">{pb.authStore.model?.email}</div>}
+                {!catSidebarVisible && (
+                  <div className="text-sm">{pb.authStore.model?.email}</div>
+                )}
                 <Button variant={"ghost"} onClick={() => logout()}>
                   Log Out
                 </Button>
