@@ -9,6 +9,7 @@ import Link from "next/link";
 import { Input } from "./ui/input";
 import useAddNote from "@/app/(hooks)/useAddNote";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
+import BlurryDivider from "./BlurryDivider";
 
 function removeHtmlTags(input) {
   return input.replace(/<\/?[^>]+(>|$)/g, " ");
@@ -64,9 +65,9 @@ export default function Sidebar({ sidebarVisible, notes, isLoading }) {
       <Toaster position="top-right" richColors />
       {activeCategory && (
         <div
-          className={`w-64 flex-shrink-0 dark:bg-neutral-900 ${
+          className={`w-64 flex-shrink-0 bg-neutra  dark:bg-neutral-800 ${
             sidebarVisible ? "flex sticky top-0" : "hidden"
-          } h-screen flex-col justify-between border-r shadow-inner`}
+          } h-screen flex-col justify-between shadow-inner`}
         >
           <div className="flex flex-col">
             <div className="flex justify-between items-center pt-4 px-4">
@@ -99,41 +100,43 @@ export default function Sidebar({ sidebarVisible, notes, isLoading }) {
                 )
                 .map((note, index) => (
                   // A single note:
-                  <div
-                    onClick={() => handleClickNote(note, index)}
-                    className={`w-64 h-28 p-3 hover:bg-zinc-100 cursor-pointer rounded-none border-b ${
-                      index === 0 ? "border-t" : ""
-                    } overflow-hidden justify-start font-normal ${
-                      note.record_id === activeNote?.record_id
-                        ? "bg-zinc-100 dark:bg-neutral-800"
-                        : ""
-                    }`}
-                    variant="ghost"
-                    key={index}
-                  >
-                    {/* Category */}
-                    <div className="items-center w-full flex justify-between">
-                      <div className="overflow-hidden text-xs">
-                        {activeCategory.name}
+                  <div key={index}>
+                    <BlurryDivider />
+                    <div
+                      onClick={() => handleClickNote(note, index)}
+                      // hover:bg-zinc-100 dark:hover:bg-zinc-800
+                      className={`w-64 h-28 p-3 cursor-pointer rounded-md overflow-hidden justify-start font-normal ${
+                        note.record_id === activeNote?.record_id
+                          ? "bg-zinc-100 dark:bg-[#2B99D6]"
+                          : ""
+                      }`}
+                      variant="ghost"
+                      key={index}
+                    >
+                      {/* Category */}
+                      <div className="items-center w-full flex justify-between">
+                        <div className="overflow-hidden text-xs">
+                          {activeCategory.name}
+                        </div>
+                        <Link
+                          href="/"
+                          onClick={(e) => {
+                            e.stopPropagation(); // Stop event propagation
+                            deleteNoteMutation(note);
+                          }}
+                        >
+                          <Trash2 className="w-4 hover:text-red-500" />
+                        </Link>
                       </div>
-                      <Link
-                        href="/"
-                        onClick={(e) => {
-                          e.stopPropagation(); // Stop event propagation
-                          deleteNoteMutation(note);
-                        }}
-                      >
-                        <Trash2 className="w-4 hover:text-red-500" />
-                      </Link>
-                    </div>
 
-                    {/* Title and content */}
-                    <div className="">
-                      <div className="overflow-hidden font-bold">
-                        {note.title}
-                      </div>
-                      <div className="text-sm text-zinc-500 overflow-hidden line-clamp-2">
-                        {removeHtmlTags(note.content)}
+                      {/* Title and content */}
+                      <div className="">
+                        <div className="overflow-hidden font-bold">
+                          {note.title}
+                        </div>
+                        <div className="text-sm text-zinc-600 dark:text-zinc-300 overflow-hidden line-clamp-2">
+                          {removeHtmlTags(note.content)}
+                        </div>
                       </div>
                     </div>
                   </div>

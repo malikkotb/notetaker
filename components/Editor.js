@@ -8,7 +8,7 @@ export default function Editor({ toggleSidebar, notes }) {
 
   return (
     <>
-      <div className={`p-4 w-full`}>
+      <div className={`p-4 w-full bg-white dark:bg-zinc-800`}>
         <div className="flex items-center justify-between">
           <div className="flex px-4 gap-2">
             <button className="cursor-pointer" disabled={!activeCategory} onClick={toggleSidebar}>

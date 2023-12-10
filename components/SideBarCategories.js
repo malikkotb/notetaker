@@ -74,8 +74,8 @@ export default function SideBarCategories({ categories, isLoading }) {
     <>
       <Toaster position="top-right" richColors />
       <div
-        className={`flex sticky top-0 text-white bg-blue-500 dark:bg-neutral-900 
-        h-screen flex-col justify-between border-r shadow-inner`}
+        className={`flex sticky top-0 text-black dark:text-white bg-white/20 backdrop-blur-md dark:bg-zinc-900/70 
+        h-screen flex-col justify-between border-r dark:border-black shadow-inner w-20 hover:w-64 transition-all duration-300`}
         style={{ width: catSidebarVisible ? "250px" : "80px" }}
       >
         <div>
