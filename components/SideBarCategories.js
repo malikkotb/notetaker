@@ -74,27 +74,33 @@ export default function SideBarCategories({ categories, isLoading }) {
     <>
       <Toaster position="top-right" richColors />
       <div
-        className={`flex sticky top-0 text-black dark:text-white bg-white/20 backdrop-blur-md dark:bg-zinc-900/70 
+        onMouseEnter={() => setCatSidebarVisible(!catSidebarVisible)}        
+        onMouseLeave={() => setCatSidebarVisible(!catSidebarVisible)}
+        className={`flex sticky top-0 text-black dark:text-white bg-white/20 backdrop-blur-md dark:bg-zinc-900/80 
         h-screen flex-col justify-between border-r dark:border-black shadow-inner w-20 hover:w-64 transition-all duration-300`}
         style={{ width: catSidebarVisible ? "250px" : "80px" }}
       >
         <div>
-          <div className={`${catSidebarVisible ? "justify-between gap-2" : "justify-center"} w-full px-8 py-2 mt-4 flex items-center`}>
-            <div className={`${!catSidebarVisible ? "cursor-pointer" : "" } w-10 h-10 flex-shrink-0`} onClick={() => setCatSidebarVisible(!catSidebarVisible)}>
-              <img alt="logo" src="/sb_logo.png" className="rounded-md" />
+          <div
+            className={`${
+              catSidebarVisible ? "justify-between gap-2" : "justify-center"
+            } w-full px-8 py-2 mt-4 flex items-center`}
+          >
+            <div
+              className={`${
+                !catSidebarVisible ? "cursor-pointer" : ""
+              } w-10 h-10 flex-shrink-0`}
+              // onClick={() => setCatSidebarVisible(!catSidebarVisible)}
+            >
+              <img alt="logo" src="/star.png" className="rounded-md" />
             </div>
-            {/* <Image
-              width={30}
-              height={30}
-              alt="logo"
-              src="/sb_logo.png"
-              className="rounded-md"
-            ></Image> */}
-            <div className="text-sm font-bold">{catSidebarVisible && "SecondBrain"}</div>
+            <div className="text-sm font-bold">
+              {catSidebarVisible && "SecondBrain"}
+            </div>
             {catSidebarVisible && (
               <div
                 className="cursor-pointer"
-                onClick={() => setCatSidebarVisible(!catSidebarVisible)}
+                // onClick={() => setCatSidebarVisible(!catSidebarVisible)}
               >
                 <ChevronLeft />
               </div>
@@ -168,16 +174,16 @@ export default function SideBarCategories({ categories, isLoading }) {
               // A single category:
               <div
                 key={index}
-                className={`px-8 py-3 flex items-center gap-2 cursor-pointer hover:bg-blue-600 text-lg text-zinc-300
+                className={`px-8 py-0.5 mx-2 rounded-lg flex items-center gap-2 cursor-pointer text-2xl hover:bg-[#2B99D6] hover:text-white
               ${
-                index === activeCategory?.index
-                  ? "bg-blue-600 dark:bg-neutral-800"
-                  : ""
-              }`}
+                index === activeCategory?.index ? "bg-[#2B99D6] text-white" : ""
+              } ${!catSidebarVisible ? "justify-center" : ""}`}
                 onClick={() => handleClickCategory(category, index)}
               >
-                <div>{category.emoji}</div> 
-                <div className="text-sm line-clamp-1">{catSidebarVisible && category.name}</div>
+                <div>{category.emoji}</div>
+                {catSidebarVisible && (
+                  <div className="text-sm line-clamp-1">{category.name}</div>
+                )}
               </div>
             ))
           )}
@@ -198,6 +204,8 @@ export default function SideBarCategories({ categories, isLoading }) {
             </div>
           </div>
         </div>
+
+        {/* TODO: refactor this into component: */}
         <div className="p-4 flex items-center justify-center">
           {catSidebarVisible && (
             <div className="text-sm">{pb.authStore.model?.email}</div>

@@ -2,6 +2,7 @@ node_modules
 .yarn
 .next
 pocketbase
-pocketbase/pb_data/
+pocketbase/pb_data/data.db
+pocketbase/pb_data/logs.db
 .env
 .env*.local

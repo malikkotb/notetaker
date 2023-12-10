@@ -65,7 +65,7 @@ export default function Sidebar({ sidebarVisible, notes, isLoading }) {
       <Toaster position="top-right" richColors />
       {activeCategory && (
         <div
-          className={`w-64 flex-shrink-0 bg-neutra  dark:bg-neutral-800 ${
+          className={`w-64 flex-shrink-0 bg-neutral-100 dark:bg-neutral-800 ${
             sidebarVisible ? "flex sticky top-0" : "hidden"
           } h-screen flex-col justify-between shadow-inner`}
         >
@@ -107,7 +107,7 @@ export default function Sidebar({ sidebarVisible, notes, isLoading }) {
                       // hover:bg-zinc-100 dark:hover:bg-zinc-800
                       className={`w-64 h-28 p-3 cursor-pointer rounded-md overflow-hidden justify-start font-normal ${
                         note.record_id === activeNote?.record_id
-                          ? "bg-zinc-100 dark:bg-[#2B99D6]"
+                          ? "bg-[#2B99D6] text-white"
                           : ""
                       }`}
                       variant="ghost"
@@ -134,7 +134,8 @@ export default function Sidebar({ sidebarVisible, notes, isLoading }) {
                         <div className="overflow-hidden font-bold">
                           {note.title}
                         </div>
-                        <div className="text-sm text-zinc-600 dark:text-zinc-300 overflow-hidden line-clamp-2">
+                        <div className="text-sm overflow-hidden line-clamp-2">
+                          {/* text-zinc-600 dark:text-zinc-300 */}
                           {removeHtmlTags(note.content)}
                         </div>
                       </div>
