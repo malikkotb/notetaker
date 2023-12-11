@@ -13,7 +13,7 @@ export default function AuthenticationPage() {
 
   return (
     <>
-      <div className="container relative h-screen flex-col items-center justify-center grid lg:max-w-none lg:grid-cols-2 lg:px-0">
+      <div className="bg-white dark:bg-black container relative h-screen flex-col items-center justify-center grid lg:max-w-none lg:grid-cols-2 lg:px-0">
         <div className="absolute flex right-4 gap-1 top-4 md:right-8 md:top-8">
           <Link
             href=""

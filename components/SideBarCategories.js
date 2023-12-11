@@ -27,7 +27,7 @@ import Picker from "@emoji-mart/react";
 import Image from "next/image";
 
 export default function SideBarCategories({ categories, isLoading }) {
-  const { updateActiveCategory, activeCategory, authenticated } = useMyStore();
+  const { updateActiveCategory, activeCategory, authenticated, setSidebarVisible } = useMyStore();
   const { mutate, isSuccess: isSuccesAddCategory } = useAddCategory();
   const logout = useLogout();
   const inputRef = useRef();
@@ -68,14 +68,15 @@ export default function SideBarCategories({ categories, isLoading }) {
       index: index,
       categoryId: category.categoryId,
     });
+    // setSidebarVisible();
   };
 
   return (
     <>
       <Toaster position="top-right" richColors />
       <div
-        onMouseEnter={() => setCatSidebarVisible(!catSidebarVisible)}        
-        onMouseLeave={() => setCatSidebarVisible(!catSidebarVisible)}
+        // onMouseEnter={() => setCatSidebarVisible(!catSidebarVisible)}        
+        // onMouseLeave={() => setCatSidebarVisible(!catSidebarVisible)}
         className={`flex sticky top-0 text-black dark:text-white bg-white/20 backdrop-blur-md dark:bg-zinc-900/80 
         h-screen flex-col justify-between border-r dark:border-black shadow-inner w-20 hover:w-64 transition-all duration-300`}
         style={{ width: catSidebarVisible ? "250px" : "80px" }}
@@ -90,7 +91,7 @@ export default function SideBarCategories({ categories, isLoading }) {
               className={`${
                 !catSidebarVisible ? "cursor-pointer" : ""
               } w-10 h-10 flex-shrink-0`}
-              // onClick={() => setCatSidebarVisible(!catSidebarVisible)}
+              onClick={() => setCatSidebarVisible(!catSidebarVisible)}
             >
               <img alt="logo" src="/star.png" className="rounded-md" />
             </div>
@@ -100,7 +101,7 @@ export default function SideBarCategories({ categories, isLoading }) {
             {catSidebarVisible && (
               <div
                 className="cursor-pointer"
-                // onClick={() => setCatSidebarVisible(!catSidebarVisible)}
+                onClick={() => setCatSidebarVisible(!catSidebarVisible)}
               >
                 <ChevronLeft />
               </div>
@@ -188,12 +189,12 @@ export default function SideBarCategories({ categories, isLoading }) {
             ))
           )}
 
-          <div className="mt-4 flex justify-between items-center w-full px-8 py-2">
             <div
-              className={`${
-                catSidebarVisible ? "justify-between" : "justify-center"
-              } text-xs font-bold tracking-widest`}
-            >
+            className={`flex ${
+              catSidebarVisible ? "justify-between" : "justify-center"
+            } items-center w-full px-8 py-2 my-4`}
+          >
+            <div className="text-xs font-bold tracking-widest">
               {catSidebarVisible && "TAGS"}
             </div>
             <div

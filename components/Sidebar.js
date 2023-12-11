@@ -15,8 +15,8 @@ function removeHtmlTags(input) {
   return input.replace(/<\/?[^>]+(>|$)/g, " ");
 }
 
-export default function Sidebar({ sidebarVisible, notes, isLoading }) {
-  const { updateActiveNote, activeNote, activeCategory } = useMyStore();
+export default function Sidebar({ notes, isLoading }) {
+  const { updateActiveNote, activeNote, activeCategory, sidebarVisible } = useMyStore();
   const [searchTerm, setSearchTerm] = useState("");
   const searchInput = useRef();
   const queryClient = useQueryClient();
@@ -67,7 +67,7 @@ export default function Sidebar({ sidebarVisible, notes, isLoading }) {
         <div
           className={`w-64 flex-shrink-0 bg-neutral-100 dark:bg-neutral-800 ${
             sidebarVisible ? "flex sticky top-0" : "hidden"
-          } h-screen flex-col justify-between shadow-inner`}
+          } h-screen overflow-hidden flex-col justify-between shadow-inner`}
         >
           <div className="flex flex-col">
             <div className="flex justify-between items-center pt-4 px-4">

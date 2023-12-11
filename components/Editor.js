@@ -3,7 +3,7 @@ import Tiptap from "./Tiptap";
 import useMyStore from "@/app/(store)/store";
 import { ModeToggle } from "./ModeToggle";
 
-export default function Editor({ toggleSidebar, notes }) {
+export default function Editor({ toggleSidebar }) {
   const { activeNote, activeCategory } = useMyStore();
 
   return (
@@ -11,7 +11,7 @@ export default function Editor({ toggleSidebar, notes }) {
       <div className={`p-4 w-full bg-white dark:bg-zinc-800`}>
         <div className="flex items-center justify-between">
           <div className="flex px-4 gap-2">
-            <button className="cursor-pointer" disabled={!activeCategory} onClick={toggleSidebar}>
+            <button className={`cursor-pointer ${!activeCategory ? "opacity-0" : ""}`} disabled={!activeCategory} onClick={toggleSidebar}>
               <Menu />
             </button>
             {/* {activeNote ? notes[activeNote.index].title : ""} */}

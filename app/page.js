@@ -11,8 +11,7 @@ import { useRouter } from "next/navigation";
 import pb from "./(lib)/pocketbase";
 
 export default function Home() {
-  const [sidebarVisible, setSidebarVisible] = useState(true);
-  const { authenticated, updateActiveNote, updateActiveCategory } =
+  const { authenticated, updateActiveNote, updateActiveCategory, setSidebarVisible, sidebarVisible } =
     useMyStore();
   const router = useRouter();
 
@@ -68,7 +67,6 @@ export default function Home() {
         isLoading={catsLoading}
       />
       <Sidebar
-        sidebarVisible={sidebarVisible}
         isLoading={isLoading}
         notes={notes}
       />

@@ -1,15 +1,24 @@
-import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "../components/ThemeProvider";
 import { ReactQueryProvider } from "./ReactQueryProvider";
 import Image from "next/image";
-const inter = Inter({ subsets: ["latin"] });
+import localFont from "next/font/local";
+
+import {
+  bold,
+  book,
+  italic,
+  medium,
+  semiBolditalic,
+  thin,
+} from "./myFont/Fonts";
+
 
 export default function RootLayout({ children }) {
   return (
     <ReactQueryProvider>
-      <html lang="en" suppressHydrationWarning>
-        <body suppressHydrationWarning className={inter.className}>
+      <html lang="en" suppressHydrationWarning className={book?.className}>
+        <body suppressHydrationWarning>
           <ThemeProvider
             attribute="class"
             defaultTheme="system"
@@ -24,6 +33,7 @@ export default function RootLayout({ children }) {
               style={{
                 objectFit: "cover",
                 zIndex: -1,
+                overflow: "hidden"
               }}
             />
             {children}
