@@ -11,6 +11,15 @@ import useAddNote from "@/app/(hooks)/useAddNote";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import BlurryDivider from "./BlurryDivider";
 
+import {
+  bold,
+  book,
+  italic,
+  medium,
+  semiBolditalic,
+  thin,
+} from "../app/myFont/Fonts"
+
 function removeHtmlTags(input) {
   return input.replace(/<\/?[^>]+(>|$)/g, " ");
 }
@@ -65,13 +74,13 @@ export default function Sidebar({ notes, isLoading }) {
       <Toaster position="top-right" richColors />
       {activeCategory && (
         <div
-          className={`w-64 flex-shrink-0 bg-neutral-100 dark:bg-neutral-800 ${
+          className={`w-64 flex-shrink-0 dark:text-customWhite dark:bg-customBlack ${
             sidebarVisible ? "flex sticky top-0" : "hidden"
           } h-screen overflow-hidden flex-col justify-between shadow-inner`}
         >
           <div className="flex flex-col">
             <div className="flex justify-between items-center pt-4 px-4">
-              <h3 className="text-lg font-semibold tracking-tight">
+              <h3 className={`${medium?.className} text-lg tracking-wider`}>
                 {activeCategory.name}
               </h3>
               <div onClick={addNote} className="cursor-pointer">
@@ -105,9 +114,9 @@ export default function Sidebar({ notes, isLoading }) {
                     <div
                       onClick={() => handleClickNote(note, index)}
                       // hover:bg-zinc-100 dark:hover:bg-zinc-800
-                      className={`w-64 h-28 p-3 cursor-pointer rounded-md overflow-hidden justify-start font-normal ${
+                      className={`w-64 h-28 p-3 cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-md overflow-hidden justify-start font-normal ${
                         note.record_id === activeNote?.record_id
-                          ? "bg-[#2B99D6] text-white"
+                          ? "bg-zinc-100 dark:bg-zinc-800"
                           : ""
                       }`}
                       variant="ghost"
@@ -131,10 +140,10 @@ export default function Sidebar({ notes, isLoading }) {
 
                       {/* Title and content */}
                       <div className="">
-                        <div className="overflow-hidden font-bold">
+                        <div className={`${medium?.className} overflow-hidden font-bold`}>
                           {note.title}
                         </div>
-                        <div className="text-sm overflow-hidden line-clamp-2">
+                        <div className="text-sm opacity-60 overflow-hidden line-clamp-2">
                           {/* text-zinc-600 dark:text-zinc-300 */}
                           {removeHtmlTags(note.content)}
                         </div>

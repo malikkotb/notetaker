@@ -18,24 +18,13 @@ export default function RootLayout({ children }) {
   return (
     <ReactQueryProvider>
       <html lang="en" suppressHydrationWarning className={book?.className}>
-        <body suppressHydrationWarning>
+        <body className="dark:text-customWhite text-customBlack" suppressHydrationWarning>
           <ThemeProvider
             attribute="class"
             defaultTheme="system"
             enableSystem
             disableTransitionOnChange
           >
-            <Image
-              src={"/hero-bg.jpg"}
-              fill
-              alt="background pic"
-              sizes="100vw"
-              style={{
-                objectFit: "cover",
-                zIndex: -1,
-                overflow: "hidden"
-              }}
-            />
             {children}
           </ThemeProvider>
         </body>

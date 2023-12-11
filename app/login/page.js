@@ -31,12 +31,12 @@ export default function AuthenticationPage() {
           <div className="absolute inset-0" style={{ backgroundImage: 'url("pexels_bg.jpg")', backgroundSize: 'cover', backgroundPosition: '50% 0%' }} />
           <div className="relative z-20 gap-2 flex items-center text-lg font-medium">
             <PiNotebookLight />
-            SecondBrain
+            NoteTaker
           </div>
           <div className="relative z-20 mt-auto">
             <blockquote className="space-y-2">
               <p className="text-lg">
-                &ldquo;SecondBrain has transformed the way I organize my thoughts,
+                &ldquo;NoteTaker has transformed the way I organize my thoughts,
                 making note-taking effortlessly intuitive and incredibly
                 efficient. It's the perfect companion for staying organized and
                 boosting productivity!&rdquo;
