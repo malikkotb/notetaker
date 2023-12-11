@@ -77,10 +77,27 @@ export default function SideBarCategories({ categories, isLoading }) {
       <div
         // onMouseEnter={() => setCatSidebarVisible(!catSidebarVisible)}        
         // onMouseLeave={() => setCatSidebarVisible(!catSidebarVisible)}
-        className={`flex sticky top-0 text-black dark:text-white bg-white/20 backdrop-blur-md dark:bg-zinc-900/80 
+        className={`relative flex top-0 text-black dark:text-white bg-white/20 backdrop-blur-md dark:bg-zinc-900/80 
         h-screen flex-col justify-between border-r dark:border-black shadow-inner w-20 hover:w-64 transition-all duration-300`}
         style={{ width: catSidebarVisible ? "250px" : "80px" }}
       >
+        {/* <div
+        style={{
+          position: "fixed",
+          top: "20px", // Adjust the top position as needed
+          left: catSidebarVisible ? "250px" : "80px",
+          background: "rgba(255, 255, 255, 0.8)", // Optional: Add some background for visibility
+          padding: "10px",
+          borderRadius: "5px",
+          boxShadow: "0 0 10px rgba(0, 0, 0, 0.2)", // Optional: Add a shadow for visibility
+        }}
+
+        
+      > */}
+        <div
+        className={`fixed top-5 ${catSidebarVisible ? "left-[200px]" : "left-[60px]"} p-3 bg-opacity-80 rounded-full bg-white shadow-md`}>
+          {catSidebarVisible ? (<ChevronLeft />) : (<ChevronRight />)}
+      </div>
         <div>
           <div
             className={`${
