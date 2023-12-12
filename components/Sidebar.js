@@ -74,9 +74,9 @@ export default function Sidebar({ notes, isLoading }) {
       <Toaster position="top-right" richColors />
       {activeCategory && (
         <div
-          className={`w-64 flex-shrink-0 dark:text-customWhite dark:bg-customBlack ${
+          className={`w-64 flex-shrink-0 bg-customWhite text-customBlack dark:text-customWhite dark:bg-customBlack ${
             sidebarVisible ? "flex sticky top-0" : "hidden"
-          } h-screen overflow-hidden flex-col justify-between shadow-inner`}
+          } h-screen overflow-hidden flex-col justify-between`}
         >
           <div className="flex flex-col">
             <div className="flex justify-between items-center pt-4 px-4">
@@ -114,9 +114,9 @@ export default function Sidebar({ notes, isLoading }) {
                     <div
                       onClick={() => handleClickNote(note, index)}
                       // hover:bg-zinc-100 dark:hover:bg-zinc-800
-                      className={`w-64 h-28 p-3 cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-md overflow-hidden justify-start font-normal ${
+                      className={`w-64 h-28 p-3 cursor-pointer hover:bg-zinc-200 dark:hover:bg-zinc-800 rounded-md overflow-hidden justify-start font-normal ${
                         note.record_id === activeNote?.record_id
-                          ? "bg-zinc-100 dark:bg-zinc-800"
+                          ? "bg-zinc-200 dark:bg-zinc-800"
                           : ""
                       }`}
                       variant="ghost"

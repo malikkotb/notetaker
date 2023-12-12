@@ -24,7 +24,7 @@ export default function MenuBar({ editor }) {
           variant="outline"
           onClick={() => editor?.chain().focus().toggleBold().run()}
           disabled={!editor?.can().chain().focus().toggleBold().run()}
-          className={`${editor?.isActive("bold") ? "is-active" : ""}`}
+          className={`hover:bg-zinc-200 ${editor?.isActive("bold") ? "is-active" : ""}`}
         >
           B
         </Button>
@@ -32,7 +32,7 @@ export default function MenuBar({ editor }) {
           variant="outline"
           onClick={() => editor?.chain().focus().toggleItalic().run()}
           disabled={!editor?.can().chain().focus().toggleItalic().run()}
-          className={editor?.isActive("italic") ? "is-active" : ""}
+          className={`hover:bg-zinc-200 ${editor?.isActive("italic") ? "is-active" : ""}`}
         >
           I
         </Button>
@@ -40,40 +40,42 @@ export default function MenuBar({ editor }) {
           variant="outline"
           onClick={() => editor.chain().focus().toggleCode().run()}
           disabled={!editor?.can().chain().focus().toggleCode().run()}
-          className={editor?.isActive("code") ? "is-active" : ""}
+          className={`hover:bg-zinc-200 ${editor?.isActive("code") ? "is-active" : ""}`}
         >
           <FaCode />
         </Button>
         <Button
           variant="outline"
           onClick={() => editor.chain().focus().unsetAllMarks().run()}
+          className="hover:bg-zinc-200"
         >
           <BsEraser />
         </Button>
         <Button
           variant="outline"
           onClick={() => editor?.chain().focus().clearNodes().run()}
+          className="hover:bg-zinc-200"
         >
           clear nodes
         </Button>
         <Button
           variant="outline"
           onClick={() => editor?.chain().focus().toggleBulletList().run()}
-          className={editor?.isActive("bulletList") ? "is-active" : ""}
+          className={`hover:bg-zinc-200 ${editor?.isActive("bulletList") ? "is-active" : ""}`}
         >
           <FaListUl />
         </Button>
         <Button
           variant="outline"
           onClick={() => editor?.chain().focus().toggleOrderedList().run()}
-          className={editor?.isActive("orderedList") ? "is-active" : ""}
+          className={`hover:bg-zinc-200 ${editor?.isActive("orderedList") ? "is-active" : ""}`}
         >
           <FaListOl />
         </Button>
         <Button
           variant="outline"
           onClick={() => editor?.chain().focus().toggleCodeBlock().run()}
-          className={editor?.isActive("codeBlock") ? "is-active" : ""}
+          className={`hover:bg-zinc-200 ${editor?.isActive("codeBlock") ? "is-active" : ""}`}
         >
           code block
         </Button>
@@ -81,6 +83,7 @@ export default function MenuBar({ editor }) {
           variant="outline"
           onClick={() => editor?.chain().focus().undo().run()}
           disabled={!editor?.can().chain().focus().undo().run()}
+          className="hover:bg-zinc-200"
         >
           <FaUndo />
         </Button>
@@ -88,6 +91,7 @@ export default function MenuBar({ editor }) {
           variant="outline"
           onClick={() => editor?.chain().focus().redo().run()}
           disabled={!editor?.can().chain().focus().redo().run()}
+          className="hover:bg-zinc-200"
         >
           <FaRedo />
         </Button>

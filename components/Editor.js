@@ -8,9 +8,9 @@ export default function Editor({ toggleSidebar }) {
 
   return (
     <>
-      <div className={`p-4 w-full dark:text-customWhite dark:bg-customBlack`}>
+      <div className={`p-4 pl-0 w-full bg-customWhite text-customBlack dark:text-customWhite dark:bg-customBlack`}>
         <div className="flex items-center justify-between">
-          <div className="flex px-4 gap-2">
+          <div className="flex px-2 gap-2">
             <button className={`cursor-pointer ${!activeCategory ? "opacity-0" : ""}`} disabled={!activeCategory} onClick={toggleSidebar}>
               <Menu />
             </button>

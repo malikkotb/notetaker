@@ -31,7 +31,9 @@ import {
   medium,
   semiBolditalic,
   thin,
-} from "../app/myFont/Fonts"
+} from "../app/myFont/Fonts";
+
+import getGreeting from "../app/(util)/greeting";
 
 export default function SideBarCategories({ categories, isLoading }) {
   const {
@@ -85,17 +87,16 @@ export default function SideBarCategories({ categories, isLoading }) {
   return (
     <>
       <Toaster position="top-right" richColors />
-      <div className="flex border-r dark:border-black">
+      <div className="flex sticky top-0">
         <div
           className={`relative flex top-0 text-customBlack dark:text-customWhite bg-customWhite dark:bg-customBlack 
-        h-screen flex-col justify-between shadow-inner w-20 hover:w-64 transition-all duration-300`}
-          style={{ width: catSidebarVisible ? "250px" : "80px" }}
+        h-screen flex-col justify-between w-[250px] transition-all duration-500 ${
+          catSidebarVisible ? "flex" : "hidden"
+        }`}
         >
           <div>
             <div
-              className={`${
-                catSidebarVisible ? "justify-between gap-2" : "justify-center gap-2"
-              } w-full px-8 py-2 mt-4 flex items-center`}
+              className={`justify-between gap-2 w-full px-8 py-2 mt-4 flex items-center`}
             >
               <div className={`${medium?.className} text-lg tracking-wider`}>
                 {catSidebarVisible && "NoteTaker"}
@@ -106,8 +107,8 @@ export default function SideBarCategories({ categories, isLoading }) {
                 catSidebarVisible ? "justify-between" : "justify-center"
               } items-center w-full px-8 py-2 my-4`}
             >
-              <div className="text-xs font-bold tracking-widest">
-                {catSidebarVisible && "CATEGORIES"}
+              <div className="font-bold tracking-widest">
+                categories
               </div>
               <Dialog>
                 <DialogTrigger asChild>
@@ -115,7 +116,7 @@ export default function SideBarCategories({ categories, isLoading }) {
                     <Plus />
                   </div>
                 </DialogTrigger>
-                <DialogContent className="sm:max-w-[350px] bg-white">
+                <DialogContent className="sm:max-w-[350px] border dark:bg-customBlack dark:text-customWhite ">
                   <DialogHeader>
                     <DialogTitle>Name the category</DialogTitle>
                   </DialogHeader>
@@ -169,34 +170,28 @@ export default function SideBarCategories({ categories, isLoading }) {
                 // A single category:
                 <div
                   key={index}
-                  className={`px-8 py-0.5 mx-2 rounded-lg flex items-center gap-2 cursor-pointer text-2xl hover:bg-customOrange hover:text-customBlack
+                  className={`px-8 py-0.5 mx-2 rounded-lg flex items-center gap-2 cursor-pointer text-xl tracking-wide ${medium.className} hover:bg-customOrange hover:text-customBlack
               ${
                 index === activeCategory?.index
                   ? "bg-customOrange text-customBlack"
                   : ""
-              } ${!catSidebarVisible ? "justify-center" : ""}`}
+              } `}
                   onClick={() => handleClickCategory(category, index)}
                 >
                   <div>{category.emoji}</div>
-                  {catSidebarVisible && (
-                    <div className="text-sm line-clamp-1">{category.name}</div>
-                  )}
+                  <div className="text-sm line-clamp-1">{category.name}</div>
                 </div>
               ))
             )}
 
             <div
-              className={`flex ${
-                catSidebarVisible ? "justify-between" : "justify-center"
-              } items-center w-full px-8 py-2 my-4`}
-            >
-              <div className="text-xs font-bold tracking-widest">
-                {catSidebarVisible && "TAGS"}
+              className={`flex justify-between items-center w-full px-8 py-2 my-4`}>
+              <div className="font-bold tracking-widest">
+                tags
               </div>
               <div
                 //   onClick={addTags}
-                className="cursor-pointer"
-              >
+                className="cursor-pointer">
                 <Plus />
               </div>
             </div>
@@ -204,10 +199,8 @@ export default function SideBarCategories({ categories, isLoading }) {
 
           {/* TODO: refactor this into component: */}
           <div className="p-4 flex items-center justify-center">
-            {catSidebarVisible && (
-              <div className="text-sm">{pb.authStore.model?.email}</div>
-            )}
-            <div className={`${catSidebarVisible ? "ml-2" : ""}`}>
+              <div className="text-sm"><span className="opacity-70">{getGreeting()}</span>&nbsp;{pb.authStore.model?.email}</div>
+            <div className={`ml-2`}>
               <Popover>
                 <PopoverTrigger>
                   <CaretDownIcon />
@@ -226,10 +219,10 @@ export default function SideBarCategories({ categories, isLoading }) {
         </div>
 
         {/* Sidebar chevron div */}
-        <div className="h-screen transition-all duration-300 bg-customWhite dark:bg-customBlack flex items-center justify-center text-center">
+        <div className="h-screen border-l dark:border-black transition-all duration-300 bg-customWhite dark:bg-customBlack flex items-center justify-center text-center">
           <div
             onClick={() => setCatSidebarVisible(!catSidebarVisible)}
-            className={`text-center`}
+            className={`text-center opacity-50 hover:opacity-100 cursor-pointer`}
           >
             {catSidebarVisible ? <ChevronLeft /> : <ChevronRight />}
           </div>
