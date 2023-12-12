@@ -70,7 +70,7 @@ export default function Home() {
         isLoading={isLoading}
         notes={notes}
       />
-      <Editor notes={notes} toggleSidebar={toggleSidebar} />
+      <Editor notes={notes} toggleSidebar={toggleSidebar} sidebarVisible={sidebarVisible} />
     </div>
   );
 }

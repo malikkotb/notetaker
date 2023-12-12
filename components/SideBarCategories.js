@@ -1,6 +1,7 @@
 import { Plus, ChevronLeft, ChevronRight } from "lucide-react";
 import useLogout from "@/app/(hooks)/useLogout";
 import pb from "../app/(lib)/pocketbase";
+import { useMutation } from "@tanstack/react-query";
 import {
   Popover,
   PopoverContent,
@@ -87,11 +88,11 @@ export default function SideBarCategories({ categories, isLoading }) {
   return (
     <>
       <Toaster position="top-right" richColors />
-      <div className="flex sticky top-0">
+      <div className="flex">
         <div
           className={`relative flex top-0 text-customBlack dark:text-customWhite bg-customWhite dark:bg-customBlack 
         h-screen flex-col justify-between w-[250px] transition-all duration-500 ${
-          catSidebarVisible ? "flex" : "hidden"
+          catSidebarVisible ? "flex sticky top-0" : "hidden"
         }`}
         >
           <div>
@@ -219,7 +220,7 @@ export default function SideBarCategories({ categories, isLoading }) {
         </div>
 
         {/* Sidebar chevron div */}
-        <div className="h-screen border-l dark:border-black transition-all duration-300 bg-customWhite dark:bg-customBlack flex items-center justify-center text-center">
+        <div className="sticky top-0 h-screen border-l dark:border-black transition-all duration-300 bg-customWhite dark:bg-customBlack flex items-center justify-center text-center">
           <div
             onClick={() => setCatSidebarVisible(!catSidebarVisible)}
             className={`text-center opacity-50 hover:opacity-100 cursor-pointer`}

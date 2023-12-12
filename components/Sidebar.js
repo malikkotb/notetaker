@@ -10,6 +10,7 @@ import { Input } from "./ui/input";
 import useAddNote from "@/app/(hooks)/useAddNote";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import BlurryDivider from "./BlurryDivider";
+import { Button } from "../components/ui/button";
 
 import {
   bold,
@@ -18,14 +19,15 @@ import {
   medium,
   semiBolditalic,
   thin,
-} from "../app/myFont/Fonts"
+} from "../app/myFont/Fonts";
 
 function removeHtmlTags(input) {
   return input.replace(/<\/?[^>]+(>|$)/g, " ");
 }
 
 export default function Sidebar({ notes, isLoading }) {
-  const { updateActiveNote, activeNote, activeCategory, sidebarVisible } = useMyStore();
+  const { updateActiveNote, activeNote, activeCategory, sidebarVisible, updateActiveCategory } =
+    useMyStore();
   const [searchTerm, setSearchTerm] = useState("");
   const searchInput = useRef();
   const queryClient = useQueryClient();
@@ -69,6 +71,20 @@ export default function Sidebar({ notes, isLoading }) {
     },
   });
 
+  const { mutate: deleteCategoryMutation } = useMutation({
+    mutationFn: async (category) => {
+      // await pb.collection("notes").delete(note.record_id);
+      await pb.collection('categories').delete(category.categoryId);
+    },
+    onSuccess: () => {
+      toast.error("Category was deleted");
+      queryClient.invalidateQueries({ queryKey: ["categories"] });
+      // reset both active cateogry and active note after deleting a category
+      updateActiveCategory(null);
+      updateActiveNote(null);
+    },
+  });
+
   return (
     <>
       <Toaster position="top-right" richColors />
@@ -83,20 +99,38 @@ export default function Sidebar({ notes, isLoading }) {
               <h3 className={`${medium?.className} text-lg tracking-wider`}>
                 {activeCategory.name}
               </h3>
-              <div onClick={addNote} className="cursor-pointer">
-                <Pencil2Icon />
+              <div className="flex gap-2 items-center">
+                
+                <Link
+                  href="/"
+                  onClick={(e) => {
+                    // e.stopPropagation(); // Stop event propagation
+                    deleteCategoryMutation(activeCategory);
+                  }}
+                >
+                  <Trash2 className="w-4 hover:text-red-500" />
+                </Link>
               </div>
             </div>
 
             <div className="p-2">
               <Input
                 className="px-4 my-2"
-                placeholder="Filter..."
+                placeholder="Search notes..."
                 type="text"
                 ref={searchInput}
                 onChange={handleSearch}
               />
             </div>
+
+            <Button variant="outline" className={`hover:bg-zinc-200 p-2 mx-2 mb-4 ${medium?.className}`} onClick={addNote}>
+              <span className="text-xl">+&nbsp;&nbsp;</span>Add Note
+            </Button>
+            {/* <div className="p-2 pt-0">
+              <Button variant="outline" className="px-4 my-2" onClick={addNote}>
+                Add Note
+              </Button>
+            </div> */}
 
             {isLoading ? (
               <p className="px-4 w-52">Loading...</p>
@@ -140,7 +174,9 @@ export default function Sidebar({ notes, isLoading }) {
 
                       {/* Title and content */}
                       <div className="">
-                        <div className={`${medium?.className} overflow-hidden font-bold`}>
+                        <div
+                          className={`${medium?.className} overflow-hidden font-bold`}
+                        >
                           {note.title}
                         </div>
                         <div className="text-sm opacity-60 overflow-hidden line-clamp-2">

@@ -6,14 +6,16 @@ import { ModeToggle } from "../../components/ModeToggle";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "../../components/ui/button";
 import { useState } from "react";
+import { Inter } from "next/font/google";
 
+const inter = Inter({ subsets: ["latin"] });
 export default function AuthenticationPage() {
 
   const [create, setCreate] = useState(true)
 
   return (
     <>
-      <div className="bg-white dark:bg-black container relative h-screen flex-col items-center justify-center grid lg:max-w-none lg:grid-cols-2 lg:px-0">
+      <div className={`${inter.className} bg-white dark:bg-black container relative h-screen flex-col items-center justify-center grid lg:max-w-none lg:grid-cols-2 lg:px-0`}>
         <div className="absolute flex right-4 gap-1 top-4 md:right-8 md:top-8">
           <Link
             href=""
