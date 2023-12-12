@@ -77,6 +77,10 @@ export default function SideBarCategories({ categories, isLoading }) {
     }
   };
 
+  const addTags = async (name) => {
+
+  }
+
   const handleClickCategory = (category, index) => {
     updateActiveCategory({
       name: category.name,
@@ -99,8 +103,8 @@ export default function SideBarCategories({ categories, isLoading }) {
             <div
               className={`justify-between gap-2 w-full px-8 py-2 mt-4 flex items-center`}
             >
-              <div className={`${medium?.className} text-lg tracking-wider`}>
-                {catSidebarVisible && "NoteTaker"}
+              <div className={`${book?.className} text-5xl tracking-wide`}>
+                your <span>&nbsp;&nbsp;notes</span>
               </div>
             </div>
             <div
@@ -195,6 +199,18 @@ export default function SideBarCategories({ categories, isLoading }) {
                 className="cursor-pointer">
                 <Plus />
               </div>
+            </div>
+
+            {/* tags for this user*/}
+            <div className="p-4">
+              {/* display tags as list */}
+              <button className="px-2 py-1 m-[2px] rounded-full border dark:border-customWhite dark:bg-customBlack dark:text-customWhite">#work</button>
+              <button className="px-2 py-1 m-[2px] rounded-full border dark:border-customWhite dark:bg-customBlack dark:text-customWhite">#home</button>
+              <button className="px-2 py-1 m-[2px] rounded-full border bg-customOrange text-customBlack dark:border-customOrange dark:bg-customOrange dark:text-customBlack">#active</button>
+              <button className="px-2 py-1 m-[2px] rounded-full border dark:border-customWhite dark:bg-customBlack dark:text-customWhite">#personal</button>
+              <button className="px-2 py-1 m-[2px] rounded-full border dark:border-customWhite dark:bg-customBlack dark:text-customWhite">#work</button>
+              <button className="px-2 py-1 m-[2px] rounded-full border dark:border-customWhite dark:bg-customBlack dark:text-customWhite">#work</button>
+              <button className="px-2 py-1 m-[2px] rounded-full border dark:border-customWhite dark:bg-customBlack dark:text-customWhite">#work</button>
             </div>
           </div>
 
