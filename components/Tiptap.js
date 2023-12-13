@@ -7,22 +7,23 @@ import Document from "@tiptap/extension-document";
 import pb from "../app/(lib)/pocketbase";
 import MenuBar from "./MenuBar";
 import useUpdateNote from "@/app/(hooks)/useUpdateNote";
+import TaskItem from '@tiptap/extension-task-item'
+import TaskList from '@tiptap/extension-task-list'
 
-import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
-import css from 'highlight.js/lib/languages/css'
-import js from 'highlight.js/lib/languages/javascript'
-import ts from 'highlight.js/lib/languages/typescript'
-import html from 'highlight.js/lib/languages/xml'
+import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
+import css from "highlight.js/lib/languages/css";
+import js from "highlight.js/lib/languages/javascript";
+import ts from "highlight.js/lib/languages/typescript";
+import html from "highlight.js/lib/languages/xml";
 // load all highlight.js languages
 // import { lowlight } from "lowlight";
 
-import CodeBlockComponent from './syntaxHighlight/CodeBlockComponent'
-import { lowlight } from 'lowlight/lib/core'
-lowlight.registerLanguage('html', html)
-lowlight.registerLanguage('css', css)
-lowlight.registerLanguage('js', js)
-lowlight.registerLanguage('ts', ts)
-
+import CodeBlockComponent from "./syntaxHighlight/CodeBlockComponent";
+import { lowlight } from "lowlight/lib/core";
+lowlight.registerLanguage("html", html);
+lowlight.registerLanguage("css", css);
+lowlight.registerLanguage("js", js);
+lowlight.registerLanguage("ts", ts);
 
 // import {common, createLowlight} from 'lowlight'
 // const lowlight = createLowlight(common)
@@ -55,13 +56,15 @@ export default () => {
           return "Anything else ?";
         },
       }),
-      CodeBlockLowlight
-        .extend({
-          addNodeView() {
-            return ReactNodeViewRenderer(CodeBlockComponent)
-          },
-        })
-        .configure({ lowlight }),
+      CodeBlockLowlight.extend({
+        addNodeView() {
+          return ReactNodeViewRenderer(CodeBlockComponent);
+        },
+      }).configure({ lowlight }),
+      TaskList,
+      TaskItem.configure({
+        nested: true,
+      }),
     ],
     content: ``,
     onUpdate({ editor }) {
@@ -69,7 +72,7 @@ export default () => {
       const htmlContent = editor.getHTML();
 
       const h1Content = htmlContent.match(/<h1>(.*?)<\/h1>/i);
-      const title = h1Content ? h1Content[1] : ""
+      const title = h1Content ? h1Content[1] : "";
 
       const match = htmlContent.match(/<\/h1>(.*)/s); // regex to extract content after the </h1> tag
       const contentAfterH1 = match ? match[1] : "";
@@ -90,4 +93,3 @@ export default () => {
     </div>
   );
 };
-

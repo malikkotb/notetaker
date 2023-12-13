@@ -11,7 +11,6 @@ export default function MenuBar({ editor }) {
 
   const { activeNote } = useMyStore();
 
-
   // https://github.com/ueberdosis/tiptap/issues/3764
   useEffect(() => {
     setTimeout(() => {
@@ -66,6 +65,13 @@ export default function MenuBar({ editor }) {
           className="hover:bg-zinc-200"
         >
           clear nodes
+        </Button>
+        <Button
+        variant="outline"
+          onClick={() => editor?.chain().focus().toggleTaskList().run()}
+          className={`hover:bg-zinc-200 ${editor.isActive("taskList") ? "is-active" : ""}`}
+        >
+          task
         </Button>
         <Button
           variant="outline"
