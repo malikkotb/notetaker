@@ -5,16 +5,19 @@ import useMyStore from "../app/(store)/store";
 import { useEffect } from "react";
 
 export default function MenuBar({ editor }) {
-
   if (!editor) {
     return null;
   }
 
   const { activeNote } = useMyStore();
 
+
+  // https://github.com/ueberdosis/tiptap/issues/3764
   useEffect(() => {
-    editor?.commands.setContent(`
-          <h1>${activeNote.title}</h1>${activeNote.content}`);
+    setTimeout(() => {
+      editor?.commands.setContent(`
+            <h1>${activeNote.title}</h1>${activeNote.content}`);
+    });
   }, [activeNote]);
 
   return (
@@ -24,7 +27,9 @@ export default function MenuBar({ editor }) {
           variant="outline"
           onClick={() => editor?.chain().focus().toggleBold().run()}
           disabled={!editor?.can().chain().focus().toggleBold().run()}
-          className={`hover:bg-zinc-200 ${editor?.isActive("bold") ? "is-active" : ""}`}
+          className={`hover:bg-zinc-200 ${
+            editor?.isActive("bold") ? "is-active" : ""
+          }`}
         >
           B
         </Button>
@@ -32,7 +37,9 @@ export default function MenuBar({ editor }) {
           variant="outline"
           onClick={() => editor?.chain().focus().toggleItalic().run()}
           disabled={!editor?.can().chain().focus().toggleItalic().run()}
-          className={`hover:bg-zinc-200 ${editor?.isActive("italic") ? "is-active" : ""}`}
+          className={`hover:bg-zinc-200 ${
+            editor?.isActive("italic") ? "is-active" : ""
+          }`}
         >
           I
         </Button>
@@ -40,7 +47,9 @@ export default function MenuBar({ editor }) {
           variant="outline"
           onClick={() => editor.chain().focus().toggleCode().run()}
           disabled={!editor?.can().chain().focus().toggleCode().run()}
-          className={`hover:bg-zinc-200 ${editor?.isActive("code") ? "is-active" : ""}`}
+          className={`hover:bg-zinc-200 ${
+            editor?.isActive("code") ? "is-active" : ""
+          }`}
         >
           <FaCode />
         </Button>
@@ -61,21 +70,27 @@ export default function MenuBar({ editor }) {
         <Button
           variant="outline"
           onClick={() => editor?.chain().focus().toggleBulletList().run()}
-          className={`hover:bg-zinc-200 ${editor?.isActive("bulletList") ? "is-active" : ""}`}
+          className={`hover:bg-zinc-200 ${
+            editor?.isActive("bulletList") ? "is-active" : ""
+          }`}
         >
           <FaListUl />
         </Button>
         <Button
           variant="outline"
           onClick={() => editor?.chain().focus().toggleOrderedList().run()}
-          className={`hover:bg-zinc-200 ${editor?.isActive("orderedList") ? "is-active" : ""}`}
+          className={`hover:bg-zinc-200 ${
+            editor?.isActive("orderedList") ? "is-active" : ""
+          }`}
         >
           <FaListOl />
         </Button>
         <Button
           variant="outline"
           onClick={() => editor?.chain().focus().toggleCodeBlock().run()}
-          className={`hover:bg-zinc-200 ${editor?.isActive("codeBlock") ? "is-active" : ""}`}
+          className={`hover:bg-zinc-200 ${
+            editor?.isActive("codeBlock") ? "is-active" : ""
+          }`}
         >
           code block
         </Button>
