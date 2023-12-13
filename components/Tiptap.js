@@ -9,21 +9,21 @@ import MenuBar from "./MenuBar";
 import useUpdateNote from "@/app/(hooks)/useUpdateNote";
 
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
-import Paragraph from '@tiptap/extension-paragraph'
-import Text from '@tiptap/extension-text'
-import css from 'highlight.js/lib/languages/css'
-import js from 'highlight.js/lib/languages/javascript'
-import ts from 'highlight.js/lib/languages/typescript'
-import html from 'highlight.js/lib/languages/xml'
+// import css from 'highlight.js/lib/languages/css'
+// import js from 'highlight.js/lib/languages/javascript'
+// import ts from 'highlight.js/lib/languages/typescript'
+// import html from 'highlight.js/lib/languages/xml'
 // load all highlight.js languages
-import { lowlight } from 'lowlight';
-
+// import { lowlight } from "lowlight";
 
 import CodeBlockComponent from './syntaxHighlight/CodeBlockComponent'
-lowlight.registerLanguage('html', html)
-lowlight.registerLanguage('css', css)
-lowlight.registerLanguage('js', js)
-lowlight.registerLanguage('ts', ts)
+// lowlight.registerLanguage('html', html)
+// lowlight.registerLanguage('css', css)
+// lowlight.registerLanguage('js', js)
+// lowlight.registerLanguage('ts', ts)
+
+import {common, createLowlight} from 'lowlight'
+const lowlight = createLowlight(common)
 
 const CustomDocument = Document.extend({
   content: "heading block*",
@@ -43,6 +43,7 @@ export default () => {
       CustomDocument,
       StarterKit.configure({
         document: false,
+        codeBlock: false,
       }),
       Placeholder.configure({
         placeholder: ({ node }) => {
