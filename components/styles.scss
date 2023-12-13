@@ -23,6 +23,99 @@
     list-style: disc;
   }
 
+  ul[data-type="taskList"] {
+    list-style: none;
+    padding: 0;
+    
+  
+    p {
+      margin: 0;
+    }
+  
+    li {
+      display: flex;
+  
+      > label {
+        flex: 0 0 auto;
+        margin-right: 0.5rem;
+        user-select: none;
+        // input[type='checkbox'] {
+        //   // Hide the default checkbox
+        //   display: none;
+  
+        //   // Custom checkbox styling
+        //   & + span {
+        //     display: inline-block;
+        //     width: 1em;
+        //     height: 1em;
+        //     margin-right: 0.5em;
+        //     border: 1px solid red; // Border color
+        //     // background-color: red; // Background color
+        //     color: #0D0D0D;
+        //     // Add more styles for your custom checkbox here
+        //   }
+  
+        //   // Style for when the checkbox is checked
+        //   &:checked + span {
+        //     background-color: blue; // Change to your desired color
+        //     // Add more styles for your checked state here
+        //   }
+        // }
+
+        // input[type='checkbox'] {
+        //   display: none;
+  
+        //   & + span {
+        //     display: inline-block;
+        //     width: 1em;
+        //     height: 1em;
+        //     margin-right: 0.5em;
+        //     // border: 1px solid red; // Border color
+        //     background-color: #FE6902; // Background color
+        //     position: relative; // Needed for positioning the pseudo-element
+  
+        //     // Custom checkmark
+        //     &::after {
+        //       content: '';
+        //       position: absolute;
+        //       width: 0.5em;
+        //       height: 0.2em;
+        //       border-bottom: 2px solid #0D0D0D; // Checkmark color
+        //       border-left: 2px solid #0D0D0D; // Checkmark color
+        //       transform: rotate(-45deg);
+        //       top: 0.2em;
+        //       left: 0.25em;
+        //       opacity: 0; // Hide by default
+        //     }
+        //   }
+  
+        //   &:checked + span {
+        //     // background-color: blue; // Background color when checked
+  
+        //     // Show the checkmark when checked
+        //     &::after {
+        //       opacity: 1;
+        //     }
+        //   }
+        // }
+
+      }
+  
+      > div {
+        flex: 1 1 auto;
+      }
+  
+      ul li,
+      ol li {
+        display: list-item;
+      }
+      
+      ul[data-type="taskList"] > li {
+        display: flex;
+      }
+    }
+  }
+
   ol {
     list-style: decimal;
   }
