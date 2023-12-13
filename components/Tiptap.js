@@ -9,21 +9,23 @@ import MenuBar from "./MenuBar";
 import useUpdateNote from "@/app/(hooks)/useUpdateNote";
 
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
-// import css from 'highlight.js/lib/languages/css'
-// import js from 'highlight.js/lib/languages/javascript'
-// import ts from 'highlight.js/lib/languages/typescript'
-// import html from 'highlight.js/lib/languages/xml'
+import css from 'highlight.js/lib/languages/css'
+import js from 'highlight.js/lib/languages/javascript'
+import ts from 'highlight.js/lib/languages/typescript'
+import html from 'highlight.js/lib/languages/xml'
 // load all highlight.js languages
 // import { lowlight } from "lowlight";
 
 import CodeBlockComponent from './syntaxHighlight/CodeBlockComponent'
-// lowlight.registerLanguage('html', html)
-// lowlight.registerLanguage('css', css)
-// lowlight.registerLanguage('js', js)
-// lowlight.registerLanguage('ts', ts)
+import { lowlight } from 'lowlight/lib/core'
+lowlight.registerLanguage('html', html)
+lowlight.registerLanguage('css', css)
+lowlight.registerLanguage('js', js)
+lowlight.registerLanguage('ts', ts)
 
-import {common, createLowlight} from 'lowlight'
-const lowlight = createLowlight(common)
+
+// import {common, createLowlight} from 'lowlight'
+// const lowlight = createLowlight(common)
 
 const CustomDocument = Document.extend({
   content: "heading block*",
