@@ -1,13 +1,29 @@
 "use client";
 import "./styles.scss";
-import { EditorContent, useEditor } from "@tiptap/react";
+import { EditorContent, useEditor, ReactNodeViewRenderer } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import useMyStore from "../app/(store)/store";
 import Placeholder from "@tiptap/extension-placeholder";
 import Document from "@tiptap/extension-document";
 import pb from "../app/(lib)/pocketbase";
 import MenuBar from "./MenuBar";
 import useUpdateNote from "@/app/(hooks)/useUpdateNote";
+
+import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
+import Paragraph from '@tiptap/extension-paragraph'
+import Text from '@tiptap/extension-text'
+import css from 'highlight.js/lib/languages/css'
+import js from 'highlight.js/lib/languages/javascript'
+import ts from 'highlight.js/lib/languages/typescript'
+import html from 'highlight.js/lib/languages/xml'
+// load all highlight.js languages
+import { lowlight } from 'lowlight';
+
+
+import CodeBlockComponent from './syntaxHighlight/CodeBlockComponent'
+lowlight.registerLanguage('html', html)
+lowlight.registerLanguage('css', css)
+lowlight.registerLanguage('js', js)
+lowlight.registerLanguage('ts', ts)
 
 const CustomDocument = Document.extend({
   content: "heading block*",
@@ -15,8 +31,6 @@ const CustomDocument = Document.extend({
 
 export default () => {
   const { mutate: updateNote } = useUpdateNote();
-  const { activeNote } = useMyStore();
-
 
   const editor = useEditor({
     editorProps: {
@@ -38,6 +52,13 @@ export default () => {
           return "Anything else ?";
         },
       }),
+      CodeBlockLowlight
+        .extend({
+          addNodeView() {
+            return ReactNodeViewRenderer(CodeBlockComponent)
+          },
+        })
+        .configure({ lowlight }),
     ],
     content: ``,
     onUpdate({ editor }) {
@@ -58,11 +79,6 @@ export default () => {
       updateNote(data);
     },
   });
-
-  // useEffect(() => {
-  //     editor?.commands.setContent(`
-  //       <h1>${activeNote.title}</h1>${activeNote.content}`);
-  // }, [activeNote, ]);
 
   return (
     <div>

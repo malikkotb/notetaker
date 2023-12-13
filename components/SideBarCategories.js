@@ -100,7 +100,7 @@ export default function SideBarCategories({ categories, isLoading }) {
         >
           <div>
             {/* TODO: refactor this into component: */}
-            <div className="p-4 flex items-center justify-between">
+            <div className="py-4 flex items-center border-b mx-6 justify-between">
               <div className="text-sm">
                 <span className="opacity-70">{getGreeting()}</span>&nbsp;
                 {pb.authStore.model?.email}
@@ -122,7 +122,7 @@ export default function SideBarCategories({ categories, isLoading }) {
               </div>
             </div>
 
-            <div className={` gap-2 w-full px-4 py-2 mt-4 items-center`}>
+            <div className={` gap-2 w-full px-6 py-2 mt-4 items-center`}>
               <div className={`${book?.className} text-4xl tracking-wide`}>
                 your
                 <br />
@@ -134,10 +134,11 @@ export default function SideBarCategories({ categories, isLoading }) {
                 </div>
               </div>
             </div>
+
             <div
               className={`flex ${
                 catSidebarVisible ? "justify-between" : "justify-center"
-              } items-center w-full px-8 py-2 my-4`}
+              } items-center w-full px-6 py-2 my-4`}
             >
               <div className="font-bold tracking-widest">categories</div>
               <Dialog>
@@ -194,13 +195,13 @@ export default function SideBarCategories({ categories, isLoading }) {
             </div>
 
             {isLoading ? (
-              <p className="px-4 w-52">Loading...</p>
+              <p className="px-6 w-52">Loading...</p>
             ) : (
               categories?.map((category, index) => (
                 // A single category:
                 <div
                   key={index}
-                  className={`px-2 py-0.5 mx-8 rounded-lg flex items-center gap-2 cursor-pointer text-xl tracking-wide ${
+                  className={`px-2 py-0.5 mx-6 rounded-lg flex items-center gap-2 cursor-pointer text-xl tracking-wide ${
                     medium.className
                   } hover:bg-customOrange hover:text-customBlack
               ${
@@ -217,7 +218,7 @@ export default function SideBarCategories({ categories, isLoading }) {
             )}
 
             <div
-              className={`flex justify-between items-center w-full px-8 py-2 my-4`}
+              className={`flex justify-between items-center w-full px-6 py-2 my-4`}
             >
               <div className="font-bold tracking-widest">tags</div>
               <div
@@ -254,6 +255,7 @@ export default function SideBarCategories({ categories, isLoading }) {
               </button>
             </div>
           </div>
+          
         </div>
 
         {/* Sidebar chevron div */}
