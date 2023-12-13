@@ -4,8 +4,10 @@ const useMyStore = create((set) => ({
   authenticated: false,
   activeCategory: null,
   sidebarVisible: true,
+  totalNotes: 0,
+  setTotalNotes: (numberNotes) => set({ totalNotes: numberNotes }),
   setSidebarVisible: () =>
-  set((state) => ({ sidebarVisible: !state.sidebarVisible })),
+    set((state) => ({ sidebarVisible: !state.sidebarVisible })),
   updateActiveCategory: (newActiveCategory) =>
     set({ activeCategory: newActiveCategory }),
   toggleAuthenticated: () =>

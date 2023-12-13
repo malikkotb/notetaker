@@ -7,7 +7,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "../components/ui/popover";
-import { CaretDownIcon } from "@radix-ui/react-icons";
+import { DotsVerticalIcon } from "@radix-ui/react-icons";
 import { Button } from "../components/ui/button";
 import useMyStore from "@/app/(store)/store";
 import useAddCategory from "../app/(hooks)/useAddCategory";
@@ -42,6 +42,7 @@ export default function SideBarCategories({ categories, isLoading }) {
     activeCategory,
     authenticated,
     setSidebarVisible,
+    totalNotes,
   } = useMyStore();
   const { mutate, isSuccess: isSuccesAddCategory } = useAddCategory();
   const logout = useLogout();
@@ -77,9 +78,7 @@ export default function SideBarCategories({ categories, isLoading }) {
     }
   };
 
-  const addTags = async (name) => {
-
-  }
+  const addTags = async (name) => {};
 
   const handleClickCategory = (category, index) => {
     updateActiveCategory({
@@ -100,11 +99,39 @@ export default function SideBarCategories({ categories, isLoading }) {
         }`}
         >
           <div>
-            <div
-              className={`justify-between gap-2 w-full px-8 py-2 mt-4 flex items-center`}
-            >
-              <div className={`${book?.className} text-5xl tracking-wide`}>
-                your <span>&nbsp;&nbsp;notes</span>
+            {/* TODO: refactor this into component: */}
+            <div className="p-4 flex items-center justify-between">
+              <div className="text-sm">
+                <span className="opacity-70">{getGreeting()}</span>&nbsp;
+                {pb.authStore.model?.email}
+              </div>
+              <div className={`mt-1 ml-2`}>
+                <Popover>
+                  <PopoverTrigger>
+                    <DotsVerticalIcon />
+                  </PopoverTrigger>
+                  <PopoverContent className="px-4 py-2">
+                    {!catSidebarVisible && (
+                      <div className="text-sm">{pb.authStore.model?.email}</div>
+                    )}
+                    <Button variant={"ghost"} onClick={() => logout()}>
+                      Log Out
+                    </Button>
+                  </PopoverContent>
+                </Popover>
+              </div>
+            </div>
+
+            <div className={` gap-2 w-full px-4 py-2 mt-4 items-center`}>
+              <div className={`${book?.className} text-4xl tracking-wide`}>
+                your
+                <br />
+                <div className="justify-between flex">
+                  <span>&nbsp;&nbsp;notes</span>
+                  <div className="text-2xl opacity-70 my-2">
+                    /&nbsp;{totalNotes}
+                  </div>
+                </div>
               </div>
             </div>
             <div
@@ -112,9 +139,7 @@ export default function SideBarCategories({ categories, isLoading }) {
                 catSidebarVisible ? "justify-between" : "justify-center"
               } items-center w-full px-8 py-2 my-4`}
             >
-              <div className="font-bold tracking-widest">
-                categories
-              </div>
+              <div className="font-bold tracking-widest">categories</div>
               <Dialog>
                 <DialogTrigger asChild>
                   <div className="cursor-pointer">
@@ -175,7 +200,9 @@ export default function SideBarCategories({ categories, isLoading }) {
                 // A single category:
                 <div
                   key={index}
-                  className={`px-8 py-0.5 mx-2 rounded-lg flex items-center gap-2 cursor-pointer text-xl tracking-wide ${medium.className} hover:bg-customOrange hover:text-customBlack
+                  className={`px-2 py-0.5 mx-8 rounded-lg flex items-center gap-2 cursor-pointer text-xl tracking-wide ${
+                    medium.className
+                  } hover:bg-customOrange hover:text-customBlack
               ${
                 index === activeCategory?.index
                   ? "bg-customOrange text-customBlack"
@@ -190,13 +217,13 @@ export default function SideBarCategories({ categories, isLoading }) {
             )}
 
             <div
-              className={`flex justify-between items-center w-full px-8 py-2 my-4`}>
-              <div className="font-bold tracking-widest">
-                tags
-              </div>
+              className={`flex justify-between items-center w-full px-8 py-2 my-4`}
+            >
+              <div className="font-bold tracking-widest">tags</div>
               <div
                 //   onClick={addTags}
-                className="cursor-pointer">
+                className="cursor-pointer"
+              >
                 <Plus />
               </div>
             </div>
@@ -204,33 +231,27 @@ export default function SideBarCategories({ categories, isLoading }) {
             {/* tags for this user*/}
             <div className="p-4">
               {/* display tags as list */}
-              <button className="px-2 py-1 m-[2px] rounded-full border dark:border-customWhite dark:bg-customBlack dark:text-customWhite">#work</button>
-              <button className="px-2 py-1 m-[2px] rounded-full border dark:border-customWhite dark:bg-customBlack dark:text-customWhite">#home</button>
-              <button className="px-2 py-1 m-[2px] rounded-full border bg-customOrange text-customBlack dark:border-customOrange dark:bg-customOrange dark:text-customBlack">#active</button>
-              <button className="px-2 py-1 m-[2px] rounded-full border dark:border-customWhite dark:bg-customBlack dark:text-customWhite">#personal</button>
-              <button className="px-2 py-1 m-[2px] rounded-full border dark:border-customWhite dark:bg-customBlack dark:text-customWhite">#work</button>
-              <button className="px-2 py-1 m-[2px] rounded-full border dark:border-customWhite dark:bg-customBlack dark:text-customWhite">#work</button>
-              <button className="px-2 py-1 m-[2px] rounded-full border dark:border-customWhite dark:bg-customBlack dark:text-customWhite">#work</button>
-            </div>
-          </div>
-
-          {/* TODO: refactor this into component: */}
-          <div className="p-4 flex items-center justify-center">
-              <div className="text-sm"><span className="opacity-70">{getGreeting()}</span>&nbsp;{pb.authStore.model?.email}</div>
-            <div className={`ml-2`}>
-              <Popover>
-                <PopoverTrigger>
-                  <CaretDownIcon />
-                </PopoverTrigger>
-                <PopoverContent className="px-4 py-2">
-                  {!catSidebarVisible && (
-                    <div className="text-sm">{pb.authStore.model?.email}</div>
-                  )}
-                  <Button variant={"ghost"} onClick={() => logout()}>
-                    Log Out
-                  </Button>
-                </PopoverContent>
-              </Popover>
+              <button className="px-2 py-1 m-[2px] rounded-full border dark:border-customWhite dark:bg-customBlack dark:text-customWhite">
+                #work
+              </button>
+              <button className="px-2 py-1 m-[2px] rounded-full border dark:border-customWhite dark:bg-customBlack dark:text-customWhite">
+                #home
+              </button>
+              <button className="px-2 py-1 m-[2px] rounded-full border bg-customOrange text-customBlack dark:border-customOrange dark:bg-customOrange dark:text-customBlack">
+                #active
+              </button>
+              <button className="px-2 py-1 m-[2px] rounded-full border dark:border-customWhite dark:bg-customBlack dark:text-customWhite">
+                #personal
+              </button>
+              <button className="px-2 py-1 m-[2px] rounded-full border dark:border-customWhite dark:bg-customBlack dark:text-customWhite">
+                #work
+              </button>
+              <button className="px-2 py-1 m-[2px] rounded-full border dark:border-customWhite dark:bg-customBlack dark:text-customWhite">
+                #work
+              </button>
+              <button className="px-2 py-1 m-[2px] rounded-full border dark:border-customWhite dark:bg-customBlack dark:text-customWhite">
+                #work
+              </button>
             </div>
           </div>
         </div>

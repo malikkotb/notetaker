@@ -3,7 +3,7 @@ import pb from "../(lib)/pocketbase";
 import useMyStore from "@/app/(store)/store";
 
 export default function useNotesQuery() {
-  const { activeCategory } = useMyStore();
+  const { activeCategory, setTotalNotes } = useMyStore();
   const enableQuery = activeCategory !== null;
   async function fetchNotes() {
     const data = (await pb.collection("notes").getList(1, 50)).items;
@@ -19,7 +19,7 @@ export default function useNotesQuery() {
         notes.push(obj);
       }
     }
-
+    setTotalNotes(notes.length)
     return notes;
   }
 
