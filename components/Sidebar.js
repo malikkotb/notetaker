@@ -35,6 +35,9 @@ export default function Sidebar({ notes, isLoading }) {
     updateActiveCategory,
     setCatSidebarVisible,
     catSidebarVisible,
+    setSidebarVisible,
+    setShowEditor,
+    showEditor
   } = useMyStore();
   const [searchTerm, setSearchTerm] = useState("");
   const searchInput = useRef();
@@ -66,6 +69,11 @@ export default function Sidebar({ notes, isLoading }) {
       index: index,
       record_id: note.record_id,
     });
+    // setSidebarVisible (to false) and show the editor
+    setSidebarVisible();
+    // configure this to only be called on mobile screens
+    // and always show the editor on large screens 
+    setShowEditor();
   };
 
   const { mutate: deleteNoteMutation } = useMutation({
@@ -97,12 +105,21 @@ export default function Sidebar({ notes, isLoading }) {
 //TODO: make sidebar take full width of screen on mobile devices 
 // so it simulates a page transition kind of
 
+// hide sidebar (with setSidebarVisible) when clicking on a note and
+// simultaneaously show the TipTap editor
+
+// and when clicking on the LeftArrow icon on the editor (on mobile)
+// hide the editor again and display the Sidebar
+
+// and on mobile mode, make the categorySidebar initially hidden
+
+
   return (
     <>
       <Toaster position="top-right" richColors />
       {activeCategory && (
         <div
-          className={`w-64 flex-shrink-0 bg-customWhite text-customBlack dark:text-customWhite dark:bg-customBlack ${
+          className={`w-full sm:w-64 flex-shrink-0 bg-customWhite text-customBlack dark:text-customWhite dark:bg-customBlack ${
             sidebarVisible ? "flex" : "hidden"
           } h-screen overflow-hidden flex-col justify-between`}
         >
@@ -173,7 +190,7 @@ export default function Sidebar({ notes, isLoading }) {
                     <div
                       onClick={() => handleClickNote(note, index)}
                       // hover:bg-zinc-100 dark:hover:bg-zinc-800
-                      className={`w-64 h-28 p-3 cursor-pointer hover:bg-zinc-200 dark:hover:bg-zinc-800 rounded-md overflow-hidden justify-start font-normal ${
+                      className={`sm:w-64 mx-2 sm:mx-0 h-28 p-3 cursor-pointer hover:bg-zinc-200 dark:hover:bg-zinc-800 rounded-md overflow-hidden justify-start font-normal ${
                         note.record_id === activeNote?.record_id
                           ? "bg-zinc-200 dark:bg-zinc-800"
                           : ""
@@ -216,6 +233,7 @@ export default function Sidebar({ notes, isLoading }) {
           </div>
         </div>
       )}
+      {!activeCategory && (<div>Select a category</div>)}
     </>
   );
 }

@@ -162,28 +162,6 @@ export default function SideBarCategories({ categories, isLoading }) {
                         className=""
                         ref={inputRef}
                       />
-                      <div className="w-full justify-center gap-2 py-2">
-                        <div className="flex justify-between items-center">
-                          <Button onClick={() => setShowPicker(!showPicker)}>
-                            Select Icon
-                          </Button>
-                          {chosenEmoji && (
-                            <div className="text-2xl">{chosenEmoji.native}</div>
-                          )}
-                        </div>
-                        {showPicker && (
-                          <div className="overflow-hidden h-40 md:h-60 ">
-                            <Picker
-                              data={data}
-                              onEmojiSelect={handleEmojiClick}
-                              navPosition="top"
-                              perLine={7}
-                              maxFrequentRows={0}
-                              previewPosition="none"
-                            />
-                          </div>
-                        )}
-                      </div>
                     </div>
                   </div>
                   <DialogFooter>
@@ -215,7 +193,7 @@ export default function SideBarCategories({ categories, isLoading }) {
                   onClick={() => handleClickCategory(category, index)}
                 >
                   <div>{category.emoji}</div>
-                  <div className="text-sm line-clamp-1">{category.name}</div>
+                  <div className="text-base line-clamp-1">{category.name}</div>
                 </div>
               ))
             )}
