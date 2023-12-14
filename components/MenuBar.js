@@ -5,10 +5,10 @@ import useMyStore from "../app/(store)/store";
 import { useEffect } from "react";
 
 export default function MenuBar({ editor }) {
+  
   if (!editor) {
     return null;
   }
-
   const { activeNote } = useMyStore();
 
   // https://github.com/ueberdosis/tiptap/issues/3764
@@ -20,7 +20,7 @@ export default function MenuBar({ editor }) {
   }, [activeNote]);
 
   return (
-    <div className="p-4">
+    <div className="p-2 sm:p-4">
       <div className="flex flex-wrap gap-2">
         <Button
           variant="outline"
@@ -59,13 +59,13 @@ export default function MenuBar({ editor }) {
         >
           <BsEraser />
         </Button>
-        <Button
+        {/* <Button
           variant="outline"
           onClick={() => editor?.chain().focus().clearNodes().run()}
           className="hover:bg-zinc-200"
         >
           clear nodes
-        </Button>
+        </Button> */}
         <Button
         variant="outline"
           onClick={() => editor?.chain().focus().toggleTaskList().run()}

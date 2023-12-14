@@ -61,7 +61,7 @@ export default function Home() {
   }
 
   return (
-    <div className="flex m-0 h-screen w-screen">
+    <div className="flex m-0 ">
       <SideBarCategories
         categories={categories}
         isLoading={catsLoading}

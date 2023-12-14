@@ -43,11 +43,13 @@ export default function SideBarCategories({ categories, isLoading }) {
     authenticated,
     setSidebarVisible,
     totalNotes,
+    catSidebarVisible,
+    setCatSidebarVisible
   } = useMyStore();
   const { mutate, isSuccess: isSuccesAddCategory } = useAddCategory();
   const logout = useLogout();
   const inputRef = useRef();
-  const [catSidebarVisible, setCatSidebarVisible] = useState(true);
+  // const [catSidebarVisible, setCatSidebarVisible] = useState(true);
 
   const [showPicker, setShowPicker] = useState(false);
   const [chosenEmoji, setChosenEmoji] = useState(null);
@@ -88,12 +90,13 @@ export default function SideBarCategories({ categories, isLoading }) {
     });
   };
 
+
   return (
     <>
       <Toaster position="top-right" richColors />
       <div className="flex">
         <div
-          className={`relative flex top-0 text-customBlack dark:text-customWhite bg-customWhite dark:bg-customBlack 
+          className={`relative top-0 text-customBlack dark:text-customWhite bg-customWhite dark:bg-customBlack 
         h-screen flex-col justify-between w-[250px] transition-all duration-500 ${
           catSidebarVisible ? "flex sticky top-0" : "hidden"
         }`}
@@ -169,7 +172,7 @@ export default function SideBarCategories({ categories, isLoading }) {
                           )}
                         </div>
                         {showPicker && (
-                          <div className="overflow-hidden h-60">
+                          <div className="overflow-hidden h-40 md:h-60 ">
                             <Picker
                               data={data}
                               onEmojiSelect={handleEmojiClick}
@@ -259,7 +262,7 @@ export default function SideBarCategories({ categories, isLoading }) {
         </div>
 
         {/* Sidebar chevron div */}
-        <div className="sticky top-0 h-screen border-l dark:border-black transition-all duration-300 bg-customWhite dark:bg-customBlack flex items-center justify-center text-center">
+        <div className="sticky hidden sm:flex top-0 h-screen border-l dark:border-black transition-all duration-300 bg-customWhite dark:bg-customBlack items-center justify-center text-center">
           <div
             onClick={() => setCatSidebarVisible(!catSidebarVisible)}
             className={`text-center opacity-50 hover:opacity-100 cursor-pointer`}

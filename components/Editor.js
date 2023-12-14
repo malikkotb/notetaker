@@ -2,6 +2,8 @@ import { Menu } from "lucide-react";
 import Tiptap from "./Tiptap";
 import useMyStore from "@/app/(store)/store";
 import { ModeToggle } from "./ModeToggle";
+import { ChevronLeft } from "lucide-react";
+
 
 export default function Editor({ toggleSidebar, sidebarVisible }) {
   const { activeNote, activeCategory } = useMyStore();
@@ -12,7 +14,7 @@ export default function Editor({ toggleSidebar, sidebarVisible }) {
         <div className="flex items-center justify-between">
           <div className="flex px-2 gap-2">
             <button className={`cursor-pointer ${!activeCategory ? "opacity-0" : ""}`} disabled={!activeCategory} onClick={toggleSidebar}>
-              <Menu />
+            <ChevronLeft className="sm:hidden" /><Menu className="hidden sm:block" />
             </button>
             {/* {activeNote ? notes[activeNote.index].title : ""} */}
           </div>

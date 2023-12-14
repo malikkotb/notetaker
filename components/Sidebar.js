@@ -11,6 +11,7 @@ import useAddNote from "@/app/(hooks)/useAddNote";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import BlurryDivider from "./BlurryDivider";
 import { Button } from "../components/ui/button";
+import { Menu } from "lucide-react";
 
 import {
   bold,
@@ -26,8 +27,15 @@ function removeHtmlTags(input) {
 }
 
 export default function Sidebar({ notes, isLoading }) {
-  const { updateActiveNote, activeNote, activeCategory, sidebarVisible, updateActiveCategory } =
-    useMyStore();
+  const {
+    updateActiveNote,
+    activeNote,
+    activeCategory,
+    sidebarVisible,
+    updateActiveCategory,
+    setCatSidebarVisible,
+    catSidebarVisible,
+  } = useMyStore();
   const [searchTerm, setSearchTerm] = useState("");
   const searchInput = useRef();
   const queryClient = useQueryClient();
@@ -74,7 +82,7 @@ export default function Sidebar({ notes, isLoading }) {
   const { mutate: deleteCategoryMutation } = useMutation({
     mutationFn: async (category) => {
       // await pb.collection("notes").delete(note.record_id);
-      await pb.collection('categories').delete(category.categoryId);
+      await pb.collection("categories").delete(category.categoryId);
     },
     onSuccess: () => {
       toast.error("Category was deleted");
@@ -85,22 +93,35 @@ export default function Sidebar({ notes, isLoading }) {
     },
   });
 
+
+//TODO: make sidebar take full width of screen on mobile devices 
+// so it simulates a page transition kind of
+
   return (
     <>
       <Toaster position="top-right" richColors />
       {activeCategory && (
         <div
           className={`w-64 flex-shrink-0 bg-customWhite text-customBlack dark:text-customWhite dark:bg-customBlack ${
-            sidebarVisible ? "flex sticky top-0" : "hidden"
+            sidebarVisible ? "flex" : "hidden"
           } h-screen overflow-hidden flex-col justify-between`}
         >
           <div className="flex flex-col">
             <div className="flex justify-between items-center pt-4 px-4">
+             
+                <button
+                  className={`cursor-pointer sm:hidden ${
+                    !activeCategory ? "opacity-0" : ""
+                  }`}
+                  disabled={!activeCategory}
+                  onClick={() => setCatSidebarVisible(!catSidebarVisible)}
+                >
+                  <Menu />
+                </button>
               <h3 className={`${medium?.className} text-lg tracking-wider`}>
                 {activeCategory.name}
               </h3>
               <div className="flex gap-2 items-center">
-                
                 <Link
                   href="/"
                   onClick={(e) => {
@@ -123,7 +144,11 @@ export default function Sidebar({ notes, isLoading }) {
               />
             </div>
 
-            <Button variant="outline" className={`hover:bg-zinc-200 p-2 mx-2 mb-4 ${medium?.className}`} onClick={addNote}>
+            <Button
+              variant="outline"
+              className={`hover:bg-zinc-200 p-2 mx-2 mb-4 ${medium?.className}`}
+              onClick={addNote}
+            >
               <span className="text-xl">+&nbsp;&nbsp;</span>Add Note
             </Button>
             {/* <div className="p-2 pt-0">

@@ -5,6 +5,8 @@ const useMyStore = create((set) => ({
   activeCategory: null,
   sidebarVisible: true,
   totalNotes: 0,
+  catSidebarVisible: true,
+  setCatSidebarVisible: (newVisibilty) =>  set({ catSidebarVisible: newVisibilty }),
   setTotalNotes: (numberNotes) => set({ totalNotes: numberNotes }),
   setSidebarVisible: () =>
     set((state) => ({ sidebarVisible: !state.sidebarVisible })),
