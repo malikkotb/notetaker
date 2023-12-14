@@ -201,9 +201,9 @@ export default function SideBarCategories({ categories, isLoading }) {
                 // A single category:
                 <div
                   key={index}
-                  className={`px-2 py-0.5 mx-6 rounded-lg flex items-center gap-2 cursor-pointer text-xl tracking-wide ${
-                    medium.className
-                  } hover:bg-customOrange hover:text-customBlack
+                  className={`px-2 py-0.5 mx-6 rounded-lg flex items-center gap-2 cursor-pointer text-xl tracking-wide 
+                   
+                  hover:bg-customOrange hover:text-customBlack
               ${
                 index === activeCategory?.index
                   ? "bg-customOrange text-customBlack"

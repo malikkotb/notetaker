@@ -144,7 +144,7 @@ export default function Sidebar({ notes, isLoading }) {
                 .map((note, index) => (
                   // A single note:
                   <div key={index}>
-                    <BlurryDivider />
+                    {/* <BlurryDivider /> */}
                     <div
                       onClick={() => handleClickNote(note, index)}
                       // hover:bg-zinc-100 dark:hover:bg-zinc-800

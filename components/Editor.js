@@ -8,7 +8,7 @@ export default function Editor({ toggleSidebar, sidebarVisible }) {
 
   return (
     <>
-      <div className={`p-4 ${!sidebarVisible ? "pl-0" : ""} overflow-hidden w-full bg-customWhite text-customBlack dark:text-customWhite dark:bg-customBlack`}>
+      <div className={`p-4 ${!sidebarVisible ? "pl-0" : ""} w-full bg-customWhite text-customBlack dark:text-customWhite dark:bg-customBlack`}>
         <div className="flex items-center justify-between">
           <div className="flex px-2 gap-2">
             <button className={`cursor-pointer ${!activeCategory ? "opacity-0" : ""}`} disabled={!activeCategory} onClick={toggleSidebar}>
@@ -31,16 +31,3 @@ export default function Editor({ toggleSidebar, sidebarVisible }) {
     </>
   );
 }
-
-
-//TAGSSSS
-//TAGSSSS
-//TAGSSSS
-//TAGSSSS
-//TAGSSSS
-//TAGSSSS
-//TAGSSSS
-//TAGSSSS
-//TAGSSSS
-//TAGSSSS
-//TAGSSSS

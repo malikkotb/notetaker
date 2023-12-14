@@ -1,3 +1,14 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* For Webkit browsers like Chrome and Safari */
+.editorContent::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* For Firefox */
+  .editorContent {
+    scrollbar-width: none;
+  }
+  
