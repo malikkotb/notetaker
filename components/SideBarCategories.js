@@ -35,6 +35,7 @@ import {
 } from "../app/myFont/Fonts";
 
 import getGreeting from "../app/(util)/greeting";
+import useWindowWidth from "../app/(hooks)/useWindowWidth";
 
 export default function SideBarCategories({ categories, isLoading }) {
   const {
@@ -49,7 +50,9 @@ export default function SideBarCategories({ categories, isLoading }) {
   const { mutate, isSuccess: isSuccesAddCategory } = useAddCategory();
   const logout = useLogout();
   const inputRef = useRef();
-  // const [catSidebarVisible, setCatSidebarVisible] = useState(true);
+  const width = useWindowWidth();
+
+
 
   const [showPicker, setShowPicker] = useState(false);
   const [chosenEmoji, setChosenEmoji] = useState(null);
@@ -88,6 +91,17 @@ export default function SideBarCategories({ categories, isLoading }) {
       index: index,
       categoryId: category.categoryId,
     });
+
+    // TODO: on mobile: show only sidebar (notes) when clicking on category 
+    // setCatSidebar (-> false)
+    // and when showing categorySidebar -> also full screen
+
+    if (width > 0 && width <= 500) {
+      setCatSidebarVisible(); // this will hide the category sidebar
+      // and then show sidebar (notes)
+    }
+    setSidebarVisible();
+
   };
 
 
@@ -97,7 +111,7 @@ export default function SideBarCategories({ categories, isLoading }) {
       <div className="flex">
         <div
           className={`relative top-0 text-customBlack dark:text-customWhite bg-customWhite dark:bg-customBlack 
-        h-screen flex-col justify-between w-[250px] transition-all duration-500 ${
+        h-screen flex-col justify-between w-full md:w-[250px] transition-all duration-500 ${
           catSidebarVisible ? "flex sticky top-0" : "hidden"
         }`}
         >

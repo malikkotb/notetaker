@@ -12,6 +12,7 @@ import { useQueryClient, useMutation } from "@tanstack/react-query";
 import BlurryDivider from "./BlurryDivider";
 import { Button } from "../components/ui/button";
 import { Menu } from "lucide-react";
+import useWindowWidth from "../app/(hooks)/useWindowWidth";
 
 import {
   bold,
@@ -37,13 +38,14 @@ export default function Sidebar({ notes, isLoading }) {
     catSidebarVisible,
     setSidebarVisible,
     setShowEditor,
-    showEditor
+    showEditor,
   } = useMyStore();
   const [searchTerm, setSearchTerm] = useState("");
   const searchInput = useRef();
   const queryClient = useQueryClient();
 
   const { mutate, isSuccess: isSuccessAddNote } = useAddNote();
+  const width = useWindowWidth();
 
   const addNote = async () => {
     const data = {
@@ -69,11 +71,16 @@ export default function Sidebar({ notes, isLoading }) {
       index: index,
       record_id: note.record_id,
     });
-    // setSidebarVisible (to false) and show the editor
-    setSidebarVisible();
+
     // configure this to only be called on mobile screens
-    // and always show the editor on large screens 
-    setShowEditor();
+    // and always show the editor on large screens
+
+    console.log("WDITH: ", width);
+    if (width > 0 && width <= 500) {
+      console.log("mobile screens");
+      setSidebarVisible(); // on mobile screens -> hide seidebar(notes)
+      setShowEditor(); // and show only the editor
+    }
   };
 
   const { mutate: deleteNoteMutation } = useMutation({
@@ -101,18 +108,24 @@ export default function Sidebar({ notes, isLoading }) {
     },
   });
 
+  function handleShowCatSidebar() {
+    if (width > 0 && width <= 500) {
+      console.log("mobile screens");
+      setCatSidebarVisible(!catSidebarVisible)
+      setSidebarVisible(); // on mobile screens -> hide seidebar(notes)
+    }
+  }
 
-//TODO: make sidebar take full width of screen on mobile devices 
-// so it simulates a page transition kind of
+  //TODO: make sidebar take full width of screen on mobile devices
+  // so it simulates a page transition kind of
 
-// hide sidebar (with setSidebarVisible) when clicking on a note and
-// simultaneaously show the TipTap editor
+  // hide sidebar (with setSidebarVisible) when clicking on a note and
+  // simultaneaously show the TipTap editor
 
-// and when clicking on the LeftArrow icon on the editor (on mobile)
-// hide the editor again and display the Sidebar
+  // and when clicking on the LeftArrow icon on the editor (on mobile)
+  // hide the editor again and display the Sidebar
 
-// and on mobile mode, make the categorySidebar initially hidden
-
+  // and on mobile mode, make the categorySidebar initially hidden
 
   return (
     <>
@@ -125,16 +138,15 @@ export default function Sidebar({ notes, isLoading }) {
         >
           <div className="flex flex-col">
             <div className="flex justify-between items-center pt-4 px-4">
-             
-                <button
-                  className={`cursor-pointer sm:hidden ${
-                    !activeCategory ? "opacity-0" : ""
-                  }`}
-                  disabled={!activeCategory}
-                  onClick={() => setCatSidebarVisible(!catSidebarVisible)}
-                >
-                  <Menu />
-                </button>
+              <button
+                className={`cursor-pointer sm:hidden ${
+                  !activeCategory ? "opacity-0" : ""
+                }`}
+                disabled={!activeCategory}
+                onClick={() => handleShowCatSidebar()}
+              >
+                <Menu />
+              </button>
               <h3 className={`${medium?.className} text-lg tracking-wider`}>
                 {activeCategory.name}
               </h3>
@@ -233,7 +245,13 @@ export default function Sidebar({ notes, isLoading }) {
           </div>
         </div>
       )}
-      {!activeCategory && (<div>Select a category</div>)}
+      {/* {!activeCategory && (
+        <div
+          className={`w-full items-center h-screen justify-center flex bg-customWhite text-customBlack dark:text-customWhite dark:bg-customBlack`}
+        >
+          <p>Select a category</p>
+        </div>
+      )} */}
     </>
   );
 }

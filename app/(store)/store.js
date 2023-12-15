@@ -3,7 +3,7 @@ const useMyStore = create((set) => ({
   activeNote: null,
   authenticated: false,
   activeCategory: null,
-  sidebarVisible: true,
+  sidebarVisible: false,
   totalNotes: 0,
   catSidebarVisible: true,
   showEditor: false,

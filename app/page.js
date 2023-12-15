@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 import pb from "./(lib)/pocketbase";
 
 export default function Home() {
-  const { authenticated, updateActiveNote, updateActiveCategory, setSidebarVisible, sidebarVisible } =
+  const { authenticated, updateActiveNote, updateActiveCategory, setSidebarVisible, sidebarVisible, setShowEditor } =
     useMyStore();
   const router = useRouter();
 
@@ -22,9 +22,13 @@ export default function Home() {
     // Add event listener for window resize
     window.addEventListener("resize", handleResize);
 
+    if (window.innerWidth <= 768) {
+      console.log("mobile screen -> editor initially hidden");
+      setShowEditor(false);
+    }
+
     // Clean up the event listener when the component unmounts
     return () => {
-      console.log("cleaning up");
       window.removeEventListener("resize", handleResize);
     };
   }, []);
