@@ -53,7 +53,6 @@ export default function SideBarCategories({ categories, isLoading }) {
   const width = useWindowWidth();
 
 
-
   const [showPicker, setShowPicker] = useState(false);
   const [chosenEmoji, setChosenEmoji] = useState(null);
 

@@ -20,7 +20,7 @@ export default function MenuBar({ editor }) {
   }, [activeNote]);
 
   return (
-    <div className="p-2 sm:p-4">
+    <div className="p-2">
       <div className="flex flex-wrap gap-2">
         <Button
           variant="outline"

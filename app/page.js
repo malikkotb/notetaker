@@ -4,6 +4,7 @@ import Editor from "../components/Editor";
 import { useEffect, useState } from "react";
 import useNotesQuery from "./(hooks)/useNotesQuery";
 import useCatQuery from "@/app/(hooks)/useCatQuery";
+import useTagQuery from "@/app/(hooks)/useTagQuery";
 import SideBarCategories from "../components/SideBarCategories";
 import useMyStore from "./(store)/store";
 import useLogout from "./(hooks)/useLogout";
@@ -51,13 +52,17 @@ export default function Home() {
     isError: catIsError,
     error: catError,
   } = useCatQuery();
-
+  const { data: tags, isLoading: tagsLoading, isError: tagsIsError, error: tagsError} = useTagQuery();
   if (isError) {
     console.log("Error fetching notes: ", error.message);
   }
 
   if (catIsError) {
     console.log("Error fetching categories: ", catError.message);
+  }
+
+  if (tagsIsError) {
+    console.log("Error fetching categories: ", tagsError.message);
   }
 
   function toggleSidebar() {
@@ -69,10 +74,12 @@ export default function Home() {
       <SideBarCategories
         categories={categories}
         isLoading={catsLoading}
+        tags={tags}
       />
       <Sidebar
         isLoading={isLoading}
         notes={notes}
+        tags={tags}
       />
       <Editor notes={notes} toggleSidebar={toggleSidebar} sidebarVisible={sidebarVisible} />
     </div>

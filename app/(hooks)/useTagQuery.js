@@ -3,21 +3,20 @@ import pb from "../(lib)/pocketbase";
 
 export default function useCatQuery() {
   async function fetchCategories() {
-    const data = (await pb.collection("categories").getList(1, 50)).items;
-    const categories = [];
+    const data = (await pb.collection("tags").getList(1, 50)).items;
+    const tags = [];
     for (const element of data) {
       if (element.userId === pb.authStore.model.id) {
         const obj = {
           name: element.name,
-          notes: element.notes,
-          categoryId: element.id,
+          tagId: element.id,
         };
-        categories.push(obj);
+        tags.push(obj);
       }
     }
 
-    return categories;
+    return tags;
   }
 
-  return useQuery({ queryFn: fetchCategories, queryKey: ["categories"] });
+  return useQuery({ queryFn: fetchCategories, queryKey: ["tags"] });
 }
