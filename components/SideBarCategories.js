@@ -37,7 +37,11 @@ import {
 import getGreeting from "../app/(util)/greeting";
 import useWindowWidth from "../app/(hooks)/useWindowWidth";
 
-export default function SideBarCategories({ categories, isLoading }) {
+export default function SideBarCategories({
+  categories,
+  isLoading,
+  sidebarVisible,
+}) {
   const {
     updateActiveCategory,
     activeCategory,
@@ -45,13 +49,12 @@ export default function SideBarCategories({ categories, isLoading }) {
     setSidebarVisible,
     totalNotes,
     catSidebarVisible,
-    setCatSidebarVisible
+    setCatSidebarVisible,
   } = useMyStore();
   const { mutate, isSuccess: isSuccesAddCategory } = useAddCategory();
   const logout = useLogout();
   const inputRef = useRef();
   const width = useWindowWidth();
-
 
   const [showPicker, setShowPicker] = useState(false);
   const [chosenEmoji, setChosenEmoji] = useState(null);
@@ -91,18 +94,17 @@ export default function SideBarCategories({ categories, isLoading }) {
       categoryId: category.categoryId,
     });
 
-    // TODO: on mobile: show only sidebar (notes) when clicking on category 
+    // TODO: on mobile: show only sidebar (notes) when clicking on category
     // setCatSidebar (-> false)
     // and when showing categorySidebar -> also full screen
 
     if (width > 0 && width <= 500) {
+      console.log("small screens");
       setCatSidebarVisible(); // this will hide the category sidebar
       // and then show sidebar (notes)
+      setSidebarVisible(true);
     }
-    setSidebarVisible();
-
   };
-
 
   return (
     <>
@@ -249,7 +251,6 @@ export default function SideBarCategories({ categories, isLoading }) {
               </button>
             </div>
           </div>
-          
         </div>
 
         {/* Sidebar chevron div */}
