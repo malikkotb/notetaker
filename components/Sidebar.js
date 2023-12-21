@@ -116,17 +116,6 @@ export default function Sidebar({ notes, isLoading }) {
     }
   }
 
-  //TODO: make sidebar take full width of screen on mobile devices
-  // so it simulates a page transition kind of
-
-  // hide sidebar (with setSidebarVisible) when clicking on a note and
-  // simultaneaously show the TipTap editor
-
-  // and when clicking on the LeftArrow icon on the editor (on mobile)
-  // hide the editor again and display the Sidebar
-
-  // and on mobile mode, make the categorySidebar initially hidden
-
   return (
     <>
       <Toaster position="top-right" richColors />
@@ -216,7 +205,7 @@ export default function Sidebar({ notes, isLoading }) {
                           {activeCategory.name}
                         </div>
                         <Link
-                          href="/"
+                          href=""
                           onClick={(e) => {
                             e.stopPropagation(); // Stop event propagation
                             deleteNoteMutation(note);

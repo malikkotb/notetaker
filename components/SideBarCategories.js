@@ -91,8 +91,8 @@ export default function SideBarCategories({
       console.log("small screens");
       setCatSidebarVisible(); // this will hide the category sidebar
       // and then show sidebar (notes)
-      setSidebarVisible(true);
     }
+    setSidebarVisible(true);
   };
 
   return (
@@ -129,8 +129,12 @@ export default function SideBarCategories({
               </div>
             </div>
 
-            <div className={` gap-2 w-full px-10 sm:px-6 sm:py-2 mt-4 items-center`}>
-              <div className={`${book?.className} text-7xl sm:text-4xl tracking-wide`}>
+            <div
+              className={` gap-2 w-full px-10 sm:px-6 sm:py-2 mt-4 items-center`}
+            >
+              <div
+                className={`${book?.className} text-7xl sm:text-4xl tracking-wide`}
+              >
                 your
                 <br />
                 <div className="justify-between flex">
@@ -147,14 +151,16 @@ export default function SideBarCategories({
                 catSidebarVisible ? "justify-between" : "justify-center"
               } items-center w-full px-10 sm:px-6 py-2 my-4`}
             >
-              <div className="font-bold tracking-widest text-2xl sm:text-base">categories</div>
+              <div className="font-bold tracking-widest text-2xl sm:text-base">
+                categories
+              </div>
               <Dialog>
                 <DialogTrigger asChild>
                   <div className="cursor-pointer">
                     <Plus />
                   </div>
                 </DialogTrigger>
-                <DialogContent className="sm:max-w-[350px] border dark:bg-customBlack dark:text-customWhite ">
+                <DialogContent className="w-80 rounded-2xl sm:max-w-[350px] border-none dark:bg-customBlack dark:text-customWhite">
                   <DialogHeader>
                     <DialogTitle>Name the category</DialogTitle>
                   </DialogHeader>
@@ -196,7 +202,9 @@ export default function SideBarCategories({
               } `}
                   onClick={() => handleClickCategory(category, index)}
                 >
-                  <div className="text-xl sm:text-base line-clamp-1">{category.name}</div>
+                  <div className="text-xl sm:text-base line-clamp-1">
+                    {category.name}
+                  </div>
                 </div>
               ))
             )}
@@ -204,7 +212,9 @@ export default function SideBarCategories({
             <div
               className={`flex justify-between items-center w-full px-10 sm:px-6 sm:py-2 my-4`}
             >
-              <div className="font-bold tracking-widest text-2xl sm:text-base">tags</div>
+              <div className="font-bold tracking-widest text-2xl sm:text-base">
+                tags
+              </div>
               <div
                 //   onClick={addTags}
                 className="cursor-pointer"
