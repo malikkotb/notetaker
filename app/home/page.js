@@ -33,7 +33,7 @@ export default function Home() {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, []);
+  });
 
     // TODO: shouhldt need this anymore, since "/" route is now login route  
   useEffect(() => {

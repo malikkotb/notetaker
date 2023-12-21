@@ -5,7 +5,7 @@ import StarterKit from "@tiptap/starter-kit";
 import Placeholder from "@tiptap/extension-placeholder";
 import Document from "@tiptap/extension-document";
 import pb from "../app/(lib)/pocketbase";
-import MenuBar from "./MenuBar";
+import MenuBarWrapper from "./MenuBarWrapper";
 import useUpdateNote from "@/app/(hooks)/useUpdateNote";
 import TaskItem from '@tiptap/extension-task-item'
 import TaskList from '@tiptap/extension-task-list'
@@ -31,7 +31,7 @@ const CustomDocument = Document.extend({
   content: "heading block*",
 });
 
-export default () => {
+export default function TipTap() {
   const { mutate: updateNote } = useUpdateNote();
 
   const editor = useEditor({
@@ -87,7 +87,7 @@ export default () => {
 
   return (
     <div>
-      <MenuBar editor={editor} />
+      <MenuBarWrapper editor={editor} />
       <EditorContent className="px-2 sm:px-4 h-[80vh] sm:h-[90vh] editorContent overflow-y-auto" editor={editor} />
     </div>
   );

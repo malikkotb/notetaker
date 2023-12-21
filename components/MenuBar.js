@@ -6,9 +6,6 @@ import { useEffect } from "react";
 
 export default function MenuBar({ editor }) {
   
-  if (!editor) {
-    return null;
-  }
   const { activeNote } = useMyStore();
 
   // https://github.com/ueberdosis/tiptap/issues/3764

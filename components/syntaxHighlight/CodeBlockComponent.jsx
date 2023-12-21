@@ -2,7 +2,7 @@ import './CodeBlockComponent.scss'
 
 import { NodeViewContent, NodeViewWrapper } from '@tiptap/react'
 
-export default ({ node: { attrs: { language: defaultLanguage } }, updateAttributes, extension }) => (
+const CodeBlockComponent = ({ node: { attrs: { language: defaultLanguage } }, updateAttributes, extension }) => (
   <NodeViewWrapper className="code-block">
     <select contentEditable={false} defaultValue={defaultLanguage} onChange={event => updateAttributes({ language: event.target.value })}>
       <option value="null">
@@ -22,3 +22,5 @@ export default ({ node: { attrs: { language: defaultLanguage } }, updateAttribut
     </pre>
   </NodeViewWrapper>
 )
+
+export default CodeBlockComponent;

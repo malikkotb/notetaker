@@ -40,7 +40,7 @@ export default function AuthenticationPage() {
               <p className="text-lg">
                 &ldquo;NoteTaker has transformed the way I organize my thoughts,
                 making note-taking effortlessly intuitive and incredibly
-                efficient. It's the perfect companion for staying organized and
+                efficient. The perfect companion for staying organized and
                 boosting productivity!&rdquo;
               </p>
               <footer className="text-sm">Noah Selim</footer>

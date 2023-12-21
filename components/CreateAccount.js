@@ -4,9 +4,10 @@ import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { useForm } from "react-hook-form";
 import useCreateAcc from "@/app/(hooks)/useCreateAcc";
+import { Spinner } from "./icons/Spinner";
 import { toast, Toaster } from "sonner";
 
-export const CreateAccount = forwardRef(() => {
+export default function CreateAccount() {
   const { mutate, isLoading, isError, error, isSuccess } = useCreateAcc();
   const { register, handleSubmit, reset, formState } = useForm();
 
@@ -73,4 +74,4 @@ export const CreateAccount = forwardRef(() => {
       </form>
     </div>
   );
-});
+};

@@ -12,9 +12,8 @@ import useMyStore from "../app/(store)/store";
 import { GitHub } from "./icons/GitHub";
 import { Spinner } from "./icons/Spinner";
 import { RiGoogleLine } from "react-icons/ri";
-import { CreateAccount } from "./CreateAccount";
 import { useRouter } from 'next/navigation'
-
+import CreateAccount from "./CreateAccount";
 
 export function UserAuthForm({ className, create, ...props }) {
   const logout = useLogout();
