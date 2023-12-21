@@ -18,7 +18,8 @@ export default function Home() {
 
   useEffect(() => {
     const handleResize = () => {
-      setSidebarVisible(window.innerWidth >= 768);
+      // setSidebarVisible(window.innerWidth >= 768);
+      console.log("");
     };
     // Add event listener for window resize
     window.addEventListener("resize", handleResize);

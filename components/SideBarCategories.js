@@ -94,7 +94,7 @@ export default function SideBarCategories({
       categoryId: category.categoryId,
     });
 
-    // TODO: on mobile: show only sidebar (notes) when clicking on category
+    //on mobile: show only sidebar (notes) when clicking on category
     // setCatSidebar (-> false)
     // and when showing categorySidebar -> also full screen
 
@@ -118,7 +118,7 @@ export default function SideBarCategories({
         >
           <div>
             {/* TODO: refactor this into component: */}
-            <div className="py-4 flex items-center border-b mx-6 justify-between">
+            <div className="pt-8 pb-4 sm:py-4 flex items-center border-b mx-10 sm:mx-6 justify-between">
               <div className="text-sm">
                 <span className="opacity-70">{getGreeting()}</span>&nbsp;
                 {pb.authStore.model?.email}
@@ -140,13 +140,13 @@ export default function SideBarCategories({
               </div>
             </div>
 
-            <div className={` gap-2 w-full px-6 py-2 mt-4 items-center`}>
-              <div className={`${book?.className} text-4xl tracking-wide`}>
+            <div className={` gap-2 w-full px-10 sm:px-6 sm:py-2 mt-4 items-center`}>
+              <div className={`${book?.className} text-7xl sm:text-4xl tracking-wide`}>
                 your
                 <br />
                 <div className="justify-between flex">
                   <span>&nbsp;&nbsp;notes</span>
-                  <div className="text-2xl opacity-70 my-2">
+                  <div className="text-5xl sm:text-2xl opacity-70 mb-0 mt-5 sm:my-2">
                     /&nbsp;{totalNotes}
                   </div>
                 </div>
@@ -156,9 +156,9 @@ export default function SideBarCategories({
             <div
               className={`flex ${
                 catSidebarVisible ? "justify-between" : "justify-center"
-              } items-center w-full px-6 py-2 my-4`}
+              } items-center w-full px-10 sm:px-6 py-2 my-4`}
             >
-              <div className="font-bold tracking-widest">categories</div>
+              <div className="font-bold tracking-widest text-2xl sm:text-base">categories</div>
               <Dialog>
                 <DialogTrigger asChild>
                   <div className="cursor-pointer">
@@ -191,13 +191,13 @@ export default function SideBarCategories({
             </div>
 
             {isLoading ? (
-              <p className="px-6 w-52">Loading...</p>
+              <p className="px-10 sm:px-6 w-52">Loading...</p>
             ) : (
               categories?.map((category, index) => (
                 // A single category:
                 <div
                   key={index}
-                  className={`px-2 py-0.5 mx-6 rounded-lg flex items-center gap-2 cursor-pointer text-xl tracking-wide 
+                  className={`mx-10 px-3 py-1 sm:px-2 sm:py-0.5 sm:mx-6 rounded-full sm:rounded-lg flex items-center gap-2 cursor-pointer text-xl tracking-wide 
                    
                   hover:bg-customOrange hover:text-customBlack
               ${
@@ -208,15 +208,15 @@ export default function SideBarCategories({
                   onClick={() => handleClickCategory(category, index)}
                 >
                   <div>{category.emoji}</div>
-                  <div className="text-base line-clamp-1">{category.name}</div>
+                  <div className="text-xl sm:text-base line-clamp-1">{category.name}</div>
                 </div>
               ))
             )}
 
             <div
-              className={`flex justify-between items-center w-full px-6 py-2 my-4`}
+              className={`flex justify-between items-center w-full px-10 sm:px-6 sm:py-2 my-4`}
             >
-              <div className="font-bold tracking-widest">tags</div>
+              <div className="font-bold tracking-widest text-2xl sm:text-base">tags</div>
               <div
                 //   onClick={addTags}
                 className="cursor-pointer"
@@ -226,27 +226,30 @@ export default function SideBarCategories({
             </div>
 
             {/* tags for this user*/}
-            <div className="p-4">
+            <div className="p-8 py-2 sm:p-4">
               {/* display tags as list */}
-              <button className="px-2 py-1 m-[2px] rounded-full border dark:border-customWhite dark:bg-customBlack dark:text-customWhite">
+              <button className="text-2xl sm:text-base px-2 py-1 m-1 sm:m-[2px] rounded-full border dark:border-customWhite dark:bg-customBlack dark:text-customWhite">
                 #work
               </button>
-              <button className="px-2 py-1 m-[2px] rounded-full border dark:border-customWhite dark:bg-customBlack dark:text-customWhite">
+              <button className="text-2xl sm:text-base px-2 py-1 m-1 sm:m-[2px] rounded-full border dark:border-customWhite dark:bg-customBlack dark:text-customWhite">
+                #work
+              </button>
+              <button className="text-2xl sm:text-base px-2 py-1 m-1 sm:m-[2px] rounded-full border dark:border-customWhite dark:bg-customBlack dark:text-customWhite">
                 #home
               </button>
-              <button className="px-2 py-1 m-[2px] rounded-full border bg-customOrange text-customBlack dark:border-customOrange dark:bg-customOrange dark:text-customBlack">
+              <button className="text-2xl sm:text-base px-2 py-1 m-1 sm:m-[2px] rounded-full border bg-customOrange text-customBlack dark:border-customOrange dark:bg-customOrange dark:text-customBlack">
                 #active
               </button>
-              <button className="px-2 py-1 m-[2px] rounded-full border dark:border-customWhite dark:bg-customBlack dark:text-customWhite">
+              <button className="text-2xl sm:text-base px-2 py-1 m-1 sm:m-[2px] rounded-full border dark:border-customWhite dark:bg-customBlack dark:text-customWhite">
                 #personal
               </button>
-              <button className="px-2 py-1 m-[2px] rounded-full border dark:border-customWhite dark:bg-customBlack dark:text-customWhite">
+              <button className="text-2xl sm:text-base px-2 py-1 m-1 sm:m-[2px] rounded-full border dark:border-customWhite dark:bg-customBlack dark:text-customWhite">
                 #work
               </button>
-              <button className="px-2 py-1 m-[2px] rounded-full border dark:border-customWhite dark:bg-customBlack dark:text-customWhite">
+              <button className="text-2xl sm:text-base px-2 py-1 m-1 sm:m-[2px] rounded-full border dark:border-customWhite dark:bg-customBlack dark:text-customWhite">
                 #work
               </button>
-              <button className="px-2 py-1 m-[2px] rounded-full border dark:border-customWhite dark:bg-customBlack dark:text-customWhite">
+              <button className="text-2xl sm:text-base px-2 py-1 m-1 sm:m-[2px] rounded-full border dark:border-customWhite dark:bg-customBlack dark:text-customWhite">
                 #work
               </button>
             </div>

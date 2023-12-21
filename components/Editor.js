@@ -21,7 +21,6 @@ export default function Editor({ toggleSidebar, sidebarVisible }) {
 
   function showEditorOrNot() {
     if (width <= 768) {
-      console.log("showEditor inside showeditorOrnot", showEditor);
       if (!showEditor) {
         return "hidden"; // if showEditor is false
       } else {

@@ -5,7 +5,7 @@ const LoadingDot = {
   display: "block",
   width: "2rem",
   height: "2rem",
-  backgroundColor: "black",
+  // backgroundColor: "black",
   borderRadius: "50%"
 };
 
@@ -63,16 +63,19 @@ export default function ThreeDotsWave() {
       >
         <motion.span
           style={LoadingDot}
+          className="dark:bg-customWhite bg-customBlack"
           variants={DotVariants}
           transition={DotTransition}
         />
         <motion.span
           style={LoadingDot}
+          className="dark:bg-customWhite bg-customBlack"
           variants={DotVariants}
           transition={DotTransition}
         />
         <motion.span
           style={LoadingDot}
+          className="dark:bg-customWhite bg-customBlack"
           variants={DotVariants}
           transition={DotTransition}
         />

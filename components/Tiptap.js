@@ -88,7 +88,7 @@ export default () => {
   return (
     <div>
       <MenuBar editor={editor} />
-      <EditorContent className="px-2 sm:px-4 h-[650px] editorContent overflow-y-auto" editor={editor} />
+      <EditorContent className="px-2 sm:px-4 h-[80vh] sm:h-[90vh] editorContent overflow-y-auto" editor={editor} />
     </div>
   );
 };
