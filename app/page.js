@@ -60,19 +60,19 @@ export default function AuthenticationPage() {
             <UserAuthForm create={create} />
             <p className="px-8 text-center text-sm text-zinc-400">
               By clicking continue, you agree to our{" "}
-              <Link
-                href="/terms"
+              <span
+                href=""
                 className="underline underline-offset-4 hover:text-zinc-600"
               >
                 Terms of Service
-              </Link>{" "}
+              </span>{" "}
               and{" "}
-              <Link
-                href="/privacy"
+              <span
+                href=""
                 className="underline underline-offset-4 hover:text-zinc-600"
               >
                 Privacy Policy
-              </Link>
+              </span>
               .
             </p>
           </div>
