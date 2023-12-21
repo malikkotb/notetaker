@@ -3,7 +3,7 @@ import Sidebar from "../../components/Sidebar";
 import Editor from "../../components/Editor";
 import { useEffect, useState } from "react";
 import useNotesQuery from "../(hooks)/useNotesQuery";
-import useCatQuery from "../(hooks)/useCatQuery"
+import useCatQuery from "../(hooks)/useCatQuery";
 import useTagQuery from "../(hooks)/useTagQuery";
 import SideBarCategories from "../../components/SideBarCategories";
 import useMyStore from "../(store)/store";
@@ -12,8 +12,14 @@ import { useRouter } from "next/navigation";
 import pb from "../(lib)/pocketbase";
 
 export default function Home() {
-  const { authenticated, updateActiveNote, updateActiveCategory, setSidebarVisible, sidebarVisible, setShowEditor } =
-    useMyStore();
+  const {
+    authenticated,
+    updateActiveNote,
+    updateActiveCategory,
+    setSidebarVisible,
+    sidebarVisible,
+    setShowEditor,
+  } = useMyStore();
   const router = useRouter();
 
   useEffect(() => {
@@ -26,7 +32,7 @@ export default function Home() {
 
     if (window.innerWidth <= 768) {
       console.log("mobile screen -> editor initially hidden");
-      setShowEditor(false);
+      // setShowEditor(false);
     }
 
     // Clean up the event listener when the component unmounts
@@ -35,13 +41,13 @@ export default function Home() {
     };
   });
 
-    // TODO: shouhldt need this anymore, since "/" route is now login route  
   useEffect(() => {
     if (!authenticated) {
       updateActiveNote(null);
       updateActiveCategory(null);
       // router.refresh();
       // pb.authStore.clear();
+
       router.push("/");
     }
   }, [authenticated]);
@@ -53,7 +59,12 @@ export default function Home() {
     isError: catIsError,
     error: catError,
   } = useCatQuery();
-  const { data: tags, isLoading: tagsLoading, isError: tagsIsError, error: tagsError} = useTagQuery();
+  const {
+    data: tags,
+    isLoading: tagsLoading,
+    isError: tagsIsError,
+    error: tagsError,
+  } = useTagQuery();
   if (isError) {
     console.log("Error fetching notes: ", error.message);
   }
@@ -77,12 +88,12 @@ export default function Home() {
         isLoading={catsLoading}
         tags={tags}
       />
-      <Sidebar
-        isLoading={isLoading}
+      <Sidebar isLoading={isLoading} notes={notes} tags={tags} />
+      <Editor
         notes={notes}
-        tags={tags}
+        toggleSidebar={toggleSidebar}
+        sidebarVisible={sidebarVisible}
       />
-      <Editor notes={notes} toggleSidebar={toggleSidebar} sidebarVisible={sidebarVisible} />
     </div>
   );
 }

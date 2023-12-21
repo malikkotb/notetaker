@@ -24,7 +24,7 @@ export default function CreateAccount() {
     if (isSuccess) {
       toast.success("Account created!");
     } else if (isError) {
-      toast.error("Account creation failed");
+      toast.error("Account creation failed", error.message);
     }
   }, [isSuccess, isError]);
 

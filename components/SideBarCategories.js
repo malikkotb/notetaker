@@ -23,8 +23,6 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import data from "@emoji-mart/data";
-import Picker from "@emoji-mart/react";
 import {
   bold,
   book,
@@ -57,27 +55,18 @@ export default function SideBarCategories({
   const width = useWindowWidth();
 
   const [showPicker, setShowPicker] = useState(false);
-  const [chosenEmoji, setChosenEmoji] = useState(null);
 
   const handleAddCategory = () => {
     const name = inputRef.current.value;
-    console.log("emoji: ", chosenEmoji.native);
-    if (chosenEmoji !== null && (name !== "" || name !== null)) {
+    if (name === "" || name !== null) {
       addCategory(name);
-      setChosenEmoji(null);
     }
-  };
-
-  const handleEmojiClick = (emoji) => {
-    setChosenEmoji(emoji);
-    setShowPicker(false);
   };
 
   const addCategory = async (name) => {
     const data = {
       userId: pb.authStore.model.id,
       name: name,
-      emoji: chosenEmoji.native,
     };
     mutate(data);
     if (isSuccesAddCategory) {
@@ -207,7 +196,6 @@ export default function SideBarCategories({
               } `}
                   onClick={() => handleClickCategory(category, index)}
                 >
-                  <div>{category.emoji}</div>
                   <div className="text-xl sm:text-base line-clamp-1">{category.name}</div>
                 </div>
               ))
