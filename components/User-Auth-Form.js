@@ -33,15 +33,14 @@ export function UserAuthForm({ className, create, ...props }) {
     }
   }, [isSuccess, isError]);
 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      // Client-side code here
-      console.log("window undefined");
-      logout();
-      console.log("window undefined -> logout on Mount");
+  // useEffect(() => {
+  //   if (typeof window !== "undefined") {
+  //     // Client-side code here
+  //     logout();
+  //     console.log("window undefined -> logout on Mount");
       
-    }
-  }, []);
+  //   }
+  // }, []);
 
 
   // const isLoggedIn = pb.authStore.isValid;
