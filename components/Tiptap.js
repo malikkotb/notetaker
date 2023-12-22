@@ -6,7 +6,7 @@ import Placeholder from "@tiptap/extension-placeholder";
 import Document from "@tiptap/extension-document";
 import pb from "../app/(lib)/pocketbase";
 import MenuBarWrapper from "./MenuBarWrapper";
-import useUpdateNote from "@/app/(hooks)/useUpdateNote";
+import useUpdateNote from "../app/(hooks)/useUpdateNote";
 import TaskItem from '@tiptap/extension-task-item'
 import TaskList from '@tiptap/extension-task-list'
 
@@ -18,7 +18,8 @@ import html from "highlight.js/lib/languages/xml";
 // load all highlight.js languages
 
 import CodeBlockComponent from "./syntaxHighlight/CodeBlockComponent";
-import { lowlight } from "lowlight/lib/core";
+import { lowlight } from "lowlight";
+import React from "react";
 lowlight.registerLanguage("html", html);
 lowlight.registerLanguage("css", css);
 lowlight.registerLanguage("js", js);
