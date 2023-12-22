@@ -17,16 +17,17 @@ import ts from "highlight.js/lib/languages/typescript";
 import html from "highlight.js/lib/languages/xml";
 // load all highlight.js languages
 
-import CodeBlockComponent from "./syntaxHighlight/CodeBlockComponent";
-import { lowlight } from "lowlight";
-import React from "react";
-lowlight.registerLanguage("html", html);
-lowlight.registerLanguage("css", css);
-lowlight.registerLanguage("js", js);
-lowlight.registerLanguage("ts", ts);
+// import { lowlight } from "lowlight/lib/core";
+import {common, createLowlight} from 'lowlight'
+const lowlight = createLowlight(common)
 
-// import {common, createLowlight} from 'lowlight'
-// const lowlight = createLowlight(common)
+
+import CodeBlockComponent from "./syntaxHighlight/CodeBlockComponent";
+// lowlight.registerLanguage("html", html);
+// lowlight.registerLanguage("css", css);
+// lowlight.registerLanguage("js", js);
+// lowlight.registerLanguage("ts", ts);
+
 
 const CustomDocument = Document.extend({
   content: "heading block*",
