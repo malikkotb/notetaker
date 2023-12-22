@@ -43,10 +43,11 @@ export default function Home() {
 
   useEffect(() => {
     if (!authenticated) {
-      updateActiveNote(null);
-      updateActiveCategory(null);
-      // router.refresh();
-      router.push("/");
+      console.log("not authenticated");
+      // updateActiveNote(null);
+      // updateActiveCategory(null);
+      // // router.refresh();
+      // router.push("/");
     }
   }, [authenticated]);
 
