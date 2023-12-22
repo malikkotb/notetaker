@@ -48,7 +48,7 @@ export default function Home() {
       // router.refresh();
       // pb.authStore.clear();
 
-      router.push("/");
+      // router.push("/");
     }
   }, [authenticated]);
 
