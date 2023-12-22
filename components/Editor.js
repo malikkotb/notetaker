@@ -35,7 +35,7 @@ export default function Editor({ toggleSidebar, sidebarVisible }) {
     <>
       <div className={`${showEditorOrNot()} w-full`}>
         <div
-          className={`p-4 ${
+          className={`p-4 pt-3 ${
             !sidebarVisible ? "pl-0" : ""
           } pl-4 h-screen w-full bg-customWhite text-customBlack dark:text-customWhite dark:bg-customBlack`}
         >

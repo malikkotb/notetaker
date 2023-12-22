@@ -90,7 +90,7 @@ export default function TipTap() {
   return (
     <div>
       <MenuBarWrapper editor={editor} />
-      <EditorContent className="px-2 sm:px-4 h-[80vh] sm:h-[90vh] editorContent overflow-y-auto" editor={editor} />
+      <EditorContent className="px-2 sm:px-4 max-h-[75vh] sm:max-h-[75vh] editorContent overflow-y-auto" editor={editor} />
     </div>
   );
 };

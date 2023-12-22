@@ -35,10 +35,7 @@ export function UserAuthForm({ className, create, ...props }) {
 
   // useEffect(() => {
   //   if (typeof window !== "undefined") {
-  //     // Client-side code here
   //     logout();
-  //     console.log("window undefined -> logout on Mount");
-      
   //   }
   // }, []);
 

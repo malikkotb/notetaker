@@ -191,7 +191,7 @@ export default function SideBarCategories({
                 // A single category:
                 <div
                   key={index}
-                  className={`mx-10 px-3 py-1 sm:px-2 sm:py-0.5 sm:mx-6 rounded-full sm:rounded-lg flex items-center gap-2 cursor-pointer text-xl tracking-wide 
+                  className={`mx-10 px-3 py-1 sm:px-2 sm:py-2 sm:mx-0 rounded-full sm:rounded-none flex items-center gap-2 cursor-pointer text-xl tracking-wide 
                    
                   hover:bg-customOrange hover:text-customBlack
               ${
@@ -201,14 +201,14 @@ export default function SideBarCategories({
               } `}
                   onClick={() => handleClickCategory(category, index)}
                 >
-                  <div className="text-xl sm:text-base line-clamp-1">
+                  <div className="text-xl sm:pl-4 sm:text-base line-clamp-1">
                     {category.name}
                   </div>
                 </div>
               ))
             )}
 
-            <div
+            {/* <div
               className={`flex justify-between items-center w-full px-10 sm:px-6 sm:py-2 my-4`}
             >
               <div className="font-bold tracking-widest text-2xl sm:text-base">
@@ -222,9 +222,7 @@ export default function SideBarCategories({
               </div>
             </div>
 
-            {/* tags for this user*/}
             <div className="p-8 py-2 sm:p-4">
-              {/* display tags as list */}
               <button className="text-2xl sm:text-base px-2 py-1 m-1 sm:m-[2px] rounded-full border dark:border-customWhite dark:bg-customBlack dark:text-customWhite">
                 #work
               </button>
@@ -249,7 +247,8 @@ export default function SideBarCategories({
               <button className="text-2xl sm:text-base px-2 py-1 m-1 sm:m-[2px] rounded-full border dark:border-customWhite dark:bg-customBlack dark:text-customWhite">
                 #work
               </button>
-            </div>
+            </div> */}
+
           </div>
         </div>
 

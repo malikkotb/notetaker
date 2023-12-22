@@ -141,9 +141,9 @@ export default function Sidebar({ notes, isLoading }) {
               </h3>
               <div className="flex gap-2 items-center">
                 <Link
-                  href="/"
+                  href=""
                   onClick={(e) => {
-                    // e.stopPropagation(); // Stop event propagation
+                    e.stopPropagation(); // Stop event propagation
                     deleteCategoryMutation(activeCategory);
                   }}
                 >
