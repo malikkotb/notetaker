@@ -18,22 +18,3 @@ export const semiBolditalic = localFont({
 export const thin = localFont({
   src: "./PPNeueMontreal-Thin.otf",
 });
-
-// const bold = localFont({
-//   src: "./myFont/PPNeueMontreal-Bold.otf",
-// });
-// const book = localFont({
-//   src: "./myFont/PPNeueMontreal-Book.otf",
-// });
-// const italic = localFont({
-//   src: "./myFont/PPNeueMontreal-Italic.otf",
-// });
-// const medium = localFont({
-//   src: "./myFont/PPNeueMontreal-Medium.otf",
-// });
-// const semiBolditalic = localFont({
-//   src: "./myFont/PPNeueMontreal-SemiBolditalic.otf",
-// });
-// const thin = localFont({
-//   src: "./myFont/PPNeueMontreal-Thin.otf",
-// });
