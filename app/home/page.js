@@ -46,9 +46,7 @@ export default function Home() {
       updateActiveNote(null);
       updateActiveCategory(null);
       // router.refresh();
-      // pb.authStore.clear();
-
-      // router.push("/");
+      router.push("/");
     }
   }, [authenticated]);
 
