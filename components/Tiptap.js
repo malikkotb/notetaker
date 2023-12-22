@@ -18,7 +18,7 @@ import html from "highlight.js/lib/languages/xml";
 // load all highlight.js languages
 
 import CodeBlockComponent from "./syntaxHighlight/CodeBlockComponent";
-import { lowlight } from "lowlight/lib/common.js";
+import { lowlight } from "lowlight";
 import React from "react";
 lowlight.registerLanguage("html", html);
 lowlight.registerLanguage("css", css);
