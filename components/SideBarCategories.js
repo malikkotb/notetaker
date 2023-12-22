@@ -43,7 +43,6 @@ export default function SideBarCategories({
   const {
     updateActiveCategory,
     activeCategory,
-    authenticated,
     setSidebarVisible,
     totalNotes,
     catSidebarVisible,

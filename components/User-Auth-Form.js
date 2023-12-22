@@ -26,6 +26,7 @@ export function UserAuthForm({ className, create, ...props }) {
   useEffect(() => {
     if (isSuccess) {
       toggleAuthenticated();
+      console.log("login successful");
       router.push("/home")
     } else if (isError) {
       toast.error("Login failed");
@@ -35,8 +36,9 @@ export function UserAuthForm({ className, create, ...props }) {
   useEffect(() => {
     if (typeof window !== "undefined") {
       // Client-side code here
+      console.log("window undefined");
       logout();
-      console.log("logout on Mount");
+      console.log("window undefined -> logout on Mount");
       
     }
   }, []);
