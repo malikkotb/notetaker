@@ -34,7 +34,8 @@ import {
 
 import getGreeting from "../app/(util)/greeting";
 import useWindowWidth from "../app/(hooks)/useWindowWidth";
-import useAddTag from "@/app/(hooks)/useAddTag";
+import useAddTag from "../app/(hooks)/useAddTag";
+import useUpdateNote from "../app/(hooks)/useUpdateNote";
 
 export default function SideBarCategories({ categories, isLoading, tags }) {
   const {
@@ -44,6 +45,7 @@ export default function SideBarCategories({ categories, isLoading, tags }) {
     totalNotes,
     catSidebarVisible,
     setCatSidebarVisible,
+    activeNote,
   } = useMyStore();
   const { mutate, isSuccess: isSuccesAddCategory } = useAddCategory();
   const { mutate: mutateTags, isSuccess: isAddTagSuccess } = useAddTag();
@@ -51,6 +53,8 @@ export default function SideBarCategories({ categories, isLoading, tags }) {
   const inputRef = useRef();
   const tagNameRef = useRef();
   const width = useWindowWidth();
+  const { mutate: updateNote } = useUpdateNote();
+
 
   const [showPicker, setShowPicker] = useState(false);
 
@@ -72,26 +76,6 @@ export default function SideBarCategories({ categories, isLoading, tags }) {
     }
   };
 
-  const handleAddTag = () => {
-    const name = tagNameRef.current.value;
-    if (name === "" || name !== null) {
-      addTag(name);
-    }
-  };
-
-  const addTag = async (name) => {
-    const data = {
-      userId: pb.authStore.model.id,
-      name: name,
-    };
-    mutateTags(data);
-    if (isAddTagSuccess) {
-      toast.success("New tag added");
-
-    }
-
-  };
-
   const handleClickCategory = (category, index) => {
     updateActiveCategory({
       name: category.name,
@@ -109,6 +93,51 @@ export default function SideBarCategories({ categories, isLoading, tags }) {
       // and then show sidebar (notes)
     }
     setSidebarVisible(true);
+  };
+
+  const handleAddTag = () => {
+    const name = tagNameRef.current.value;
+    if (name === "" || name !== null) {
+      addTag(name);
+    }
+  };
+
+  const addTag = async (name) => {
+    const data = {
+      userId: pb.authStore.model.id,
+      name: name,
+    };
+    mutateTags(data);
+    if (isAddTagSuccess) {
+      toast.success("New tag added");
+    }
+  };
+
+  const handleClickTag = (tag, index) => {
+    // updateActiveTag({
+    //   name: tag.name,
+    //   index: index,
+    //   tagId: tag.tagId,
+    // });
+    
+    // if there is no current active note -> ignore the click of a tag
+    if (activeNote !== null || activeCategory !== null) {
+      // when clicking a tag jsut update the currently active note with that tag
+      const data = {
+        userId: pb.authStore.model.id,
+        title: title,
+        content: contentAfterH1,
+      };
+      updateNote(data);
+    }
+
+
+    console.log(tag.name);
+  };
+
+  const getTagName = () => {
+    const tag = tags.find((tag) => tag.tagId === activeNote.tagId);
+    return tag ? tag.name : "";
   };
 
   return (
@@ -225,7 +254,7 @@ export default function SideBarCategories({ categories, isLoading, tags }) {
             )}
 
             <div
-              className={`flex justify-between items-center w-full px-10 sm:px-6 sm:py-2 my-4`}
+              className={`flex justify-between items-center w-full px-10 sm:px-6 sm:py-2 my-4 mb-0`}
             >
               <div className="font-bold tracking-widest text-2xl sm:text-base">
                 tags
@@ -269,8 +298,12 @@ export default function SideBarCategories({ categories, isLoading, tags }) {
                   // A tag:
                   <button
                     key={index}
-                    className={`hover:bg-customOrange hover:text-customBlack dark:hover:bg-customOrange dark:hover:border-customOrange dark:hover:text-customBlack cursor-pointer text-2xl sm:text-base px-4 sm:px-2 py-1 m-1 sm:m-[2px] rounded-full border dark:border-customWhite dark:bg-customBlack dark:text-customWhite`}
-                    // onClick={() => handleClickTag(tag, index)}
+                    className={`${
+                      activeNote.tagId === tag.tagId
+                        ? "bg-customOrange text-customBlack dark:text-customBlack dark:bg-customOrange dark:border-customOrange"
+                        : ""
+                    } cursor-pointer hover:bg-customOrange hover:text-customBlack dark:hover:bg-customOrange dark:hover:border-customOrange dark:hover:text-customBlack cursor-pointer text-2xl sm:text-base px-4 sm:px-2 py-1 m-1 sm:m-[2px] rounded-full border dark:border-customWhite dark:bg-customBlack dark:text-customWhite`}
+                    onClick={() => handleClickTag(tag, index)}
                   >
                     {tag.name}
                   </button>

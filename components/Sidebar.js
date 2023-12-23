@@ -27,7 +27,7 @@ function removeHtmlTags(input) {
   return input.replace(/<\/?[^>]+(>|$)/g, " ");
 }
 
-export default function Sidebar({ notes, isLoading }) {
+export default function Sidebar({ notes, isLoading, tags }) {
   const {
     updateActiveNote,
     activeNote,
@@ -70,6 +70,7 @@ export default function Sidebar({ notes, isLoading }) {
       content: note.content,
       index: index,
       record_id: note.record_id,
+      tagId: note.tagId
     });
 
     // configure this to only be called on mobile screens
@@ -111,7 +112,7 @@ export default function Sidebar({ notes, isLoading }) {
   function handleShowCatSidebar() {
     if (width > 0 && width <= 500) {
       console.log("mobile screens");
-      setCatSidebarVisible(!catSidebarVisible)
+      setCatSidebarVisible(!catSidebarVisible);
       setSidebarVisible(); // on mobile screens -> hide seidebar(notes)
     }
   }
@@ -191,7 +192,7 @@ export default function Sidebar({ notes, isLoading }) {
                     <div
                       onClick={() => handleClickNote(note, index)}
                       // hover:bg-zinc-100 dark:hover:bg-zinc-800
-                      className={`sm:w-64 mx-2 sm:mx-0 h-28 p-3 cursor-pointer hover:bg-zinc-200 dark:hover:bg-zinc-800 rounded-md overflow-hidden justify-start font-normal ${
+                      className={`sm:w-64 w- mx-2 sm:mx-0 h-28 p-3 cursor-pointer hover:bg-zinc-200 dark:hover:bg-zinc-800 rounded-md overflow-hidden justify-start font-normal ${
                         note.record_id === activeNote?.record_id
                           ? "bg-zinc-200 dark:bg-zinc-800"
                           : ""
@@ -202,7 +203,13 @@ export default function Sidebar({ notes, isLoading }) {
                       {/* Category */}
                       <div className="items-center w-full flex justify-between">
                         <div className="overflow-hidden text-xs">
-                          {activeCategory.name}
+                          {tags
+                            .filter((tag) => tag.tagId === note.tagId)
+                            .map((filteredTag) => (
+                              <span key={filteredTag.tagId}>
+                                {filteredTag.name}
+                              </span>
+                            ))}
                         </div>
                         <Link
                           href=""
@@ -234,13 +241,6 @@ export default function Sidebar({ notes, isLoading }) {
           </div>
         </div>
       )}
-      {/* {!activeCategory && (
-        <div
-          className={`w-full items-center h-screen justify-center flex bg-customWhite text-customBlack dark:text-customWhite dark:bg-customBlack`}
-        >
-          <p>Select a category</p>
-        </div>
-      )} */}
     </>
   );
 }

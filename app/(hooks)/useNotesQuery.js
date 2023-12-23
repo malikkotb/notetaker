@@ -10,12 +10,15 @@ export default function useNotesQuery() {
     const notes = [];
     for (const element of data) {
       if (element.userId === pb.authStore.model.id) {
+
         const obj = {
           title: element.title,
           content: element.content,
           record_id: element.id,
           categoryId: element.category,
+          tagId: element.tag 
         };
+
         notes.push(obj);
       }
     }
