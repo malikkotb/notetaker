@@ -9,7 +9,6 @@ export default function useCatQuery() {
       if (element.userId === pb.authStore.model.id) {
         const obj = {
           name: element.name,
-          notes: element.notes,
           categoryId: element.id,
         };
         categories.push(obj);

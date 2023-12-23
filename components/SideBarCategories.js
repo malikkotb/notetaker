@@ -35,11 +35,7 @@ import {
 import getGreeting from "../app/(util)/greeting";
 import useWindowWidth from "../app/(hooks)/useWindowWidth";
 
-export default function SideBarCategories({
-  categories,
-  isLoading,
-  sidebarVisible,
-}) {
+export default function SideBarCategories({ categories, isLoading, tags }) {
   const {
     updateActiveCategory,
     activeCategory,
@@ -51,6 +47,7 @@ export default function SideBarCategories({
   const { mutate, isSuccess: isSuccesAddCategory } = useAddCategory();
   const logout = useLogout();
   const inputRef = useRef();
+  const tagNameRef = useRef();
   const width = useWindowWidth();
 
   const [showPicker, setShowPicker] = useState(false);
@@ -73,7 +70,14 @@ export default function SideBarCategories({
     }
   };
 
-  const addTags = async (name) => {};
+  const handleAddTag = () => {
+    const name = tagNameRef.current.value;
+    if (name === "" || name !== null) {
+      addTag(name);
+    }
+  };
+
+  const addTag = async (name) => {};
 
   const handleClickCategory = (category, index) => {
     updateActiveCategory({
@@ -107,7 +111,7 @@ export default function SideBarCategories({
           <div>
             {/* TODO: refactor this into component: */}
             <div className="pt-8 pb-4 sm:py-4 flex items-center border-b mx-10 sm:mx-6 justify-between">
-              <div className="text-sm">
+              <div className="text-base sm:text-sm">
                 <span className="opacity-70">{getGreeting()}</span>&nbsp;
                 {pb.authStore.model?.email}
               </div>
@@ -138,7 +142,7 @@ export default function SideBarCategories({
                 <br />
                 <div className="justify-between flex">
                   <span>&nbsp;&nbsp;notes</span>
-                  <div className="text-3xl sm:text-2xl opacity-70 mb-0 mt-5 sm:my-2">
+                  <div className="text-2xl sm:text-2xl opacity-70 mb-0 mt-5 sm:my-2">
                     /&nbsp;{totalNotes}
                   </div>
                 </div>
@@ -191,7 +195,7 @@ export default function SideBarCategories({
                 // A single category:
                 <div
                   key={index}
-                  className={`mx-10 px-3 py-3 sm:px-2 sm:py-2 sm:mx-0 rounded-full sm:rounded-none flex items-center gap-2 cursor-pointer text-xl tracking-wide 
+                  className={`mx-10 px-3 py-3 sm:px-2 sm:py-2 sm:mx-0 rounded-3xl sm:rounded-none flex items-center gap-2 cursor-pointer text-xl tracking-wide 
                   hover:bg-customOrange hover:text-customBlack
               ${
                 index === activeCategory?.index
@@ -213,32 +217,48 @@ export default function SideBarCategories({
               <div className="font-bold tracking-widest text-2xl sm:text-base">
                 tags
               </div>
-              <div
-                //   onClick={addTags}
-                className="cursor-pointer"
-              >
+              <div onClick={handleAddTag} className="cursor-pointer">
                 <Plus />
               </div>
             </div>
 
             <div className="p-8 py-2 sm:p-4">
-              <button className="text-3xl sm:text-base px-2 py-1 m-1 sm:m-[2px] rounded-full border dark:border-customWhite dark:bg-customBlack dark:text-customWhite">
+              {isLoading ? (
+                <p>Loading...</p>
+              ) : (
+                tags?.map((tag, index) => (
+                  // A tag:
+                  <button
+                    key={index}
+                    className={`hover:bg-customOrange hover:text-customBlack bg-red-400 cursor-pointer text-2xl sm:text-base px-4 sm:px-2 py-1 m-1 sm:m-[2px] rounded-full border dark:border-customWhite dark:bg-customBlack dark:text-customWhite`}
+                    // onClick={() => handleClickTag(tag, index)}
+                  >
+                    {tag.name}
+                  </button>
+                  // <button key={index} className="hover:bg-customOrange text-2xl sm:text-base px-4 sm:px-2 py-1 m-1 sm:m-[2px] rounded-full border dark:border-customWhite dark:bg-customBlack dark:text-customWhite">
+                  //   #work
+                  // </button>
+                ))
+              )}
+            </div>
+
+            <div className="p-8 py-2 sm:p-4">
+              <button className="text-2xl hover:customOrange sm:text-base px-4 sm:px-2 py-1 m-1 sm:m-[2px] rounded-full border dark:border-customWhite dark:bg-customBlack dark:text-customWhite">
                 #work
               </button>
-              <button className="text-3xl sm:text-base px-2 py-1 m-1 sm:m-[2px] rounded-full border dark:border-customWhite dark:bg-customBlack dark:text-customWhite">
-                #work
+              <button className="text-2xl sm:text-base px-4 sm:px-2 py-1 m-1 sm:m-[2px] rounded-full border dark:border-customWhite dark:bg-customBlack dark:text-customWhite">
+                #gym
               </button>
-              <button className="text-3xl sm:text-base px-2 py-1 m-1 sm:m-[2px] rounded-full border dark:border-customWhite dark:bg-customBlack dark:text-customWhite">
+              <button className="text-2xl sm:text-base px-4 sm:px-2 py-1 m-1 sm:m-[2px] rounded-full border dark:border-customWhite dark:bg-customBlack dark:text-customWhite">
                 #home
               </button>
-              <button className="text-3xl sm:text-base px-2 py-1 m-1 sm:m-[2px] rounded-full border bg-customOrange text-customBlack dark:border-customOrange dark:bg-customOrange dark:text-customBlack">
+              <button className="text-2xl sm:text-base px-4 sm:px-2 py-1 m-1 sm:m-[2px] rounded-full border bg-customOrange text-customBlack dark:border-customOrange dark:bg-customOrange dark:text-customBlack">
                 #active
               </button>
-              <button className="text-3xl sm:text-base px-2 py-1 m-1 sm:m-[2px] rounded-full border dark:border-customWhite dark:bg-customBlack dark:text-customWhite">
+              <button className="text-2xl sm:text-base px-4 sm:px-2 py-1 m-1 sm:m-[2px] rounded-full border dark:border-customWhite dark:bg-customBlack dark:text-customWhite">
                 #personal
               </button>
             </div>
-
           </div>
         </div>
 

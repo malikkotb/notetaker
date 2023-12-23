@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import pb from "../(lib)/pocketbase";
 
 export default function useCatQuery() {
-  async function fetchCategories() {
+  async function fetchTags() {
     const data = (await pb.collection("tags").getList(1, 50)).items;
     const tags = [];
     for (const element of data) {
@@ -18,5 +18,5 @@ export default function useCatQuery() {
     return tags;
   }
 
-  return useQuery({ queryFn: fetchCategories, queryKey: ["tags"] });
+  return useQuery({ queryFn: fetchTags, queryKey: ["tags"] });
 }
