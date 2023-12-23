@@ -34,6 +34,7 @@ import {
 
 import getGreeting from "../app/(util)/greeting";
 import useWindowWidth from "../app/(hooks)/useWindowWidth";
+import useAddTag from "@/app/(hooks)/useAddTag";
 
 export default function SideBarCategories({ categories, isLoading, tags }) {
   const {
@@ -45,6 +46,7 @@ export default function SideBarCategories({ categories, isLoading, tags }) {
     setCatSidebarVisible,
   } = useMyStore();
   const { mutate, isSuccess: isSuccesAddCategory } = useAddCategory();
+  const { mutate: mutateTags, isSuccess: isAddTagSuccess } = useAddTag();
   const logout = useLogout();
   const inputRef = useRef();
   const tagNameRef = useRef();
@@ -77,7 +79,18 @@ export default function SideBarCategories({ categories, isLoading, tags }) {
     }
   };
 
-  const addTag = async (name) => {};
+  const addTag = async (name) => {
+    const data = {
+      userId: pb.authStore.model.id,
+      name: name,
+    };
+    mutateTags(data);
+    if (isAddTagSuccess) {
+      toast.success("New tag added");
+
+    }
+
+  };
 
   const handleClickCategory = (category, index) => {
     updateActiveCategory({
@@ -217,9 +230,35 @@ export default function SideBarCategories({ categories, isLoading, tags }) {
               <div className="font-bold tracking-widest text-2xl sm:text-base">
                 tags
               </div>
-              <div onClick={handleAddTag} className="cursor-pointer">
-                <Plus />
-              </div>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <div className="cursor-pointer">
+                    <Plus />
+                  </div>
+                </DialogTrigger>
+                <DialogContent className="w-80 rounded-2xl sm:max-w-[350px] border-none dark:bg-customBlack dark:text-customWhite">
+                  <DialogHeader>
+                    <DialogTitle>Name your tag</DialogTitle>
+                  </DialogHeader>
+                  <div className="pt-4">
+                    <div className="items-center gap-4">
+                      <Input
+                        id="name"
+                        placeholder="Name..."
+                        className=""
+                        ref={tagNameRef}
+                      />
+                    </div>
+                  </div>
+                  <DialogFooter>
+                    <DialogClose asChild>
+                      <Button type="button" onClick={handleAddTag}>
+                        Add Tag
+                      </Button>
+                    </DialogClose>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
             </div>
 
             <div className="p-8 py-2 sm:p-4">
@@ -230,34 +269,13 @@ export default function SideBarCategories({ categories, isLoading, tags }) {
                   // A tag:
                   <button
                     key={index}
-                    className={`hover:bg-customOrange hover:text-customBlack bg-red-400 cursor-pointer text-2xl sm:text-base px-4 sm:px-2 py-1 m-1 sm:m-[2px] rounded-full border dark:border-customWhite dark:bg-customBlack dark:text-customWhite`}
+                    className={`hover:bg-customOrange hover:text-customBlack dark:hover:bg-customOrange dark:hover:border-customOrange dark:hover:text-customBlack cursor-pointer text-2xl sm:text-base px-4 sm:px-2 py-1 m-1 sm:m-[2px] rounded-full border dark:border-customWhite dark:bg-customBlack dark:text-customWhite`}
                     // onClick={() => handleClickTag(tag, index)}
                   >
                     {tag.name}
                   </button>
-                  // <button key={index} className="hover:bg-customOrange text-2xl sm:text-base px-4 sm:px-2 py-1 m-1 sm:m-[2px] rounded-full border dark:border-customWhite dark:bg-customBlack dark:text-customWhite">
-                  //   #work
-                  // </button>
                 ))
               )}
-            </div>
-
-            <div className="p-8 py-2 sm:p-4">
-              <button className="text-2xl hover:customOrange sm:text-base px-4 sm:px-2 py-1 m-1 sm:m-[2px] rounded-full border dark:border-customWhite dark:bg-customBlack dark:text-customWhite">
-                #work
-              </button>
-              <button className="text-2xl sm:text-base px-4 sm:px-2 py-1 m-1 sm:m-[2px] rounded-full border dark:border-customWhite dark:bg-customBlack dark:text-customWhite">
-                #gym
-              </button>
-              <button className="text-2xl sm:text-base px-4 sm:px-2 py-1 m-1 sm:m-[2px] rounded-full border dark:border-customWhite dark:bg-customBlack dark:text-customWhite">
-                #home
-              </button>
-              <button className="text-2xl sm:text-base px-4 sm:px-2 py-1 m-1 sm:m-[2px] rounded-full border bg-customOrange text-customBlack dark:border-customOrange dark:bg-customOrange dark:text-customBlack">
-                #active
-              </button>
-              <button className="text-2xl sm:text-base px-4 sm:px-2 py-1 m-1 sm:m-[2px] rounded-full border dark:border-customWhite dark:bg-customBlack dark:text-customWhite">
-                #personal
-              </button>
             </div>
           </div>
         </div>
