@@ -117,6 +117,8 @@ export default function Sidebar({ notes, isLoading, tags }) {
     }
   }
 
+  console.log(notes);
+
   return (
     <>
       <Toaster position="top-right" richColors />

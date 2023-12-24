@@ -23,19 +23,12 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import {
-  bold,
-  book,
-  italic,
-  medium,
-  semiBolditalic,
-  thin,
-} from "../app/myFont/Fonts";
+import { book } from "../app/myFont/Fonts";
 
 import getGreeting from "../app/(util)/greeting";
 import useWindowWidth from "../app/(hooks)/useWindowWidth";
 import useAddTag from "../app/(hooks)/useAddTag";
-import useUpdateNote from "../app/(hooks)/useUpdateNote";
+import useUpdateTag from "../app/(hooks)/useUpdateTag";
 
 export default function SideBarCategories({ categories, isLoading, tags }) {
   const {
@@ -53,10 +46,7 @@ export default function SideBarCategories({ categories, isLoading, tags }) {
   const inputRef = useRef();
   const tagNameRef = useRef();
   const width = useWindowWidth();
-  const { mutate: updateNote } = useUpdateNote();
-
-
-  const [showPicker, setShowPicker] = useState(false);
+  const { mutate: updateTag } = useUpdateTag();
 
   const handleAddCategory = () => {
     const name = inputRef.current.value;
@@ -76,11 +66,9 @@ export default function SideBarCategories({ categories, isLoading, tags }) {
     }
   };
 
-  const handleClickCategory = (category, index) => {
+  const handleClickCategory = (tag) => {
     updateActiveCategory({
-      name: category.name,
-      index: index,
-      categoryId: category.categoryId,
+      tag: tag,
     });
 
     //on mobile: show only sidebar (notes) when clicking on category
@@ -113,26 +101,26 @@ export default function SideBarCategories({ categories, isLoading, tags }) {
     }
   };
 
-  const handleClickTag = (tag, index) => {
-    // updateActiveTag({
-    //   name: tag.name,
-    //   index: index,
-    //   tagId: tag.tagId,
-    // });
-    
+  const handleClickTag = (tagId) => {
     // if there is no current active note -> ignore the click of a tag
-    if (activeNote !== null || activeCategory !== null) {
+    if (activeNote && activeCategory) {
       // when clicking a tag jsut update the currently active note with that tag
       const data = {
-        userId: pb.authStore.model.id,
-        title: title,
-        content: contentAfterH1,
+        tag: tagId,
       };
-      updateNote(data);
+      updateTag(data);
+      toast.success("Tag updated");
+    } else {
+      console.log("cant put a tag on noting");
     }
+  };
 
-
-    console.log(tag.name);
+  const tagHighlighting = (tag) => {
+    if (activeNote && activeNote.tagId === tag.tagId) {
+      return "bg-customOrange text-customBlack dark:text-customBlack dark:bg-customOrange dark:border-customOrange";
+    } else {
+      return "dark:border-customWhite dark:bg-customBlack dark:text-customWhite";
+    }
   };
 
   const getTagName = () => {
@@ -175,7 +163,7 @@ export default function SideBarCategories({ categories, isLoading, tags }) {
             </div>
 
             <div
-              className={` gap-2 w-full px-10 sm:px-6 sm:py-2 mt-4 items-center`}
+              className={`gap-2 w-full px-10 sm:px-6 sm:py-2 mt-4 items-center`}
             >
               <div
                 className={`${book?.className} text-7xl sm:text-4xl tracking-wide`}
@@ -298,12 +286,10 @@ export default function SideBarCategories({ categories, isLoading, tags }) {
                   // A tag:
                   <button
                     key={index}
-                    className={`${
-                      activeNote.tagId === tag.tagId
-                        ? "bg-customOrange text-customBlack dark:text-customBlack dark:bg-customOrange dark:border-customOrange"
-                        : ""
-                    } cursor-pointer hover:bg-customOrange hover:text-customBlack dark:hover:bg-customOrange dark:hover:border-customOrange dark:hover:text-customBlack cursor-pointer text-2xl sm:text-base px-4 sm:px-2 py-1 m-1 sm:m-[2px] rounded-full border dark:border-customWhite dark:bg-customBlack dark:text-customWhite`}
-                    onClick={() => handleClickTag(tag, index)}
+                    className={`${tagHighlighting(
+                      tag
+                    )} cursor-pointer hover:bg-customOrange hover:text-customBlack dark:hover:bg-customOrange dark:hover:border-customOrange dark:hover:text-customBlack cursor-pointer text-2xl sm:text-base px-4 sm:px-2 py-1 m-1 sm:m-[2px] rounded-full border`}
+                    onClick={() => handleClickTag(tag.tagId)}
                   >
                     {tag.name}
                   </button>
