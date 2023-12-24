@@ -39,6 +39,7 @@ export default function SideBarCategories({ categories, isLoading, tags }) {
     catSidebarVisible,
     setCatSidebarVisible,
     activeNote,
+    updateActiveNote
   } = useMyStore();
   const { mutate, isSuccess: isSuccesAddCategory } = useAddCategory();
   const { mutate: mutateTags, isSuccess: isAddTagSuccess } = useAddTag();
@@ -66,11 +67,12 @@ export default function SideBarCategories({ categories, isLoading, tags }) {
     }
   };
 
-  const handleClickCategory = (tag) => {
+  const handleClickCategory = (category, index) => {
     updateActiveCategory({
-      tag: tag,
+      name: category.name,
+      index: index,
+      categoryId: category.categoryId,
     });
-
     //on mobile: show only sidebar (notes) when clicking on category
     // setCatSidebar (-> false)
     // and when showing categorySidebar -> also full screen
@@ -101,15 +103,19 @@ export default function SideBarCategories({ categories, isLoading, tags }) {
     }
   };
 
-  const handleClickTag = (tagId) => {
+  const handleClickTag = (tag) => {
     // if there is no current active note -> ignore the click of a tag
     if (activeNote && activeCategory) {
       // when clicking a tag jsut update the currently active note with that tag
       const data = {
-        tag: tagId,
+        tag: tag.tagId,
       };
       updateTag(data);
       toast.success("Tag updated");
+      updateActiveNote({
+        ...activeNote,
+        tagId: tag.tagId
+      })
     } else {
       console.log("cant put a tag on noting");
     }
@@ -289,7 +295,7 @@ export default function SideBarCategories({ categories, isLoading, tags }) {
                     className={`${tagHighlighting(
                       tag
                     )} cursor-pointer hover:bg-customOrange hover:text-customBlack dark:hover:bg-customOrange dark:hover:border-customOrange dark:hover:text-customBlack cursor-pointer text-2xl sm:text-base px-4 sm:px-2 py-1 m-1 sm:m-[2px] rounded-full border`}
-                    onClick={() => handleClickTag(tag.tagId)}
+                    onClick={() => handleClickTag(tag)}
                   >
                     {tag.name}
                   </button>
