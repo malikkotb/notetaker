@@ -1,5 +1,3 @@
-
-
 export default function getGreeting() {
     const currentTime = new Date().getHours();
   
@@ -11,5 +9,4 @@ export default function getGreeting() {
       return "evening, ";
     }
   }
-  
   
