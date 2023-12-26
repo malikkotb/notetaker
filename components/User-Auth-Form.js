@@ -14,12 +14,11 @@ import { Spinner } from "./icons/Spinner";
 import { RiGoogleLine } from "react-icons/ri";
 import { useRouter } from 'next/navigation'
 import CreateAccount from "./CreateAccount";
-import useGithubLogin from "@/app/(hooks)/useGithubLogin";
+import pb from "@/app/(lib)/pocketbase";
 
 export function UserAuthForm({ className, create, ...props }) {
   const logout = useLogout();
   const { mutate, isLoading, isError, error, isSuccess } = useLogin();
-  const { mutate: loginGithub, isError: isErrorGithub, error: githubError, isSuccess: isSuccessGIthub} = useGithubLogin();
   const { register, handleSubmit, reset, formState } = useForm();
   const { toggleAuthenticated } = useMyStore();
 
@@ -43,13 +42,6 @@ export function UserAuthForm({ className, create, ...props }) {
 
 
   // const isLoggedIn = pb.authStore.isValid;
-
-  function handleGithubAuth() {
-    loginGithub();
-    if (isErrorGithub) {
-      console.log(githubError.message);
-    }
-  }
 
   async function onSubmit(data) {
     mutate({ email: data.email, password: data.password }); // mutate is basically the login function in the useLogin hook
@@ -106,31 +98,12 @@ export function UserAuthForm({ className, create, ...props }) {
             <span className="w-full border-t" />
           </div>
           <div className="relative flex justify-center text-xs uppercase">
-            <span className="bg-white dark:bg-black px-2">
+            {/* <span className="bg-white dark:bg-black px-2">
               Or continue with
-            </span>
+            </span> */}
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-6">
-          <Button variant="outline" type="button" onClick={() => handleGithubAuth()} disabled={isLoading}>
-            {isLoading ? (
-              <Spinner className="mr-2 h-4 w-4 animate-spin" />
-            ) : (
-              <GitHub className="mr-2 h-4 w-4" />
-            )}
-            Github
-          </Button>
-
-          <Button variant="outline" type="button" disabled={isLoading}>
-            {isLoading ? (
-              <Spinner className="mr-2 h-4 w-4 animate-spin" />
-            ) : (
-              <RiGoogleLine className="mr-2 h-4 w-4" />
-            )}
-            Google
-          </Button>
-        </div>
       </div>
     </div>
   );
